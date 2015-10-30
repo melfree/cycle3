@@ -1,6 +1,6 @@
-# Action Cable Examples
+# Cycle 3 Team 8
 
-A collection of examples showcasing the capabilities of Action Cable.
+Taken from an existing example of a simple Comments app, to become ShoppingBlocks app. Setup directions follow below.
 
 ## Dependencies
 

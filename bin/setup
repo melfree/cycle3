@@ -21,6 +21,9 @@ chdir APP_ROOT do
 
   puts "\n== Preparing database =="
   system 'ruby bin/rake db:setup'
+  
+  puts "\n== Preparing assets =="
+  system 'ruby bin/rake assets:precompile'
 
   puts "\n== Removing old logs and tempfiles =="
   system 'ruby bin/rake log:clear tmp:clear'

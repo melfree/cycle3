@@ -1,12 +1,12 @@
 <% ccn = controller.controller_name %>
-<%# can = controller.action_name %>
+<% can = controller.action_name %>
 
 <nav class="navbar navbar-default">
   <div class="container">
-    <%= link_to "ShoppingBlocks", guest_url, class: "navbar-brand" %>
+    <%= link_to "ShoppingBlocks", guest_url, class: "navbar-brand #{'active' if can == 'guest'}" %>
     <ul class="nav navbar-nav">
       <% if current_user %>
-        <li class="<%='active' if ccn == 'home'%>">
+        <li class="<%='active' if ccn == 'home' and can == 'index'%>">
           <%= link_to "Dashboard", root_path %>
         </li>
       <% end %>

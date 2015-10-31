@@ -1,0 +1,26 @@
+<nav class="navbar navbar-default">
+  <div class="container">
+    <%= link_to "ShoppingBlocks", root_url, class: "navbar-brand" %>
+    <ul class="nav  navbar-nav">
+      <% if current_user %>
+        <li><%= link_to "Example", examples_url %></li>
+      <% end %>
+    </ul>
+    <div class="nav navbar-nav navbar-right" id="ul">
+      <% if current_user %>
+        <li>
+          <p class="navbar-text">
+            Hello <%= link_to current_user.email, current_user %>
+          </p>
+        </li>
+        <li>
+          <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+        </li>
+      <% else %>
+        <li>
+          <%= link_to "Log in", new_session_path(resource_name) %>
+        </li>
+      <% end %>
+    </div>
+  </div>
+</nav>

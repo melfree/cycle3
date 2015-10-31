@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   end
   
   def is_buyer
-    self.status.to_i == 2
+    [2,3,4].include?(self.status.to_i)
   end
   
   def status_name
@@ -35,7 +35,9 @@ class User < ActiveRecord::Base
   end
   STATUSES = ["Not Available",
               "Selling",
-              "Buying"]
+              "Buying - Any",
+              "Buying - Blocks Only",
+              "Buying - Dinex/Flex Only"]
   def location_name
     LOCATIONS[self.location.to_i]
   end

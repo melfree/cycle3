@@ -1,16 +1,39 @@
-<h1>Home page</h1>
+<h1>Dashboard</h1>
 
-<%= form_for current_user, url: edit_status_path, html: { method: :put }, remote: true do |f| %>
-  <% for sym, collection in [[:status, User::STATUSES], [:location, User::LOCATIONS]] %>
-      <div class="form-group required">
-        <%= f.label sym, "My current #{sym.to_s}", class: 'control-label'  %><br />
-        <%= f.select sym, collection.map.with_index.to_a, required: true, class: "form-control" %>
+<div class="panel panel-info">
+  <div class="panel-heading">My Status and My Remaining Meal Plan
+  </div>
+  <div class="panel-body">
+    <%= form_for current_user, url: edit_status_path, html: { method: :put }, remote: true do |f| %>
+      <div class="row">
+        <% for sym, collection in [[:status, User::STATUSES], [:location, User::LOCATIONS]] %>
+          <div class="col-xs-4">
+            <div class="form-group required">
+              <%= f.label sym, "My current #{sym.to_s}", class: 'control-label'  %><br />
+              <%= f.select sym, collection.map.with_index.to_a, required: true, class: "form-control" %>
+            </div>
+          </div>
+        <% end %>
       </div>
-  <% end %>
-  <div class="actions">
-    <%= f.submit "Update", class: 'btn' %>
-  </div> 
-<% end %>
+      <div class="row">
+        <% for sym in [:dinex, :blocks, :guest_blocks] %>
+          <div class="col-xs-4">
+            <div class="form-group">
+              <%= f.label sym, "My #{sym.to_s.humanize.downcase}", class: 'control-label'  %><br />
+              <%= f.number_field sym, min: 0, class: "form-control" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+        
+      <div class="row">
+        <div class="col-xs-12 actions">  
+          <%= f.submit "Update", class: 'btn' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
 
 <div class="row">
   <div class="col-xs-6">

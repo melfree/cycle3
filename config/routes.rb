@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :users, only: [:index,:show]
   
   resources :home, only: [:index]
+  get 'guest', to: 'home#guest', as: :guest
   put 'edit_status', to: 'home#edit_status', as: :edit_status
 
   resources :messages do

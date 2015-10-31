@@ -21,17 +21,6 @@
       <%= f.text_field :name, class: "form-control" %>
     </div>
     
-    <div class="row">
-      <% for sym in [:dinex, :blocks, :guest_blocks] %>
-        <div class="col-xs-4">
-          <div class="form-group">
-            <%= f.label sym, class: 'control-label'  %><br />
-            <%= f.number_field sym, min: 0, class: "form-control" %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-    
     </br>
     <label class:'control-label'>Original Upload</label> 
     <%= f.cropbox :photo %>

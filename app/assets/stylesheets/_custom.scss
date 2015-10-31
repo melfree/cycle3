@@ -1,0 +1,8 @@
+// Place all the styles specific to this project here.
+// They will automatically be included in application.scss.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.form-group.required .control-label:after { 
+  content:"*";
+  color:red;
+}

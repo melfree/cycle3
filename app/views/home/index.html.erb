@@ -5,6 +5,28 @@
   </ul>
 </p>
 
-<% for user in @users %>
-<img src="<%=user.photo_url%>"/>
+<%= form_for current_user, url: edit_status_path, html: { method: :put }, remote: true do |f| %>
+    <div class="row">
+      <% for sym in [:status, :location] %>
+        <div class="col-xs-4">
+          <div class="form-group required">
+            <%= f.label sym, class: 'control-label'  %><br />
+            <%= f.text_field sym, :required => true, class: "form-control" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="actions">
+      <%= f.submit "Update", class: 'btn' %>
+    </div> 
 <% end %>
+
+<h2>Buyers</h2>
+<section data-channel="buyers">
+  <%= render @users.buyers %>
+</section>
+
+<h2>Sellers</h2>
+<section data-channel="sellers">
+  <%= render @users.sellers %>
+</section>

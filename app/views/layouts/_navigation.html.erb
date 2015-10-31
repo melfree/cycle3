@@ -4,7 +4,7 @@
 <nav class="navbar navbar-default">
   <div class="container">
     <%= link_to "ShoppingBlocks", root_url, class: "navbar-brand" %>
-    <ul class="nav  navbar-nav">
+    <ul class="nav navbar-nav">
       <% if current_user %>
         <li class="<%='active' if ccn == 'examples'%>">
           <%= link_to "Real-time Chat Example", examples_url %>
@@ -22,8 +22,11 @@
           <%= link_to "Logout", destroy_user_session_path, method: :delete %>
         </li>
       <% else %>
-        <li>
+        <li class="<%='active' if ccn == 'sessions'%>">
           <%= link_to "Log in", new_session_path(resource_name) %>
+        </li>
+        <li class="<%='active' if ccn == 'registrations'%>">
+          <%= link_to "Sign up", new_registration_path(resource_name) %>
         </li>
       <% end %>
     </div>

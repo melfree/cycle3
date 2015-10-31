@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resource  :session
+  devise_for :users, :controllers => {:sessions => 'users/sessions',:registrations => 'users/registrations'}
+  resources :users, only: [:index,:show]
+  
   resources :examples
 
   resources :messages do

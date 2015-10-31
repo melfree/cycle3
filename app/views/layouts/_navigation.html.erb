@@ -1,9 +1,14 @@
+<% ccn = controller.controller_name %>
+<%# can = controller.action_name %>
+
 <nav class="navbar navbar-default">
   <div class="container">
     <%= link_to "ShoppingBlocks", root_url, class: "navbar-brand" %>
     <ul class="nav  navbar-nav">
       <% if current_user %>
-        <li><%= link_to "Example", examples_url %></li>
+        <li class="<%='active' if ccn == 'examples'%>">
+          <%= link_to "Real-time Chat Example", examples_url %>
+        </li>
       <% end %>
     </ul>
     <div class="nav navbar-nav navbar-right" id="ul">

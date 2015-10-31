@@ -11,8 +11,8 @@ class User < ActiveRecord::Base
   has_many :messages
   has_many :comments
   
-  scope :buyers, -> { where(status: "buyer")}
-  scope :sellers, -> { where(status: "seller")}
+  scope :sellers, -> { where(status: "1")}
+  scope :buyers, -> { where("status in ('2','3','4')")}
   
   def photo_url
     if photo.blank?
@@ -35,9 +35,9 @@ class User < ActiveRecord::Base
   end
   STATUSES = ["Not Available",
               "Selling",
-              "Buying - Any",
-              "Buying - Blocks Only",
-              "Buying - Dinex/Flex Only"]
+              "Buying",
+              "Buying (blocks only)",
+              "Buying (Dinex/Flex only)"]
   def location_name
     LOCATIONS[self.location.to_i]
   end

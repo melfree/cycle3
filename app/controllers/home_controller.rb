@@ -6,11 +6,14 @@ class HomeController < ApplicationController
   end
   
   def edit_status
-    current_user.location = params[:user][:location]
-    current_user.status = params[:user][:status]
-    current_user.save!
+    current_user.update_attributes!(current_user_params)
   end
   
   def guest
+  end
+  
+  private
+  def current_user_params
+    params.required(:user).permit(:location,:status,:dinex,:blocks,:guest_blocks,:description)
   end
 end

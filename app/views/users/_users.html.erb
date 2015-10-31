@@ -1,0 +1,16 @@
+<%# requires data-channel and user to be passed in as local variables %>
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Photo</th>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Meal Plan</th>
+    </tr>
+  </thead>
+  <tbody data-channel=<%= data_channel %>>
+  <% for user in users %>
+    <%= render 'users/user', user: user %>
+  <% end %>
+  </tbody>
+</table>

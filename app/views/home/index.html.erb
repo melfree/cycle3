@@ -1,6 +1,10 @@
-<h1>Action Cable Examples</h1>
+<h1>Home page</h1>
 <p>
   <ul>
     <li><%= link_to 'Messages with live comments', messages_path %></li>
   </ul>
 </p>
+
+<% for user in @users %>
+<img src="<%=user.photo_url%>"/>
+<% end %>

@@ -15,6 +15,8 @@ gem 'devise', github: 'twalpole/devise', branch: 'rails5'
 
 # Image uploading
 gem 'carrierwave'
+gem 'carrierwave-crop'
+gem "mini_magick"
 
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'

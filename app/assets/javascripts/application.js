@@ -17,4 +17,8 @@
 
 //= require bootstrap-sprockets
 
+// Carrierwave cropping
+//= require jquery
+//= require jquery.jcrop
+
 //= require_tree .

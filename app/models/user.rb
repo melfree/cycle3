@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   validates_presence_of :email
   
   mount_uploader :photo, PhotoUploader
+  crop_uploaded :photo
   
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -12,9 +13,9 @@ class User < ActiveRecord::Base
   
   def photo_url
     if photo.blank?
-      "http://placehold.it/200x200"
+      "http://placehold.it/150x150"
     else
-      photo.url
+      photo.url(:thumb)
     end 
   end
 end

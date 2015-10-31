@@ -1,64 +1,77 @@
-<h2>My Account</h2>
+<h2>User account: <%= @user.email %></h2>
 
-<p> Last sign in: <%= @user.last_sign_in_at %></p> 
+<img src="<%= @user.photo_url %>">
+
+<br/><br/>
+<p> Last signed in at: <%= @user.last_sign_in_at %></p>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-  
-  <div class="form-group required">
-    <%= f.label :email, class: 'control-label'  %><br />
-    <%= f.email_field :email, :required => true, class: "form-control" %>
-  </div>
-  
-  <div class="form-group">
-    <%= f.label :name, class: 'control-label'  %><br />
-    <%= f.text_field :name, class: "form-control" %>
-  </div>
-  
-  <div class="row">
-    <% for sym in [:dinex, :blocks, :guest_blocks] %>
-      <div class="col-xs-4">
-        <div class="form-group">
-          <%= f.label sym, class: 'control-label'  %><br />
-          <%= f.number_field sym, min: 0, class: "form-control" %>
+  <fieldset>
+    <legend>Edit Account</legend>
+    
+    <%= devise_error_messages! %>
+    
+    <div class="form-group required">
+      <%= f.label :email, class: 'control-label'  %><br />
+      <%= f.email_field :email, :required => true, class: "form-control" %>
+    </div>
+    
+    <div class="form-group">
+      <%= f.label :name, class: 'control-label'  %><br />
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+    
+    <div class="row">
+      <% for sym in [:dinex, :blocks, :guest_blocks] %>
+        <div class="col-xs-4">
+          <div class="form-group">
+            <%= f.label sym, class: 'control-label'  %><br />
+            <%= f.number_field sym, min: 0, class: "form-control" %>
+          </div>
         </div>
-      </div>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
+    
+    </br>
+    <label class:'control-label'>Original Upload</label> 
+    <%= f.cropbox :photo %>
+    </br>
+    <label class:'control-label'>Cropped</label> 
+    <%= f.previewbox :photo %>
       
-  <img src="<%=@user.photo_url%>">
+    <div class="form-group">
+      <%= f.label :photo, "Change Photo File", class: 'control-label'  %><br />
+      <%= f.file_field :photo, id: 'photo-input', class: "form-control" %>
+       <p class="help-block"><i>Your photo should be clear so that others can recognize you in person.</i></p>
+    </div>
+    
+    <div class="form-group">
+      <%= f.label :description, class: 'control-label'  %><br />
+      <%= f.text_area :description, class: "form-control" %>
+    </div>
+    
   
-  <div class="form-group">
-    <%= f.label :photo, class: 'control-label'  %><br />
-    <%= f.file_field :photo, class: "form-control" %>
-  </div>
+    <div class="form-group">
+      <%= f.label :password, "New Password", class: 'control-label'  %>
+      <%= f.password_field :password, autocomplete: "off",class: "form-control" %>
+      <p class="help-block"><i>Leave password (and password confirmation) blank if you don't want to change it.</i></p>
+    </div>
   
-  <div class="form-group">
-    <%= f.label :description, class: 'control-label'  %><br />
-    <%= f.text_area :description, class: "form-control" %>
-  </div>
+    <div class="form-group">
+      <%= f.label :password_confirmation, "New Password Confirmation", class: 'control-label'  %><br />
+      <%= f.password_field :password_confirmation, autocomplete: "off",class: "form-control" %>
+    </div>
   
-
-  <div class="form-group">
-    <%= f.label :password, "New Password", class: 'control-label'  %>
-    <%= f.password_field :password, autocomplete: "off",class: "form-control" %>
-    <p class="help-block"><i>Leave password (and password confirmation) blank if you don't want to change it.</i></p>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :password_confirmation, "New Password Confirmation", class: 'control-label'  %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off",class: "form-control" %>
-  </div>
-
-  <div class="form-group required">
-    <%= f.label :current_password, class: 'control-label' %>
-    <%= f.password_field :current_password, :required => true, autocomplete: "off",class: "form-control" %>
-    <p class="help-block"><i>We need your current password to confirm your changes.</i></p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update", class: 'btn' %>
-  </div>
+    <div class="form-group required">
+      <%= f.label :current_password, class: 'control-label' %>
+      <%= f.password_field :current_password, :required => true, autocomplete: "off",class: "form-control" %>
+      <p class="help-block"><i>We need your current password to confirm your changes.</i></p>
+    </div>
+  
+    <div class="actions">
+      <%= f.submit "Update", class: 'btn' %>
+    </div>
+  </fieldset>    
 <% end %>
 
 <h3>Cancel my account</h3>

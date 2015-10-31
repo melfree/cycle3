@@ -11,11 +11,44 @@ class User < ActiveRecord::Base
   has_many :messages
   has_many :comments
   
+  scope :buyers, -> { where(status: "buyer")}
+  scope :sellers, -> { where(status: "seller")}
+  
   def photo_url
     if photo.blank?
       "http://placehold.it/150x150"
     else
       photo.url(:thumb)
     end 
+  end
+  
+  def is_seller
+    self.status.to_i == 1
+  end
+  
+  def is_buyer
+    self.status.to_i == 2
+  end
+  
+  def status_name
+    STATUSES[self.status.to_i]
+  end
+  STATUSES = ["Not Available",
+              "Selling",
+              "Buying"]
+  def location_name
+    LOCATIONS[self.location.to_i]
+  end
+  LOCATIONS = ["Upper CUC",
+               "Lower CUC",
+               "Entropy",
+               "Wean Hall"]
+  
+  # Real-time data
+  after_commit :relay_job
+    
+  private
+  def relay_job
+    HomeRelayJob.perform_later(self)
   end
 end

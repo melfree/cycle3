@@ -1,17 +1,12 @@
 <h1>Home page</h1>
-<p>
-  <ul>
-    <li><%= link_to 'Messages with live comments', messages_path %></li>
-  </ul>
-</p>
 
 <%= form_for current_user, url: edit_status_path, html: { method: :put }, remote: true do |f| %>
     <div class="row">
-      <% for sym in [:status, :location] %>
+      <% for sym, collection in [[:status, User::STATUSES], [:location, User::LOCATIONS]] %>
         <div class="col-xs-4">
           <div class="form-group required">
-            <%= f.label sym, class: 'control-label'  %><br />
-            <%= f.text_field sym, :required => true, class: "form-control" %>
+            <%= f.label sym, "My current #{sym.to_s}", class: 'control-label'  %><br />
+            <%= f.select sym, collection.map.with_index.to_a, :required => true, class: "form-control" %>
           </div>
         </div>
       <% end %>

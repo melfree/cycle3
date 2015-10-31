@@ -4,8 +4,8 @@ class HomeController < ApplicationController
   end
   
   def edit_status
-    current_user.location = params[:location]
-    current_user.status = params[:status]
+    current_user.location = params[:user][:location]
+    current_user.status = params[:user][:status]
     current_user.save!
   end
 end

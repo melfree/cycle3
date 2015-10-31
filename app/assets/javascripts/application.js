@@ -21,4 +21,7 @@
 //= require jquery
 //= require jquery.jcrop
 
+// Select2 dropdowns
+//= require select2
+
 //= require_tree .

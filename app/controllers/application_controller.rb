@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     end
     
     # A User has a lot of params that Deals also has, except for time, seller, and buyer.
-    permittable_params += deal_params - [time,seller_id,buyer_id]
+    permittable_params += deal_params - [:time,:seller_id,:buyer_id]
     
     #permit photo coordinates for when adjusting the photo
     permittable_params += [:photo_crop_x, :photo_crop_y, :photo_crop_w, :photo_crop_h]
@@ -27,6 +27,6 @@ class ApplicationController < ActionController::Base
   end
   
   def deal_params
-    [:dinex,:blocks,:guest_blocks,:photo,:description,:status,:location,time,seller_id,buyer_id]
+    [:dinex,:blocks,:guest_blocks,:photo,:description,:status,:location,:time,:seller_id,:buyer_id]
   end 
 end

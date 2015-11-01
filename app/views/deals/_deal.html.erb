@@ -1,0 +1,25 @@
+<tr data-deal-id='<%=deal.id%>'>
+  <td><%= deal.created_at %></td>
+  <td>
+    <span>
+      <p><%= deal.status %></p>
+    </span>
+    <% unless deal.description.blank? %>
+      <p>
+        <span class="description"><label>Notes:&nbsp;</label></span>
+        <%= deal.description %>
+      </p>
+    <% end %>
+  </td>
+  <td>
+    <% for sym in [:blocks,:guest_blocks,:dinex] %>  
+      <% if deal.owns(sym) %>
+        <p>
+          <span class="<%= sym.to_s %>">
+            <label><%= sym.to_s.humanize %>:&nbsp;</label><%= deal.public_send(sym) %>
+          </span>
+        </p>    
+      <% end %>
+    <% end %>
+  </td>
+</tr>

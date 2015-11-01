@@ -2,7 +2,8 @@ class HomeController < ApplicationController
   skip_before_action :authenticate_user!, only: [:guest]
   
   def index
-    @users = User.all
+    @users = User.active
+    @deals = Deal.active
   end
   
   def edit_status

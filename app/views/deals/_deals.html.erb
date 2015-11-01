@@ -1,0 +1,16 @@
+<%# requires data-channel and deal to be passed in as local variables %>
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Photo</th>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Looking For</th>
+    </tr>
+  </thead>
+  <tbody data-channel=<%= data_channel %>>
+  <% for deal in deals %>
+    <%= render 'deals/deal', deal: deal %>
+  <% end %>
+  </tbody>
+</table>

@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   
+  scope :active, ->  { where("status <> 0")}
   scope :sellers, -> { where(status: 1)}
   scope :buyers, -> { where("status in (2,3,4)")}
   

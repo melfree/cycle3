@@ -1,4 +1,3 @@
-
 <%= form_for current_user, url: edit_status_path, html: { method: :put }, remote: true do |f| %>
   <div class="row">
     <% for sym, collection in [[:status, User::STATUSES], [:location, User::LOCATIONS]] %>

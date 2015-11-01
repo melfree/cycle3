@@ -1,10 +1,11 @@
 <%= form_for Deal.new, url: deals_path, remote: true do |f| %>
   <div class="row">
-    <% for sym, collection in [[:status, User::STATUSES], [:location, User::LOCATIONS]] %>
+    <% for sym, collection in [[:status, Deal.select_options_for_status],
+                               [:location, User::LOCATIONS.map.with_index.to_a]] %>
       <div class="col-xs-6">
         <div class="form-group required">
-          <%= f.label sym, "My current #{sym.to_s}", class: 'control-label'  %><br />
-          <%= f.select sym, collection.map.with_index.to_a, required: true, class: "form-control" %>
+          <%= f.label sym, "Type", class: 'control-label'  %><br />
+          <%= f.select sym, collection, required: true, class: "form-control" %>
         </div>
       </div>
     <% end %>
@@ -13,7 +14,7 @@
     <% for sym in [:dinex, :blocks, :guest_blocks] %>
       <div class="col-xs-2">
         <div class="form-group">
-          <%= f.label sym, "My #{sym.to_s.humanize.downcase}", class: 'control-label'  %><br />
+          <%= f.label sym, "#{sym.to_s.humanize}", class: 'control-label'  %><br />
           <%= f.number_field sym, min: 0, class: "form-control" %>
         </div>
       </div>

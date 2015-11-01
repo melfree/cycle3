@@ -1,34 +1,40 @@
 <h1>Dashboard</h1>
 
 <div class="panel panel-info">
-  <div class="panel-heading">My Status
-  </div>
+  <div class="panel-heading">My Status</div>
   <div class="panel-body">
     <%= render 'status_form' %>
   </div>
 </div>
 
 <div class="panel panel-info">
-  <div class="panel-heading">My Offers
-  </div>
+  <div class="panel-heading">My Offers</div>
   <div class="panel-body">
-    This functionality is still in development.
-    <%#= render 'deals_form'%>
+    <%= render 'deals_form'%>
   </div>
 </div>
 
-<h1>Live Listings Feed</h1>
+<h1>Live Available Users Feed</h1>
 <div class="row">
-  <div class="col-xs-6">
-    <h3>Current Buyers</h3>
-    <section>
-      <%= render 'users/users', users: @users.buyers, data_channel: "buyers" %>
-    </section>
-  </div>
-  <div class="col-xs-6">
-    <h3>Current Sellers</h3>
-    <section>
-      <%= render 'users/users', users: @users.sellers, data_channel: "sellers" %>
-    </section>
-  </div>
+  <% for sym in [:sellers,:buyers] %>
+    <div class="col-xs-6">
+      <h3>Current <%= sym.to_s.humanize %></h3>
+      <section>
+        <%= render 'users/users', users: @users.public_send(sym), data_channel: sym.to_s %>
+      </section>
+    </div>
+  <% end %>
 </div>
+
+<h2>Live Deals Feed</h2 %>
+<div class="row">
+  <% for sym in [:sales,:purchases] %>
+    <div class="col-xs-6">
+      <h3><%= sym.to_s.humanize %></h3>
+      <section>
+        <%= render 'deals/deals', deals: @deals.public_send(sym), data_channel: sym.to_s %>
+      </section>
+    </div>
+  <% end %>
+</div>
+

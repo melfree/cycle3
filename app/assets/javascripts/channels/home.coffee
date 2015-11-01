@@ -1,28 +1,50 @@
 App.home = App.cable.subscriptions.create "HomeChannel",
+  # User selectors
   sellers: -> $("[data-channel='sellers']")
   buyers: -> $("[data-channel='buyers']")
+  
+  # Deal selectors
+  sales: -> $("[data-channel='sales']")
+  purchases: -> $("[data-channel='purchases']")
 
   # This function is the important part
+  # 'received', by default, receives every message from the stream.
   received: (data) ->
-    if data.is_seller
-      # If already on page, replace it where it is
-      listing = @sellers().find("[data-user-id="+data.user_id+"]")
-      if listing.length > 0
-        listing.first().replaceWith(data.user)
-      # Otherwise, append it the list, and make sure its not in buyers
-      else
-        @buyers().find("[data-user-id="+data.user_id+"]").remove()
-        @sellers().append(data.user)
-        
-        
-    else if data.is_buyer
-      listing = @buyers().find("[data-user-id="+data.user_id+"]")
-      if listing.length > 0
-        listing.first().replaceWith(data.user)
-      else
-        @sellers().find("[data-user-id="+data.user_id+"]").remove()
-        @buyers().append(data.user)
-    
-    
+    if data.is_deal
+      processDeal(data)
     else
-      @sellers().add(@buyers()).find("[data-user-id="+data.user_id+"]").remove()
+      processUser(data)  
+  
+  processDeal: (data) ->
+    s = @sales()
+    p = @purchases()
+    if data.is_sale
+      replaceOrAppend(data,s,p)
+    else if data.is_purchase
+      replaceOrAppend(data,p,s)
+    else
+      removeItem(data,p.add(s))
+  
+  processUser: (data) ->
+    s = @sellers()
+    b = @buyers()
+    if data.is_seller
+      replaceOrAppend(data,s,b)
+    else if data.is_buyer
+      replaceOrAppend(data,b,s)     
+    else
+      removeItem(data,s.add(b))
+  
+  removeItem: (data,removeFromCollection) ->
+    selector = "["+data.key+"="+data.key_id+"]"
+    removeFromCollection.find(selector).remove()
+      
+  replaceOrAppend: (data,addToCollection,removeFromCollection) -> 
+    l = addToCollection.find(selector)
+    if l.length > 0
+      # If already on page, replace it where it is
+      l.first().replaceWith(data.html)
+    else
+      # Otherwise, append it the list, and make sure its not in buyers
+      removeItem(data,removeFromCollection)
+      addToCollection.append(data.user)

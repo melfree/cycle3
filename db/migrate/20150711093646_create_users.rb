@@ -9,8 +9,8 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :guest_blocks, default: 0, null: false
       t.integer :dinex, default: 0, null: false
       
-      t.string :status
-      t.string :location
+      t.integer :status, index: true
+      t.integer :location
 
       t.timestamps
     end

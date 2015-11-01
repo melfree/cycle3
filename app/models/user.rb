@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  has_many :purchases, class_name: "Deal", foreign_key: 'buyer_id'
+  has_many :sales, class_name: "Deal", foreign_key: 'seller_id'
+  
   validates_presence_of :email
   
   mount_uploader :photo, PhotoUploader
@@ -11,8 +14,8 @@ class User < ActiveRecord::Base
   has_many :messages
   has_many :comments
   
-  scope :sellers, -> { where(status: "1")}
-  scope :buyers, -> { where("status in ('2','3','4')")}
+  scope :sellers, -> { where(status: 1)}
+  scope :buyers, -> { where("status in (2,3,4)")}
   
   def photo_url
     if photo.blank?
@@ -23,23 +26,24 @@ class User < ActiveRecord::Base
   end
   
   def is_seller
-    self.status.to_i == 1
+    self.status == 1
   end
   
   def is_buyer
-    [2,3,4].include?(self.status.to_i)
+    [2,3,4].include?(self.status)
   end
   
   def status_name
-    STATUSES[self.status.to_i]
+    STATUSES[self.status]
   end
   STATUSES = ["Not Available",
               "Selling",
               "Buying",
               "Buying (blocks only)",
               "Buying (Dinex/Flex only)"]
+  
   def location_name
-    LOCATIONS[self.location.to_i]
+    LOCATIONS[self.location]
   end
   LOCATIONS = ["Upper CUC",
                "Lower CUC",

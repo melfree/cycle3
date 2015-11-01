@@ -1,0 +1,33 @@
+<%= form_for Deal.new, url: deals_path, remote: true do |f| %>
+  <div class="row">
+    <% for sym, collection in [[:status, User::STATUSES], [:location, User::LOCATIONS]] %>
+      <div class="col-xs-6">
+        <div class="form-group required">
+          <%= f.label sym, "My current #{sym.to_s}", class: 'control-label'  %><br />
+          <%= f.select sym, collection.map.with_index.to_a, required: true, class: "form-control" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="row">
+    <% for sym in [:dinex, :blocks, :guest_blocks] %>
+      <div class="col-xs-2">
+        <div class="form-group">
+          <%= f.label sym, "My #{sym.to_s.humanize.downcase}", class: 'control-label'  %><br />
+          <%= f.number_field sym, min: 0, class: "form-control" %>
+        </div>
+      </div>
+    <% end %>
+    
+    <div class="col-xs-6"> 
+      <div class="form-group">
+        <%= f.label :description, "Notes", class: 'control-label'  %><br />
+        <%= f.text_area :description, class: "form-control" %>
+      </div>
+    </div>
+    
+  </div>
+  <div class="actions">  
+    <%= f.button "Create New Deal", class: 'btn', data: {disable_with: load_icon("Saving") } %>
+  </div>
+<% end %>

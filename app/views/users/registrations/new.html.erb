@@ -8,8 +8,9 @@
   <%= render 'password_fields', f: f, required: true %>
 
   <div class="actions">
-    <%= f.button "Sign up", class: "btn", data: {disable_with: load_icon("Signing up")} %>
+    <%= f.button "Sign up", class: "btn btn-lg btn-info", data: {disable_with: load_icon("Signing up")} %>
   </div>
+ 
 <% end %>
 
 <%= render "users/shared/links" %>

@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   end
   
   def is_seller
-    self.status == 1
+    self.status.to_i == 1
   end
   
   def is_buyer
@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   end
   
   def status_name
-    STATUSES[self.status]
+    STATUSES[self.status.to_i]
   end
   STATUSES = ["Not Available",
               "Selling",
@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
               "Buying (Dinex/Flex only)"]
   
   def location_name
-    LOCATIONS[self.location]
+    LOCATIONS[self.location.to_i]
   end
   LOCATIONS = ["Upper CUC",
                "Lower CUC",

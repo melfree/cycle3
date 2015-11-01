@@ -22,15 +22,17 @@
     </div>
     
     </br>
-    <label class:'control-label'>Original Upload</label> 
-    <%= f.cropbox :photo %>
-    </br>
-    <label class:'control-label'>Cropped</label> 
-    <%= f.previewbox :photo %>
-      
+    <% if !@user.photo.blank? %>
+      <label class:'control-label'>Original Upload</label> 
+      <%= f.cropbox :photo %>
+      </br>
+      <label class:'control-label'>Cropped</label> 
+      <%= f.previewbox :photo %>
+    <% end %>
+        
     <div class="form-group">
-      <%= f.label :photo, "Change Photo File", class: 'control-label'  %><br />
-      <%= f.file_field :photo, id: 'photo-input', class: "form-control" %>
+      <%= f.label :photo, "Change Photo", class: 'control-label'  %><br />
+      <%= f.file_field :photo, class: "form-control" %>
        <p class="help-block"><i>Your photo should be clear so that others can recognize you in person.</i></p>
     </div>
     

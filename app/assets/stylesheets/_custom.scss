@@ -7,23 +7,9 @@
   color:red;
 }
 
-fieldset {
-  border: 1px groove #ddd !important;
-  padding: 0 1.4em 1.4em 1.4em !important;
-  margin: 0 0 1.5em 0 !important;
-  -webkit-box-shadow:  0px 0px 0px 0px #000;
-          box-shadow:  0px 0px 0px 0px #000;
+.actions {
+  margin-bottom: 15px;
 }
-
-legend {
-  font-size: 1.2em !important;
-  font-weight: bold !important;
-  text-align: left !important;
-  width:auto;
-  padding:0 10px;
-  border-bottom:none;
-}
-
 // aggregate column group colors
 @each $pair in (guest_blocks #668,
                 blocks #866,

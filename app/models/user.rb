@@ -11,8 +11,6 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-  has_many :messages
-  has_many :comments
   
   scope :sellers, -> { where(status: 1)}
   scope :buyers, -> { where("status in (2,3,4)")}

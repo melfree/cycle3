@@ -3,8 +3,11 @@
 
 <nav class="navbar navbar-default">
   <div class="container">
-    <%= link_to "ShoppingBlocks", guest_url, class: "navbar-brand #{'active' if can == 'guest'}" %>
+    <%= link_to "ShoppingBlocks", guest_path, class: "navbar-brand" %>
     <ul class="nav navbar-nav">
+      <li class="<%='active' if can == 'guest'%>">
+        <%= link_to "Home", guest_path %>
+      </li>
       <% if current_user %>
         <li class="<%='active' if ccn == 'home' and can == 'index'%>">
           <%= link_to "Dashboard", root_path %>

@@ -2,11 +2,11 @@ class DealsController < ApplicationController
   before_action :set_deal
 
   def create
-    #@deal.save! = Deal.create! content: params[:comment][:content], message: @message, user: current_user
+    @deal.save!
   end
 
   private
-    def set_message
-      @deal = params.require(:deal).permit(:dinex)
+    def set_deal
+      @deal = params.require(:deal).permit(*deal_params)
     end
 end

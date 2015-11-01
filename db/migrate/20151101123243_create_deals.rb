@@ -6,9 +6,6 @@ class CreateDeals < ActiveRecord::Migration
       
       t.text :description
       
-      t.integer :buyer_id
-      t.integer :seller_id
-      
       t.datetime :time
       t.integer :location
       

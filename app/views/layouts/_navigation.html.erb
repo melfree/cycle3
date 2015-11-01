@@ -21,10 +21,10 @@
         </li>
       <% else %>
         <li class="<%='active' if ccn == 'sessions'%>">
-          <%= link_to "Log in", new_session_path(resource_name) %>
+          <%= link_to "Log in", new_session_path('user') %>
         </li>
         <li class="<%='active' if ccn == 'registrations'%>">
-          <%= link_to "Sign up", new_registration_path(resource_name) %>
+          <%= link_to "Sign up", new_registration_path('user') %>
         </li>
       <% end %>
     </div>

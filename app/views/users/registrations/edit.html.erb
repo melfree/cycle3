@@ -11,15 +11,7 @@
     
     <%= devise_error_messages! %>
     
-    <div class="form-group required">
-      <%= f.label :email, class: 'control-label'  %><br />
-      <%= f.email_field :email, :required => true, class: "form-control" %>
-    </div>
-    
-    <div class="form-group">
-      <%= f.label :name, class: 'control-label'  %><br />
-      <%= f.text_field :name, class: "form-control" %>
-    </div>
+    <%= render 'email_fields',  f: f %>
     
     </br>
     <% if !@user.photo.blank? %>
@@ -36,17 +28,7 @@
        <p class="help-block"><i>Your photo should be clear so that others can recognize you in person.</i></p>
     </div>
     
-  
-    <div class="form-group">
-      <%= f.label :password, "New Password", class: 'control-label'  %>
-      <%= f.password_field :password, autocomplete: "off",class: "form-control" %>
-      <p class="help-block"><i>Leave password (and password confirmation) blank if you don't want to change it.</i></p>
-    </div>
-  
-    <div class="form-group">
-      <%= f.label :password_confirmation, "New Password Confirmation", class: 'control-label'  %><br />
-      <%= f.password_field :password_confirmation, autocomplete: "off",class: "form-control" %>
-    </div>
+    <%= render 'password_fields', f: f, required: false %>
   
     <div class="form-group required">
       <%= f.label :current_password, class: 'control-label' %>

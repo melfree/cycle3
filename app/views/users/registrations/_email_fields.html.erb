@@ -1,0 +1,11 @@
+<div class="form-group required">
+  <%= f.label :email, class: 'control-label'  %><br />
+  <%= f.email_field :email, required: true, class: "form-control" %>
+  <p class="help-block"><i>Your email is for login purposes only and will not be shared.</i></p>
+</div>
+
+<div class="form-group required">
+  <%= f.label :name, class: 'control-label'  %><br />
+  <%= f.text_field :name, required: true, class: "form-control" %>
+  <p class="help-block"><i>Use a name or nickname that others can call you by in person.</i></p>
+</div>

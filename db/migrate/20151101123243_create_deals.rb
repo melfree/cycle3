@@ -9,6 +9,9 @@ class CreateDeals < ActiveRecord::Migration
       t.integer :buyer_id
       t.integer :seller_id
       
+      t.datetime :time
+      t.integer :location
+      
       t.integer :blocks,default: 0, null: false
       t.integer :guest_blocks,default: 0, null: false
       t.integer :dinex,default: 0, null: false

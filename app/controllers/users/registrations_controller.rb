@@ -10,7 +10,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         set_flash_message :notice, :signed_up if is_flashing_format?
         sign_up(resource_name, resource)
         #respond_with resource, location: after_sign_up_path_for(resource)
-        redirect_to root_url
+        redirect_to dashboard_url
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
         expire_data_after_sign_in!

@@ -1,0 +1,14 @@
+<p><label>Email:&nbsp;</label><%= user.email %></p>
+
+<p><label>Name:&nbsp;</label><%= user.name %></p>
+
+<p>
+  <label>Current status:&nbsp;</label>
+  <span class="<%= user.status_class %>"><%= user.status_and_location %></span>
+</p>
+
+<p><label>Current photo:</label></p>
+<img src="<%= user.photo_url %>">
+
+<br/><br/>
+<p><label>Last signed in at:&nbsp;</label><%= user.last_sign_in_at %></p>

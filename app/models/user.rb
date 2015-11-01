@@ -33,6 +33,24 @@ class User < ActiveRecord::Base
     [2,3,4].include?(self.status)
   end
   
+  def status_class
+    if is_buyer
+      "buyer"
+    elsif is_seller
+      "seller"
+    end
+  end
+  
+  def status_and_location
+    if status and location
+      "#{status_name} at #{location_name}"
+    elsif status
+      status_name
+    else
+      STATUSES[0]
+    end
+  end
+  
   def status_name
     STATUSES[self.status.to_i]
   end

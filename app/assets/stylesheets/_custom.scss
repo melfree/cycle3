@@ -33,3 +33,13 @@ legend {
   $name:  nth($pair, 1);
   span.#{$name} { color: $color; }
 }
+
+span.buyer {
+  @extend .alert-warning;
+}
+span.seller {
+  @extend .alert-info;
+}
+span.buyer, span.seller {
+  background: none !important;
+}

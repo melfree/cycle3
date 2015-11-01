@@ -1,6 +1,6 @@
 <h1>Dashboard</h1>
 
-<div class="panel panel-info">
+<div class="panel panel-primary">
   <div class="panel-heading">My Status</div>
   <div class="panel-body">
     <%= render 'status_form' %>
@@ -10,7 +10,8 @@
 <div class="panel panel-info">
   <div class="panel-heading">My Offers</div>
   <div class="panel-body">
-    <%= render 'deals_form'%>
+    In development
+    <%#= render 'deals_form'%>
   </div>
 </div>
 
@@ -32,7 +33,7 @@
     <div class="col-xs-6">
       <h3><%= sym.to_s.humanize %></h3>
       <section>
-        <%= render 'deals/deals', deals: @deals.public_send(sym), data_channel: sym.to_s %>
+        <%#= render 'deals/deals', deals: @deals.public_send(sym), data_channel: sym.to_s %>
       </section>
     </div>
   <% end %>

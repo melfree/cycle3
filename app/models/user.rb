@@ -50,6 +50,16 @@ class User < ActiveRecord::Base
                "Entropy",
                "Wean Hall"]
   
+  def owns(sym)
+    return false unless MEAL_PLAN_ELEMENTS.include?(sym)
+    self.public_send(sym) > 0
+  end
+  
+  def owns_meal_plan
+    MEAL_PLAN_ELEMENTS.inject(false) {|mem,sym| self.owns(sym) || mem}
+  end
+  MEAL_PLAN_ELEMENTS = [:blocks,:guest_blocks,:dinex]
+  
   # Real-time data
   after_commit :relay_job
     

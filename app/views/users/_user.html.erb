@@ -3,13 +3,25 @@
   <td><%= user.name %></td>
   <td><p><%= user.status_name %> at <%= user.location_name %></p>
       <% unless user.description.blank? %>
-        <p><label>Notes:&nbsp;</label><%= user.description %></p>
+        <p>
+          <span class="description"><label>Notes:&nbsp;</label></span>
+          <%= user.description %>
+        </p>
       <% end %>
   </td>
   <td>
-    
-    <p><label>Blocks:&nbsp;</label> <%= user.blocks %></p>
-    <p><label>Guest Blocks:&nbsp;</label><%= user.guest_blocks %></p>
-    <p><label>Dinex:&nbsp;</label><%= user.dinex %></p>
+    <% if user.owns_meal_plan %>
+      <% for sym in [:blocks,:guest_blocks,:dinex] %>  
+        <% if user.owns(sym) %>
+          <p>
+            <span class="<%= sym.to_s %>">
+            <label><%= sym.to_s.humanize %>:&nbsp;</label><%= user.public_send(sym) %>
+            </span>
+          </p>    
+        <% end %>
+      <% end %>
+    <% else %>
+      No meal plan.
+    <% end %>
   </td>
 </tr>

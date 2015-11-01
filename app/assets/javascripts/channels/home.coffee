@@ -11,40 +11,42 @@ App.home = App.cable.subscriptions.create "HomeChannel",
   # 'received', by default, receives every message from the stream.
   received: (data) ->
     if data.is_deal
-      processDeal(data)
+      @processDeal(data)
     else
-      processUser(data)  
+      @processUser(data)  
   
   processDeal: (data) ->
     s = @sales()
     p = @purchases()
     if data.is_sale
-      replaceOrAppend(data,s,p)
+      @replaceOrAppend(data,s,p)
     else if data.is_purchase
-      replaceOrAppend(data,p,s)
+      @replaceOrAppend(data,p,s)
     else
-      removeItem(data,p.add(s))
+      @removeItem(data,p.add(s))
   
   processUser: (data) ->
     s = @sellers()
     b = @buyers()
     if data.is_seller
-      replaceOrAppend(data,s,b)
+      @replaceOrAppend(data,s,b)
     else if data.is_buyer
-      replaceOrAppend(data,b,s)     
+      @replaceOrAppend(data,b,s)     
     else
-      removeItem(data,s.add(b))
+      @removeItem(data,s.add(b))
+  
+  selector: (data) ->
+    return "["+data.key+"="+data.key_id+"]"
   
   removeItem: (data,removeFromCollection) ->
-    selector = "["+data.key+"="+data.key_id+"]"
-    removeFromCollection.find(selector).remove()
+    removeFromCollection.find(@selector(data)).remove()
       
   replaceOrAppend: (data,addToCollection,removeFromCollection) -> 
-    l = addToCollection.find(selector)
+    l = addToCollection.find(@selector(data))
     if l.length > 0
       # If already on page, replace it where it is
       l.first().replaceWith(data.html)
     else
       # Otherwise, append it the list, and make sure its not in buyers
-      removeItem(data,removeFromCollection)
-      addToCollection.append(data.user)
+      @removeItem(data,removeFromCollection)
+      addToCollection.append(data.html)

@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   
   validates_presence_of :email
   
+  # Photo uploader dependencies
   mount_uploader :photo, PhotoUploader
   crop_uploaded :photo
   
@@ -18,9 +19,16 @@ class User < ActiveRecord::Base
   
   def photo_url
     if photo.blank?
-      "http://placehold.it/150x150"
+      "http://placehold.it/100x100"
     else
       photo.url(:thumb)
+    end 
+  end
+  def small_photo_url
+    if photo.blank?
+      "http://placehold.it/50x50"
+    else
+      photo.url(:small_thumb)
     end 
   end
   

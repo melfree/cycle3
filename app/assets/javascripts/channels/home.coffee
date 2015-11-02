@@ -18,12 +18,12 @@ App.home = App.cable.subscriptions.create "HomeChannel",
   processDeal: (data) ->
     s = @sales()
     p = @purchases()
-    if data.is_sale
-      @replaceOrAppend(data,s,p)
-    else if data.is_purchase
-      @replaceOrAppend(data,p,s)
-    else
+    if data.is_complete
       @removeItem(data,p.add(s))
+    else if data.is_sale
+      @replaceOrAppend(data,s,p)
+    else# if data.is_purchase
+      @replaceOrAppend(data,p,s)
   
   processUser: (data) ->
     s = @sellers()

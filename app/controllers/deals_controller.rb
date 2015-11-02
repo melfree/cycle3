@@ -1,5 +1,5 @@
 class DealsController < ApplicationController
-  before_action :set_deal
+  before_action :set_deal, only: [:create]
 
   def create
     if @deal.is_sale
@@ -8,6 +8,11 @@ class DealsController < ApplicationController
       @deal.buyer_id = current_user.id
     end
     @deal.save!
+  end
+  
+  def destroy
+    @deal = Deal.find_by_id(params[:id])
+    @deal.destroy
   end
 
   private

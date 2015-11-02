@@ -1,6 +1,11 @@
 <tr data-user-id='<%=user.id%>'>
-  <td> <img src="<%=user.photo_url%>"/></td>
+  <%# Photo %>
+  <td><%= render 'users/photo', user: user %></td>
+  
+  <%# Name %>
   <td><%= user.name %></td>
+  
+  <%# Status %>
   <td>
     <span class="<%= user.status_class %>">
       <p><%= user.status_and_location %></p>
@@ -12,6 +17,8 @@
       </p>
     <% end %>
   </td>
+  
+   <%# Meal Plan details %>
   <td>
     <% if user.owns_meal_plan %>
       <% for sym in [:blocks,:guest_blocks,:dinex] %>  

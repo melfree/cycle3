@@ -6,7 +6,19 @@ class DealRelayJob < ApplicationJob
        key: 'data-deal-id',
        is_sale: deal.is_sale,
        is_purchase: deal.is_purchase,
-       html: DealsController.render(partial: 'deals/deal', locals: { deal: deal })
+       is_complete: deal.is_complete,
+       html: html(deal)
       }
+  end
+  
+  private
+  def html(deal)
+    if !deal.is_complete
+      DealsController.render(partial: 'deals/deal', locals: { deal: deal })
+    else
+      # deal is complete, so we'll just be deleting the existing html,
+      # so we don't need to render any new html.
+      'Placeholder'
+    end
   end
 end

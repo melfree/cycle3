@@ -1,8 +1,16 @@
 <tr data-deal-id='<%=deal.id%>'>
-  <td><%= deal.created_at %></td>
+  <%# Photo %>
+  <td><%= render 'users/photo', user: deal.owner %></td>
+  
+  <%# Name %>
   <td>
-    <span>
-      <p><%= deal.status %></p>
+    <p><%=deal.owner.name%></p>
+  </td>
+  
+  <%# Status %>
+  <td>
+    <span class="<%= deal.status_class %>">
+      <p><%= deal.status_and_location %></p>
     </span>
     <% unless deal.description.blank? %>
       <p>
@@ -21,5 +29,6 @@
         </p>    
       <% end %>
     <% end %>
+  <%= link_to "Delete", deal_path(deal), method: :delete, remote: true, class: 'btn btn-danger' %>
   </td>
 </tr>

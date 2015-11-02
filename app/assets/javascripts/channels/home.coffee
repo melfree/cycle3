@@ -22,18 +22,18 @@ App.home = App.cable.subscriptions.create "HomeChannel",
       @removeItem(data,p.add(s))
     else if data.is_sale
       @replaceOrAppend(data,s,p)
-    else# if data.is_purchase
+    else if data.is_purchase
       @replaceOrAppend(data,p,s)
   
   processUser: (data) ->
     s = @sellers()
     b = @buyers()
-    if data.is_seller
-      @replaceOrAppend(data,s,b)
+    if data.is_unavailable
+      @removeItem(data,s.add(b))
     else if data.is_buyer
       @replaceOrAppend(data,b,s)     
-    else
-      @removeItem(data,s.add(b))
+    else if data.is_seller
+      @replaceOrAppend(data,s,b)
   
   selector: (data) ->
     return "["+data.key+"="+data.key_id+"]"

@@ -32,6 +32,10 @@ class User < ActiveRecord::Base
     end 
   end
   
+  def is_unavailable
+    self.status.to_i == 0
+  end
+  
   def is_seller
     self.status.to_i == 1
   end
@@ -90,6 +94,6 @@ class User < ActiveRecord::Base
     
   private
   def relay_job
-    HomeRelayJob.perform_later(self)
+    UserRelayJob.perform_later(self)
   end
 end

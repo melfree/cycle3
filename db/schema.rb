@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 20151101123243) do
     t.integer  "dinex",                  default: 0,  null: false
     t.integer  "status"
     t.integer  "location"
+    t.float    "latitude"
+    t.float    "longitude"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "email",                  default: "", null: false

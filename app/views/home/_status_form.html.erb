@@ -26,6 +26,15 @@
       </div>
     </div>
     
+    <% for sym in [:longitude, :latitude] %>
+      <div class="col-xs-2">
+        <div class="form-group">
+          <%= f.label sym, "My #{sym.to_s.humanize.downcase}", class: 'control-label'  %><br />
+          <%= f.text_field sym, class: "form-control" %>
+        </div>
+      </div>
+    <% end %>
+    
   </div>
   <!--<div class="actions">  
     <%= f.button "Update", class: 'btn', data: {disable_with: load_icon("Updating") } %>

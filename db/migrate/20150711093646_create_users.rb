@@ -11,6 +11,9 @@ class CreateUsers < ActiveRecord::Migration
       
       t.integer :status, index: true
       t.integer :location
+      
+      t.float :latitude
+      t.float :longitude
 
       t.timestamps
     end

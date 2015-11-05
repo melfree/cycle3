@@ -1,9 +1,10 @@
 <%= form_for current_user, url: edit_status_path, html: { method: :put }, remote: true, data: {'on-change-submit' => 'true'} do |f| %>
+  <p class="help-block"><i>Changing your status will automatically place you on the map.</i></p>
   <div class="row"> 
     <div class="col-xs-12">
       <div class="form-group">
         <%= f.label :status, "My Status", class: 'control-label'  %><br />
-        <%= f.select :status, User::STATUSES.map.with_index.to_a, class: "form-control" %>
+        <%= f.select :status, grouped_options_for_select(User::STATUSES), class: "form-control" %>
       </div>
     </div>
   </div>

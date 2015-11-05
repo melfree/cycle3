@@ -53,23 +53,25 @@ class User < ActiveRecord::Base
   end
   
   def status_and_location
-    if status and location
-      "#{status_name} at #{location_name}"
-    elsif status
-      status_name
-    else
-      STATUSES[0]
-    end
+    #if status and location
+    #  "#{status_name} at #{location_name}"
+    #else
+    #  status_name
+    #end
+    # We are ignoring location_name in users for the time being.
+    status_name
   end
   
   def status_name
-    STATUSES[self.status.to_i]
+    statuses = STATUSES.values.flatten(1)
+    statuses[self.status.to_i][0]
   end
-  STATUSES = ["I am not available",
-              "I want to sell",
-              "I want to buy anything",
-              "I want to buy (blocks only)",
-              "I want to buy (Dinex/Flex only)"]
+  STATUSES = {'N/A' => [["I am not available",0]],
+              'Seller' => [["I want to sell my Meal Plan",1]],
+              'Buyer' =>  [["I want to buy any Blocks, Dinex, or Flex",2],
+                           ["I want to buy Blocks only",3],
+                           ["I want to buy Dinex/Flex only",4]]
+              }
   
   def location_name
     LOCATIONS[self.location.to_i]

@@ -1,5 +1,5 @@
 <%= form_for current_user, url: edit_status_path, html: { method: :put }, remote: true, data: {'on-change-submit' => 'true'} do |f| %>
-   <p id="geo-help-block" class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p>
+   <p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p>
    <div class="row">
     <% for sym in [:dinex, :blocks, :guest_blocks] %>
       <div class="col-xs-3">
@@ -11,7 +11,7 @@
     <% end %>
    </div>
    
-   <p id="geo-help-block" class="help-block"><i>You can leave any notes for potential buyers/sellers in the Notes section.</i></p>
+   <p class="help-block"><i>You can leave any notes for potential buyers/sellers in the Notes section.</i></p>
    <div class="row">
       <div class="col-xs-6"> 
         <div class="form-group">

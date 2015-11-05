@@ -1,5 +1,5 @@
 $(document).on "page.change", ->
-  if $("body.users").length > 0
+  if $("body.registrations.edit").length > 0
   
     jQuery ->
       new CarrierWaveCropper()

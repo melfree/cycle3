@@ -19,7 +19,7 @@
     </ul>
     <div class="nav navbar-nav navbar-right" id="ul">
       <% if current_user %>
-        <li>
+        <li class="<%='active' if ccn == 'registrations' and can == 'edit' %>">
          <%= link_to "Welcome #{current_user.email}", edit_user_registration_path %>
         </li>
         <li>

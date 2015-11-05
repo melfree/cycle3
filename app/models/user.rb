@@ -65,11 +65,11 @@ class User < ActiveRecord::Base
   def status_name
     STATUSES[self.status.to_i]
   end
-  STATUSES = ["Not Available",
-              "Selling",
-              "Buying",
-              "Buying (blocks only)",
-              "Buying (Dinex/Flex only)"]
+  STATUSES = ["I am not available",
+              "I want to sell",
+              "I want to buy anything",
+              "I want to buy (blocks only)",
+              "I want to buy (Dinex/Flex only)"]
   
   def location_name
     LOCATIONS[self.location.to_i]

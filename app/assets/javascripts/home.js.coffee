@@ -1,14 +1,17 @@
 $(document).on "page:change", ->
   if $("body.home.index").length > 0
     
+    ## Location
     # Define the callback, used to process a user's current coords once.
     GeoL = (position) ->
       document.getElementById('user_latitude').value = position.coords.latitude
       document.getElementById('user_longitude').value = position.coords.longitude
+      $('#user_latitude').first().submit()
     
     # Detect user's location.
     if (navigator.geolocation)
       navigator.geolocation.getCurrentPosition GeoL
+      
     else
       document.getElementById("geoWarning").innerHTML = "Geolocation is not supported by this browser."
 

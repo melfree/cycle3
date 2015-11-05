@@ -5,6 +5,7 @@ $(document).on "page:change", ->
       # User selectors
       sellers: -> $("[data-channel='sellers']")
       buyers: -> $("[data-channel='buyers']")
+      mapContainer: -> $("div#map").first()
       
       # This function is the important part
       # 'received', by default, receives every message from the stream.
@@ -17,6 +18,10 @@ $(document).on "page:change", ->
           @replaceOrAppend(data,b,s)     
         else if data.is_seller
           @replaceOrAppend(data,s,b)
+        @updateMap data.html_google_map
+      
+      updateMap: (html_google_map) ->
+        @mapContainer().html(html_google_map)
       
       selector: (data) ->
         return "["+data.key+"="+data.key_id+"]"

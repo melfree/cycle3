@@ -1,5 +1,8 @@
 class DealsController < ApplicationController
   before_action :set_deal, only: [:create]
+  def index
+    @deals = Deal.active
+  end
 
   def create
     if @deal.is_sale

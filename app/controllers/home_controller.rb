@@ -3,7 +3,6 @@ class HomeController < ApplicationController
   
   def index
     @users = User.active
-    @deals = Deal.active
   end
   
   def edit_status

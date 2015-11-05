@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :users, only: [:index,:show]
   
   resources :home, only: [:index]
-  resources :deals, only: [:create,:destroy]
+  resources :deals, only: [:index,:create,:destroy]
   
   get 'guest', to: 'home#guest', as: :guest
   put 'edit_status', to: 'home#edit_status', as: :edit_status

@@ -1,0 +1,19 @@
+
+<div class="panel panel-info">
+  <div class="panel-heading">Create an Offer</div>
+  <div class="panel-body">
+    <%= render 'deals_form'%>
+  </div>
+</div>
+
+<h2>Active Deals Feed</h2 %>
+<div class="row">
+  <% for sym in [:sales,:purchases] %>
+    <div class="col-xs-6">
+      <h3><%= sym.to_s.humanize %></h3>
+      <section>
+        <%= render 'deals/deals', deals: @deals.public_send(sym), data_channel: sym.to_s %>
+      </section>
+    </div>
+  <% end %>
+</div>

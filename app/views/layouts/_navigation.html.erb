@@ -10,7 +10,10 @@
       </li>
       <% if current_user %>
         <li class="<%='active' if ccn == 'home' and can == 'index'%>">
-          <%= link_to "Dashboard", dashboard_path %>
+          <%= link_to "Find Deals Now", dashboard_path %>
+        </li>
+        <li class="<%='active' if ccn == 'deals' and can == 'index'%>">
+          <%= link_to "Plan Deals", deals_path %>
         </li>
       <% end %>
     </ul>

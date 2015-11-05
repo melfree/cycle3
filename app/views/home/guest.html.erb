@@ -6,6 +6,6 @@
   <% if current_user.nil? %>
     <%= link_to "Login", new_session_path('user'), class: "btn btn-primary btn-lg" %>
   <% else %>
-    <%= link_to "Go to Dashboard", dashboard_url, class: "btn btn-primary btn-lg" %>
+    <%= link_to "Find Deals Now", dashboard_url, class: "btn btn-primary btn-lg" %>
   <% end %>
 </div>

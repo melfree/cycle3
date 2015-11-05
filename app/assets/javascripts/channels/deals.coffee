@@ -1,11 +1,21 @@
-App.home = App.cable.subscriptions.create "HomeChannel",
-  # User selectors
-  sellers: -> $("[data-channel='sellers']")
-  buyers: -> $("[data-channel='buyers']")
-  
+App.deals = App.cable.subscriptions.create "DealsChannel",
+  # Deal selectors
+  sales: -> $("[data-channel='sales']")
+  purchases: -> $("[data-channel='purchases']")
+
   # This function is the important part
   # 'received', by default, receives every message from the stream.
   received: (data) ->
+    s = @sales()
+    p = @purchases()
+    if data.is_complete
+      @removeItem(data,p.add(s))
+    else if data.is_sale
+      @replaceOrAppend(data,s,p)
+    else if data.is_purchase
+      @replaceOrAppend(data,p,s)
+  
+  processUser: (data) ->
     s = @sellers()
     b = @buyers()
     if data.is_unavailable

@@ -20,19 +20,16 @@
         </div>
       </div>
    </div>
-    
-  <p id="geo-help-block" class="help-block"><i>Your latitude and longitude are found automatically and used to place you on the map, if you are seller or a buyer.</i></p>
-  <div class="row">
-    <% for sym in [:longitude, :latitude] %>
-      <div class="col-xs-2">
-        <div class="form-group">
-          <%= f.label sym, "My #{sym.to_s.humanize.downcase}", class: 'control-label'  %><br />
-          <%= f.hidden_field sym, class: "form-control" %>
-          <span id="<%="#{sym.to_s}_target"%>">
-            <%= current_user.public_send(sym) %>
-          </span>
-        </div>
-      </div>
-    <% end %>
-  </div>
+  
+  <p id="geo_target">
+    <strong>
+      <%= load_icon %> Detecting your current location...
+     </strong>
+  </p>
+  
+  <p id="on_change_target">
+  </p>
+  
+  <%= f.hidden_field :latitude, class: "form-control" %>
+  <%= f.hidden_field :longitude, class: "form-control" %>
 <% end %>

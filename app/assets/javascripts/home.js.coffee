@@ -11,9 +11,8 @@ $(document).on "page:change", ->
       lat = round(position.coords.latitude)
       long = round(position.coords.longitude)
       document.getElementById('user_latitude').value = lat
-      document.getElementById('latitude_target').value = lat
-      document.getElementById('longitude_target').innerHTML = long
       document.getElementById('user_longitude').value = long
+      document.getElementById('geo_target').innerHTML = "<strong><i class=\"fa fa-check\"></i> Your current location was successfully saved.</strong>"
       # Submit the form
       $('#user_latitude').first().submit()
     
@@ -22,10 +21,11 @@ $(document).on "page:change", ->
       navigator.geolocation.getCurrentPosition GeoL
       
     else
-      document.getElementById("geo-help-block").innerHTML = "We're sorry, geolocation is not supported by this browser."
+      document.getElementById("geo_target").innerHTML = "<strong><i class=\"fa fa-times\"></i>We're sorry, geolocation is not supported by this browser.</strong>"
 
     $('select').select2
       theme: 'bootstrap'
       
     $("form[data-on-change-submit] :input").change ->
       $(this).submit()
+      document.getElementById('on_change_target').innerHTML =  "<strong><i class=\"fa fa-check\"></i> Your info changes were successfully saved.</strong>"

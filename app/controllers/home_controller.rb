@@ -5,15 +5,6 @@ class HomeController < ApplicationController
     @users = User.active
   end
   
-  def edit_status
-    current_user.update_attributes!(current_user_params)
-  end
-  
   def guest
-  end
-  
-  private
-  def current_user_params
-    params.required(:user).permit(:location,:longitude,:latitude,:status,:dinex,:blocks,:guest_blocks,:description)
   end
 end

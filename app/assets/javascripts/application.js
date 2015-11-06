@@ -17,6 +17,7 @@
 
 // Bootstrap
 //= require bootstrap-sprockets
+//= require bootstrap-switch
 
 // Carrierwave cropping
 //= require jquery

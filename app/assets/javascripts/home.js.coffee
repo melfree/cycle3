@@ -23,9 +23,14 @@ $(document).on "page:change", ->
     else
       document.getElementById("geo_target").innerHTML = "<strong><i class=\"fa fa-times\"></i>We're sorry, geolocation is not supported by this browser.</strong>"
 
+    # Initialize cool dropdowns
     $('select').select2
       theme: 'bootstrap'
-      
+    
+    # Initialize switch  
+    $("#user_find_match").bootstrapSwitch();
+    
+    # On form element change, submit form  
     $("form[data-on-change-submit] :input").change ->
       $(this).submit()
-      document.getElementById('on_change_target').innerHTML =  "<strong><i class=\"fa fa-check\"></i> Your info changes were successfully saved.</strong>"
+      #document.getElementById('on_change_target').innerHTML =  "<strong><i class=\"fa fa-check\"></i> Your info changes were successfully saved.</strong>"

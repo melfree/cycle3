@@ -9,6 +9,7 @@ gem 'sqlite3'
 gem 'puma'
 
 gem 'bootstrap-sass', '~> 3.3.5'
+gem "bootstrap-switch-rails"
 
 # User authentication
 gem 'devise', github: 'twalpole/devise', branch: 'rails5'

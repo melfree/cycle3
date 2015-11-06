@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :deals, only: [:index,:create,:destroy]
   
   get 'guest', to: 'home#guest', as: :guest
-  put 'edit_status', to: 'home#edit_status', as: :edit_status
+  put 'edit_current_user', to: 'users#edit_current_user', as: :edit_current_user
   get 'dashboard', to: 'home#index', as: :dashboard
 
 

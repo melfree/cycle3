@@ -1,16 +1,27 @@
-<%= form_for current_user, url: edit_status_path, html: { method: :put }, remote: true, data: {'on-change-submit' => 'true'} do |f| %>
-  <p class="help-block"><i>Changing your status will automatically place you on the map.</i></p>
+<%= form_for current_user, url: edit_current_user_path, html: { method: :put }, remote: true, data: {'on-change-submit' => 'true'} do |f| %>
+  <p class="help-block">
+    <i>
+      Changing your status will automatically place you on the map.
+    </i>
+  </p>
+  <p class="help-block">
+    <i>
+      Click the switch to be matched with a nearby available buyer/seller.
+    </i>
+  </p>
   <div class="row"> 
-    <div class="col-xs-12">
+    <div class="col-xs-6">
       <div class="form-group">
         <%= f.label :status, "My Status", class: 'control-label'  %><br />
-        <%= f.select :status, grouped_options_for_select(User::STATUSES), class: "form-control" %>
+        <%= f.select :status, grouped_options_for_select(User::STATUSES, current_user.status), class: "form-control" %>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <%= f.label :find_match, "Match Me Automatically", class: 'control-label'  %><br />
+        <%= f.check_box :find_match, class: "form-control" %>
+        (This doesnt do anything yet)
       </div>
     </div>
   </div>
-  
-  <p class="help-block"><i>Click below to be matched with a nearby available buyer/seller.</i></p>
-  <a class="btn btn-warning btn-md">
-    Match Me With Another User
-  </a>
 <% end %>

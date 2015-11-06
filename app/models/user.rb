@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   scope :sellers, -> { where(status: 1)}
   scope :buyers, -> { where("status in (2,3,4)")}
   
+  attr_accessor :find_match
+  
   def photo_url
     if photo.blank?
       "http://placehold.it/100x100"

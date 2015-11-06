@@ -36,8 +36,11 @@ ActiveRecord::Schema.define(version: 20151101123243) do
     t.integer  "blocks",                 default: 0,  null: false
     t.integer  "guest_blocks",           default: 0,  null: false
     t.integer  "dinex",                  default: 0,  null: false
-    t.integer  "status"
+    t.integer  "status",                 default: 0,  null: false
     t.integer  "location"
+    t.boolean  "find_match"
+    t.datetime "find_match_start_time"
+    t.integer  "matched_user_id"
     t.float    "latitude"
     t.float    "longitude"
     t.datetime "created_at",                          null: false

@@ -16,8 +16,7 @@ class User < ActiveRecord::Base
   scope :active, ->  { where("status <> 0")}
   scope :sellers, -> { where(status: 1)}
   scope :buyers, -> { where("status in (2,3,4)")}
-  
-  attr_accessor :find_match
+  scope :finding_match, -> { where(find_match: true) }
   
   def photo_url
     if photo.blank?
@@ -93,11 +92,54 @@ class User < ActiveRecord::Base
   end
   MEAL_PLAN_ELEMENTS = [:blocks,:guest_blocks,:dinex]
   
+  def matched_user
+    if self.matched_user_id
+      User.find_by_id(self.matched_user_id)
+    else
+      nil
+    end
+  end
+  
   # Real-time data
   after_commit :relay_job
+  before_save :match_user
     
   private
+  def match_user
+    # If we are currently looking for a user, and we're a buyer/seller,
+    # BUT haven't started the search yet,
+    # try to match with another user.
+    if find_match and !(self.is_unavailable) and self.find_match_start_time.nil?
+      match = if user.is_buyer
+        User.finding_match.sellers.least_recent
+      else
+        User.finding_match.buyers.least_recent
+      end
+      if match
+        # We found a matching buyer/seller.
+        self.find_match = false
+        self.matched_user_id = match.id
+        match.find_match = false
+        match.find_match_start_time = nil
+        match.matched_user_id = self.id
+        match.save!
+      else
+        # No match found. Remember when this user started looking for a match.
+        set_match_start_time
+      end
+    end
+  end
+    
+  def least_recent
+    order(:find_match_start_time).first
+  end
+  
+  def set_match_start_time
+    self.find_match_start_time = Time.now
+  end
+  
   def relay_job
+    # Update the views.
     UserRelayJob.perform_later(self)
   end
 end

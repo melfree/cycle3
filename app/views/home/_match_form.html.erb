@@ -21,6 +21,7 @@
         <%= f.label :find_match, "Match Me", class: 'control-label'  %><br />
         <%= f.check_box :find_match, class: "form-control" %>
       </div>
+      This feature doesn't work yet.
     </div>
   </div>
   
@@ -33,7 +34,7 @@
     
 <% end %>
 
-<p>
+<p id="matched_user">
   <% if current_user.matched_user %>
     Matched with: <%= current_user.matched_user.name %>
   <% end %>

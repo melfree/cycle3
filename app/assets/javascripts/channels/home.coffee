@@ -5,7 +5,7 @@ $(document).on "page:change", ->
       # User selectors
       sellers: -> $("[data-channel='sellers']")
       buyers: -> $("[data-channel='buyers']")
-      mapContainer: -> $("div#map").first()
+      mapContainer: -> $("#map")
       
       # This function is the important part
       # 'received', by default, receives every message from the stream.

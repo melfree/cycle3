@@ -18,10 +18,23 @@
     </div>
     <div class="col-xs-6">
       <div class="form-group">
-        <%= f.label :find_match, "Match Me Automatically", class: 'control-label'  %><br />
+        <%= f.label :find_match, "Match Me", class: 'control-label'  %><br />
         <%= f.check_box :find_match, class: "form-control" %>
-        (This doesnt do anything yet)
       </div>
     </div>
   </div>
+  
+    <p class="<%= "hidden" if current_user.find_match %>" id="find_match_help_block_false">
+      <strong><i class="fa fa-times"></i> Not currently searching for available users.</strong>
+    </p>
+    <p class="<%= "hidden" if !current_user.find_match %>" id="find_match_help_block_true">
+      <strong><i class="fa fa-spin fa-spinner"></i> Waiting for an available user...</strong>
+    </p>
+    
 <% end %>
+
+<p>
+  <% if current_user.matched_user %>
+    Matched with: <%= current_user.matched_user.name %>
+  <% end %>
+</p>

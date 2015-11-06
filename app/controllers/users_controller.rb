@@ -12,6 +12,6 @@ class UsersController < ApplicationController
   end
   private
   def current_user_params
-    params.required(:user).permit(:location,:longitude,:latitude,:status,:dinex,:blocks,:guest_blocks,:description)
+    params.required(:user).permit(:find_match,:location,:longitude,:latitude,:status,:dinex,:blocks,:guest_blocks,:description)
   end
 end

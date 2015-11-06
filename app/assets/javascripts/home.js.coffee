@@ -10,27 +10,37 @@ $(document).on "page:change", ->
     GeoL = (position) ->
       lat = round(position.coords.latitude)
       long = round(position.coords.longitude)
-      document.getElementById('user_latitude').value = lat
-      document.getElementById('user_longitude').value = long
-      document.getElementById('geo_target').innerHTML = "<strong><i class=\"fa fa-check\"></i> Your current location was successfully saved.</strong>"
+      $('#user_latitude').value = lat
+      $('#user_longitude').value = long
+      $('#geo_help_block_succeeded').removeClass("hidden")
+      $("#geo_help_block_init").addClass("hidden")
       # Submit the form
-      $('#user_latitude').first().submit()
+      $('#user_latitude').submit()
     
-    # Detect user's location.
+    # Detect current user's location.
     if (navigator.geolocation)
       navigator.geolocation.getCurrentPosition GeoL
-      
     else
-      document.getElementById("geo_target").innerHTML = "<strong><i class=\"fa fa-times\"></i>We're sorry, geolocation is not supported by this browser.</strong>"
+      $("#geo_help_block_failed").removeClass("hidden")
+      $("#geo_help_block_init").addClass("hidden")
 
     # Initialize cool dropdowns
     $('select').select2
       theme: 'bootstrap'
     
-    # Initialize switch  
+    # Initialize cool Bootstrap switch  
     $("#user_find_match").bootstrapSwitch();
+    $("#user_find_match").on 'switchChange.bootstrapSwitch', (event, state) ->
+      false_message = $("#find_match_help_block_false")
+      true_message = $('#find_match_help_block_true')
+      if state
+        false_message.addClass("hidden")
+        true_message.removeClass("hidden")
+      else
+        false_message.removeClass("hidden")
+        true_message.addClass("hidden")
+      $(this).submit()
     
     # On form element change, submit form  
     $("form[data-on-change-submit] :input").change ->
       $(this).submit()
-      #document.getElementById('on_change_target').innerHTML =  "<strong><i class=\"fa fa-check\"></i> Your info changes were successfully saved.</strong>"

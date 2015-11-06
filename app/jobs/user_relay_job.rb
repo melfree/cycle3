@@ -1,5 +1,5 @@
 class UserRelayJob < ApplicationJob
-  def perform(user)
+  def perform(user)    
     ActionCable.server.broadcast "home",
       {key_id: user.id,
         key: 'data-user-id',

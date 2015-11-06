@@ -21,14 +21,19 @@
       </div>
    </div>
   
-  <p id="geo_target">
-    <strong>
-      <%= load_icon %> Detecting your current location...
-     </strong>
+  <p id="geo_help_block_init">
+    <strong><i class="fa fa-spin fa-spinner"></i> Detecting your current location...</strong>
   </p>
   
-  <p id="on_change_target">
+  <p class="hidden" id="geo_help_block_succeeded">
+    <strong><i class="fa fa-check"></i> Your current location was successfully saved.</strong>"
   </p>
+  
+  <p class="hidden" id="geo_help_block_failed">
+    <strong><i class="fa fa-times"></i> We're sorry, geolocation is not supported by this browser.</strong>
+  </p>
+
+
   
   <%= f.hidden_field :latitude, class: "form-control" %>
   <%= f.hidden_field :longitude, class: "form-control" %>

@@ -8,10 +8,8 @@ $(document).on "page:change", ->
     ## Location
     # Define the callback, used to process a user's current coords once.
     GeoL = (position) ->
-      lat = round(position.coords.latitude)
-      long = round(position.coords.longitude)
-      $('#user_latitude').value = lat
-      $('#user_longitude').value = long
+      $('#user_latitude').val round(position.coords.latitude)
+      $('#user_longitude').val round(position.coords.longitude)
       $('#geo_help_block_succeeded').removeClass("hidden")
       $("#geo_help_block_init").addClass("hidden")
       # Submit the form
@@ -40,6 +38,16 @@ $(document).on "page:change", ->
         false_message.removeClass("hidden")
         true_message.addClass("hidden")
       $(this).submit()
+    
+    # Disable the switch when status = 0
+    disableSwitch = ->
+      if $("#user_status").val() == '0'
+        $("#user_find_match").bootstrapSwitch 'disabled', true
+      else
+        $("#user_find_match").bootstrapSwitch 'disabled', false
+    disableSwitch()
+    $("#user_status").change ->
+      disableSwitch()
     
     # On form element change, submit form  
     $("form[data-on-change-submit] :input").change ->

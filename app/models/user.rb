@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
   scope :buyers, -> { where("status in (2,3,4)")}
   scope :finding_match, -> { where(find_match: true) }
   
+  attr_accessor :match_flag
+  
   def photo_url
     if photo.blank?
       "http://placehold.it/100x100"
@@ -107,10 +109,9 @@ class User < ActiveRecord::Base
   private
   def match_user
     # If we are currently looking for a user, and we're a buyer/seller,
-    # BUT haven't started the search yet,
     # try to match with another user.
-    if find_match and !(self.is_unavailable) and self.find_match_start_time.nil?
-      match = if user.is_buyer
+    if find_match and !(self.is_unavailable)
+      match = if self.is_buyer
         User.finding_match.sellers.least_recent
       else
         User.finding_match.buyers.least_recent
@@ -123,6 +124,7 @@ class User < ActiveRecord::Base
         match.find_match_start_time = nil
         match.matched_user_id = self.id
         match.save!
+        self.match_flag = true
       else
         # No match found. Remember when this user started looking for a match.
         set_match_start_time
@@ -130,7 +132,7 @@ class User < ActiveRecord::Base
     end
   end
     
-  def least_recent
+  def self.least_recent
     order(:find_match_start_time).first
   end
   
@@ -141,5 +143,9 @@ class User < ActiveRecord::Base
   def relay_job
     # Update the views.
     UserRelayJob.perform_later(self)
+    if self.match_flag
+      MatchRelayJob.perform_later(self)
+      self.match_flag = false
+    end
   end
 end

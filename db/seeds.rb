@@ -3,3 +3,6 @@
 
 
 User.create!(email: "test@gmail.com", name: "Test User", password: "password", password_confirmation: "password")
+User.create!(email: "test@aol.com", name: "Test User", password: "password", password_confirmation: "password")
+User.create!(email: "testuser@gmail.com", name: "Test User", password: "password", password_confirmation: "password")
+User.create!(email: "testuser@aol.com", name: "Test User", password: "password", password_confirmation: "password")

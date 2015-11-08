@@ -17,7 +17,7 @@
                 dinex #268) {
   $color: nth($pair, 2);
   $name:  nth($pair, 1);
-  span.#{$name} { color: $color; }
+  .#{$name} { color: $color; }
 }
 
 span.buyer {

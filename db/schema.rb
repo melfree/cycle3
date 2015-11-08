@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20151101123243) do
     t.integer  "status",                 default: 0,  null: false
     t.integer  "location"
     t.boolean  "find_match"
+    t.boolean  "find_match_in_progress"
     t.datetime "find_match_start_time"
     t.integer  "matched_user_id"
     t.float    "latitude"

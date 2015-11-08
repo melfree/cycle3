@@ -1,40 +1,34 @@
 <%= form_for current_user, url: edit_current_user_path, html: { method: :put }, remote: true, data: {'on-change-submit' => 'true'} do |f| %>
   <p class="help-block">
     <i>
-      Changing your status will automatically place you on the map.
+      Changing your status to a <b>Seller</b> or <b>Buyer</b> status will automatically place you on the map, and in the listing at the bottom of the page.
     </i>
   </p>
   <p class="help-block">
     <i>
-      Click the switch to be matched with a nearby available buyer/seller.
+      Use the <b>Find New Match</b> switch to be matched with a nearby available buyer/seller.
     </i>
   </p>
-  <div class="row"> 
-    <div class="col-xs-6">
-      <div class="form-group">
-        <%= f.label :status, "My Status", class: 'control-label'  %><br />
-        <%= f.select :status, grouped_options_for_select(User::STATUSES, current_user.status), class: "form-control" %>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <%= f.label :find_match, "Match Me", class: 'control-label'  %><br />
-        <%= f.check_box :find_match, class: "form-control" %>
-      </div>
-    </div>
+  <p class="help-block">
+    <i>
+      Use the <b>Deal in Progress</b> switch to show whether or not you are currently busy with a deal, or to end the most recent matched deal.
+    </i>
+  </p>
+  
+  <%= render 'match_form_switches', f: f, user: current_user, disabled: false %>
+  
+  <div id="find_match_help_block_false" class="alert alert-warning <%= "hidden" if current_user.find_match %>">
+    <p>Not currently searching for a new match.</p>
   </div>
   
-    <p class="<%= "hidden" if current_user.find_match %>" id="find_match_help_block_false">
-      <strong><i class="fa fa-times"></i> Not currently searching for available users.</strong>
-    </p>
-    <p class="<%= "hidden" if !current_user.find_match %>" id="find_match_help_block_true">
-      <strong><i class="fa fa-spin fa-spinner"></i> Waiting for an available user...</strong>
-    </p>
+  <div id="find_match_help_block_true" class="alert alert-info <%= "hidden" if !current_user.find_match %>">
+    <p><strong><i class="fa fa-spin fa-spinner"></i> Waiting for an available user...</strong></p>
+  </div>
+  
+  <div id="find_match_help_block_closed" class="alert alert-warning hidden">
+    <p>Your latest match has been closed.</p>
+  </div>
     
 <% end %>
 
-<p id="matched_user_help_block">
-  <% if current_user.matched_user %>
-    <%= render 'home/match', user: current_user %>
-  <% end %>
-</p>
+<%= render 'home/match', user: current_user %>

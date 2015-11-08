@@ -7,15 +7,23 @@
   
   <%# Status %>
   <td>
-    <span class="<%= user.status_class %>">
-      <p><%= user.status_and_location %></p>
-    </span>
+    <label class="<%= user.status_class %>">Status</label>
+    <p>
+      <%= user.status_and_location %>
+    </p>
     <% unless user.description.blank? %>
+      <label class="description">Notes</label>
       <p>
-        <span class="description"><label>Notes:&nbsp;</label></span>
         <%= user.description %>
       </p>
     <% end %>
+    
+    <label>Seeking Deal</label>
+    <p><%= user.find_match ? "Yes" : "No" %></p>
+    
+    <label>Deal Currently in Progress</label>
+    <p><%= user.find_match_in_progress ? "Yes" : "No" %></p>
+    
   </td>
   
    <%# Meal Plan details %>

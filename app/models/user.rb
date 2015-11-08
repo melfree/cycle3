@@ -56,12 +56,6 @@ class User < ActiveRecord::Base
   end
   
   def status_and_location
-    #if status and location
-    #  "#{status_name} at #{location_name}"
-    #else
-    #  status_name
-    #end
-    # We are ignoring location_name in users for the time being.
     status_name
   end
   
@@ -76,13 +70,13 @@ class User < ActiveRecord::Base
                            ["I want to buy Dinex/Flex only",4]]
               }
   
-  def location_name
-    LOCATIONS[self.location.to_i]
-  end
-  LOCATIONS = ["Upper CUC",
-               "Lower CUC",
-               "Entropy",
-               "Wean Hall"]
+  #def location_name
+  #  LOCATIONS[self.location.to_i]
+  #end
+  #LOCATIONS = ["Upper CUC",
+  #             "Lower CUC",
+  #             "Entropy",
+  #             "Wean Hall"]
   
   def owns(sym)
     return false unless MEAL_PLAN_ELEMENTS.include?(sym)
@@ -105,39 +99,63 @@ class User < ActiveRecord::Base
   # Real-time data
   after_commit :relay_job
   before_save :match_user
-    
+  
+  def set_as_matched
+    # Note that these changes are not saved; a separate save call is required after
+    # calling this method.
+    self.find_match = false
+    self.find_match_in_progress = true
+    self.find_match_start_time = nil
+  end
+  
   private
   def match_user
     # If we are currently looking for a user, and we're a buyer/seller,
     # try to match with another user.
-    if find_match and !(self.is_unavailable)
-      match = if self.is_buyer
-        User.finding_match.sellers.least_recent
-      else
-        User.finding_match.buyers.least_recent
-      end
-      if match
-        # We found a matching buyer/seller.
-        self.find_match = false
-        self.matched_user_id = match.id
-        match.find_match = false
-        match.find_match_start_time = nil
-        match.matched_user_id = self.id
-        match.save!
-        self.match_flag = true
-      else
-        # No match found. Remember when this user started looking for a match.
-        set_match_start_time
-      end
+    if find_match_in_progress
+      # If a match is still in progress, make it impossible to find another match.
+      self.find_match = false
+      
+    elsif find_match and !(self.is_unavailable)
+      # End the current match, if there is one
+      end_finished_match
+      # Find a new matching user
+      find_new_match
+    end
+  end
+  
+  def end_finished_match
+    if match = self.matched_user
+      match.matched_user_id = nil
+      match.find_match = false # This line shouldn't be necessary, but just in case.
+      match.find_match_in_progress = false
+      match.save!
+      self.matched_user_id = nil
+    end
+  end
+  
+  def find_new_match
+    match = if self.is_buyer
+      User.finding_match.sellers.least_recent
+    else
+      User.finding_match.buyers.least_recent
+    end
+    if match # We found a matching buyer/seller.
+      match.set_as_matched
+      match.matched_user_id = self.id
+      # Save the matched user's changes separately.
+      match.save!
+      self.set_as_matched
+      self.matched_user_id = match.id
+      self.match_flag = true
+    else
+      # No match found. Remember when this user started looking for a match.
+      self.find_match_start_time = Time.now
     end
   end
     
   def self.least_recent
     order(:find_match_start_time).first
-  end
-  
-  def set_match_start_time
-    self.find_match_start_time = Time.now
   end
   
   def relay_job

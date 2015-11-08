@@ -26,9 +26,15 @@ $(document).on "page:change", ->
     $('select').select2
       theme: 'bootstrap'
     
-    # Initialize cool Bootstrap switch  
-    $("#user_find_match").bootstrapSwitch();
-    $("#user_find_match").on 'switchChange.bootstrapSwitch', (event, state) ->
+    # Initialize cool Bootstrap switch
+    firstSwitch = $("#user_find_match")
+    secondSwitch = $("#user_find_match_in_progress")
+    firstSwitch.bootstrapSwitch()
+    secondSwitch.bootstrapSwitch()
+    secondSwitch.bootstrapSwitch 'onText', "YES"
+    secondSwitch.bootstrapSwitch 'offText', "NO"
+    
+    firstSwitch.on 'switchChange.bootstrapSwitch', (event, state) ->
       false_message = $("#find_match_help_block_false")
       true_message = $('#find_match_help_block_true')
       if state
@@ -38,14 +44,21 @@ $(document).on "page:change", ->
         false_message.removeClass("hidden")
         true_message.addClass("hidden")
       $(this).submit()
-    
-    # Disable the switch when status = 0
+      
     disableSwitch = ->
-      if $("#user_status").val() == '0'
-        $("#user_find_match").bootstrapSwitch 'disabled', true
-      else
-        $("#user_find_match").bootstrapSwitch 'disabled', false
+      # Disable the "match me" switch when status = 0 or last deal hasn't finished
+      disabled_state = $("#user_status").val() == '0' or secondSwitch.bootstrapSwitch 'state'
+      firstSwitch.bootstrapSwitch 'disabled', false
+      if disabled_state
+        firstSwitch.bootstrapSwitch 'state', false
+      firstSwitch.bootstrapSwitch 'disabled', disabled_state
+        
     disableSwitch()
+    
+    secondSwitch.on 'switchChange.bootstrapSwitch', (event, state) ->
+      disableSwitch()
+      $(this).submit()
+    
     $("#user_status").change ->
       disableSwitch()
     

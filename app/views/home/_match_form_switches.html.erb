@@ -1,0 +1,22 @@
+<%# requires 'f' (form), 'disabled', and 'user' local variables to be passed in %>
+
+<div class="row"> 
+  <div class="col-xs-6">
+    <div class="form-group">
+      <%= f.label :status, "My Status", class: 'control-label'  %><br />
+      <%= f.select :status, grouped_options_for_select(User::STATUSES, user.status), class: "form-control" %>
+    </div>
+  </div>
+  <div class="col-xs-3">
+    <div class="form-group">
+      <%= f.label :find_match, "Find New Match", class: 'control-label'  %><br />
+      <%= f.check_box :find_match, class: "form-control" %>
+    </div>
+  </div>
+  <div class="col-xs-3">
+    <div class="form-group">
+      <%= f.label :find_match_in_progress, "Deal in Progress", class: 'control-label'  %><br />
+      <%= f.check_box :find_match_in_progress, class: "form-control" %>
+    </div>
+  </div>
+</div>

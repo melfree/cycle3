@@ -13,6 +13,7 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :location
       
       t.boolean :find_match
+      t.boolean :find_match_in_progress
       t.datetime :find_match_start_time
       t.integer :matched_user_id
       

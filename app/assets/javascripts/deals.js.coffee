@@ -1,3 +1,35 @@
+$.UpdateHelpBlocks = ->
+  # Define updateHelpBlocks method
+  $(".match_alert").addClass("hidden")
+  step_one = $("#step_one_container")
+  step_one.addClass("hidden")
+  step_two = $("#step_two_container")
+  step_two.addClass("hidden")
+ 
+  buyer_status = $("#deal_buyer_status_code").val()
+  seller_status = $("#deal_seller_status_code").val()
+  deal_status = buyer_status or seller_status
+  
+  deal_in_progress = $(".matched_user").length > 0
+  user_code = $("#user_status_code").val() 
+
+  if deal_status == '1'
+    step_one.removeClass("hidden")
+    $('#match_help_block_completed').removeClass("hidden")
+  else if deal_status == '2'
+    step_one.removeClass("hidden")
+    $("#match_help_block_cancelled").removeClass("hidden")
+  else if user_code == '0'
+    step_one.removeClass("hidden")
+    $('#match_help_block_unavailable').removeClass("hidden")
+  else if !(deal_in_progress)
+    step_one.removeClass("hidden")
+    $('#match_help_block_searching').removeClass("hidden")
+  else
+    step_two.removeClass("hidden")
+    $('#match_help_block_pending').removeClass("hidden")
+
+
 $(document).on "page:change", ->
   if $("body.deals.index").length > 0
     
@@ -12,8 +44,6 @@ $(document).on "page:change", ->
       $('#user_longitude').val round(position.coords.longitude)
       $('#geo_help_block_succeeded').removeClass("hidden")
       $("#geo_help_block_init").addClass("hidden")
-      # Submit the form
-      $('#user_latitude').submit()
     
     # Detect current user's location.
     if (navigator.geolocation)
@@ -25,47 +55,24 @@ $(document).on "page:change", ->
     # Initialize dropdowns
     $('select').select2
       theme: 'bootstrap'
-    
-    # Define updateHelpBlocks method
-    unavailable = $('#match_help_block_unavailable')
-    searching = $('#match_help_block_searching')
-    cancelled = $("#match_help_block_cancelled")
-    completed = $('#match_help_block_completed')
-    pending = $('#match_help_block_pending')
-    all_match_alerts = $(".match_alert")
-    updateHelpBlocks = ->
-      all_match_alerts.addClass("hidden")
-     
-      user_status = $("#user_status_code").val()
+          
+    # On form element change, update help blocks
+    $("form[data-on-change-user]").on 'ajax:success', ->
+      $.UpdateHelpBlocks()
       
+    $("form[data-on-change-deal]").on 'ajax:success', ->
+      # Set deal status and user_status to 0 if a deal just ended
+      # Model code does this for the database. This JS only updates the view.
       buyer_status = $("#deal_buyer_status_code").val()
       seller_status = $("#deal_seller_status_code").val()
       deal_status = buyer_status or seller_status
-     
-      if user_status == '0'
-        unavailable.removeClass("hidden")
-      else if deal_status == '0'
-        pending.removeClass("hidden")
-      else if deal_status == '1'
-        completed.removeClass("hidden")
-      else if deal_status == '2'
-        cancelled.removeClass("hidden")
-      else
-        searching.removeClass("hidden")
-          
-    # On form element change, submit form  
-    $("form[data-on-change-submit] :input").change ->
-      updateHelpBlocks()
-      $(this).submit()
-    
+      if deal_status != '0'
+        $("#user_status_code").select2('val','0')
+      $.UpdateHelpBlocks()
+      if deal_status != '0'
+        $("#deal_buyer_status_code").select2('val','0')
+        $("#deal_seller_status_code").select2('val','0')
+
     # Update help blocks on page load
-    updateHelpBlocks()
+    $.UpdateHelpBlocks()
     
-    ## Initialize Bootstrap switches, if any
-    #switches = $(".bootstrap-switch")
-    #switches.bootstrapSwitch()
-    #switches.bootstrapSwitch 'onText', "YES"
-    #switches.bootstrapSwitch 'offText', "NO"
-    #switches.on 'switchChange.bootstrapSwitch', ->
-    #  updateHelpBlocks()
-    #  $(this).submit()

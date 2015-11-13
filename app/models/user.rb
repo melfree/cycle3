@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   
   scope :inactive, ->  { where(status_code: 0)}
   scope :active, ->  { where("status_code <> 0")}
+  scope :not_including, -> (user) {where("id <> ?",user.id)}
   
   scope :sellers, -> { where(status_code: 1)}
   scope :buyers, -> { where(status_code: 2)}
@@ -95,22 +96,11 @@ class User < ActiveRecord::Base
   before_update :match_user
   
   def current_deal
-    if current_deal_id
+    @current_deal ||= if current_deal_id
       Deal.find_by_id current_deal_id
     else
       nil
     end
-  end
-  
-  def matched_user
-    deal = self.current_deal
-    match = nil
-    if is_buyer
-      match = deal.seller if deal
-    elsif is_seller
-      match = deal.buyer if deal
-    end
-    return match
   end
   
   def deal_status_attribute
@@ -132,21 +122,23 @@ class User < ActiveRecord::Base
     if is_searching
       # Find a new matching user
       if is_buyer
-        seller = User.searching.sellers.order(:search_start_time).first
+        seller = User.searching.sellers.not_including(self).order(:search_start_time).first
         buyer = self
       else
-        buyer = User.searching.buyers.order(:search_start_time).first
+        buyer = User.searching.buyers.not_including(self).order(:search_start_time).first
         seller = self
       end
       if buyer and seller # We found a matching buyer/seller. Create the deal.
-        deal = Deal.create!(seller: seller, buyer: buyer)
+        deal = Deal.create!(seller_id: seller.id, buyer_id: buyer.id)
         buyer.current_deal_id = deal.id
         seller.current_deal_id = deal.id
         # Save the matched user here, so there is no recursion with 'before_save'.
         if is_buyer
           seller.save!
+          DealRelayJob.perform_later(seller)
         else
           buyer.save!
+          DealRelayJob.perform_later(buyer)
         end
       else
         # No match found. Remember when this user started looking for a match.
@@ -160,5 +152,6 @@ class User < ActiveRecord::Base
   def relay_job
     # Update the views.
     UserRelayJob.perform_later(self)
+    DealRelayJob.perform_later(self)
   end
 end

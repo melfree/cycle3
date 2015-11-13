@@ -1,18 +1,6 @@
 <div id="deal_help_block">
   <% if user.current_deal %>
-  
-    <%= form_for user.current_deal, url: edit_current_deal_path, html: { method: :put }, remote: true, data: {'on-change-submit' => 'true'} do |f| %>
-      <div class="row">
-        <div class="col-xs-6"> 
-          <div class="form-group">
-            <%= f.label user.deal_status_attribute, "Your Status", class: 'control-label'  %><br />
-            <%= f.select user.deal_status_attribute, Deal.status_options, class: "form-control" %>
-          </div>
-        </div>
-      </div>
-    <% end %>
-    
-    <table class="table table-bordered table-striped table-hover">
+    <table class="matched_user table table-bordered table-striped table-hover">
       <thead>
         <tr>
           <th>Photo</th>
@@ -21,7 +9,12 @@
         </tr>
       </thead>
       <tbody>
-        <%= render 'users/user', user: user.matched_user %>
+        <% if user.is_seller %>
+          <% matched_user = user.current_deal.buyer %>
+        <% else %>
+          <% matched_user = user.current_deal.seller %>
+        <% end %>
+        <%= render 'users/user', user: matched_user %>
       </tbody>
     </table>
   <% end %>

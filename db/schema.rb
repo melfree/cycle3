@@ -17,13 +17,16 @@ ActiveRecord::Schema.define(version: 20151112194857) do
     t.integer  "seller_id"
     t.integer  "buyer_id"
     t.text     "description"
-    t.integer  "finished_at"
-    t.integer  "seller_status_code"
-    t.integer  "buyer_status_code"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "seller_finished_at"
+    t.datetime "buyer_finished_at"
+    t.integer  "seller_status_code", default: 0, null: false
+    t.integer  "buyer_status_code",  default: 0, null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.index ["buyer_id"], name: "index_deals_on_buyer_id"
+    t.index ["buyer_status_code"], name: "index_deals_on_buyer_status_code"
     t.index ["seller_id"], name: "index_deals_on_seller_id"
+    t.index ["seller_status_code"], name: "index_deals_on_seller_status_code"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -41,6 +44,7 @@ ActiveRecord::Schema.define(version: 20151112194857) do
     t.text     "description"
     t.integer  "meal_plan_code",         default: 0,  null: false
     t.integer  "status_code",            default: 0,  null: false
+    t.integer  "current_deal_id"
     t.datetime "search_start_time"
     t.float    "latitude"
     t.float    "longitude"

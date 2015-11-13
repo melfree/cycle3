@@ -1,79 +1,51 @@
 class Deal < ActiveRecord::Base
-  def seller
-    User.find_by_id self.seller_id
-  end
-  def buyer
-    User.find_by_id self.buyer_id
+  belongs_to :seller, foreign_key: "seller_id", class_name: "User"
+  belongs_to :buyer, foreign_key: "buyer_id", class_name: "User"
+  
+  STATUSES = ["Pending - Deal in Progress",
+              "Completed - Deal was Successfully Finished",
+              "Cancelled - Deal was Cancelled"]
+
+  # These flags are used with DealRelayJob, to indicate when to update data streams.
+  attr_accessor :buyer_just_ended_flag, :seller_just_ended_flag
+
+  def buyer_finished
+    buyer_status_code.to_i != 0
   end
   
-  def owner
-    return seller if seller
-    buyer
-  end
-  def is_sale
-    self.status.to_i == 1
-  end
-  def is_purchase
-    [2,3,4].include?(self.status.to_i)
-  end
-  def is_complete
-    self.status.to_i.zero? or destroyed?
+  def seller_finished
+    seller_status_code.to_i != 0
   end
   
-  def owns(sym)
-    return false unless User::MEAL_PLAN_ELEMENTS.include?(sym)
-    self.public_send(sym) > 0
+  def self.status_options
+    STATUSES.each_with_index.map{|o,i| [o,i]}
   end
   
-  def status_and_location
-    if status and location
-      "#{status_name} at #{location_name}, at #{time || "anytime"}"
-    elsif status
-      "#{status_name}, at #{time || "anytime"}"
-    else
-      STATUSES[0]
-    end
-  end
-  def status_name
-    STATUSES[self.status.to_i]
-  end
-  def location_name
-    User::LOCATIONS[self.location.to_i]
-  end
-  def status_class
-    if is_purchase
-      "buyer"
-    elsif is_sale
-      "seller"
-    end
+  def buyer_status_name
+    STATUSES[self.seller_status_code.to_i]
   end
   
-  scope :active, -> { where("status <> 0")}
-  scope :sales, -> { where(status: 1)}
-  scope :purchases, -> { where("status in (2,3,4)")}
-  
-  def self.select_options_for_status
-    STATUSES.map.with_index.to_a.drop(1)
+  def seller_status_name
+    STATUSES[self.buyer_status_code.to_i]
   end
-  STATUSES = ["Completed",
-              "Sale, seeking buyer",
-              "Want-to-buy, seeking any seller",
-              "Want-to-buy (blocks only)",
-              "Want-to-buy (Dinex/Flex only)"]
-    
-  # Real-time data
-  # Runs after create, update, or destroy
+  
+  before_update :set_finished
+  # Runs after create or update.
   after_save :relay_job
-  before_destroy :destroy_relay_job
     
   private
-  def destroy_relay_job
-    self.update_attribute(:status, 0)
-    # Perform this job now, while the object still exists
-    DealRelayJob.perform_now(self)
-  end
-  
   def relay_job
     DealRelayJob.perform_later(self)
+  end
+  
+  def set_finished
+    if buyer_finished_at.nil? and buyer_finished
+      buyer.finish_deal
+      self.buyer_finished_at = Time.now
+    end
+    if seller_finished_at.nil? and seller_finished
+      seller.finish_deal
+      self.seller_finished_at = Time.now
+    end
   end
 end

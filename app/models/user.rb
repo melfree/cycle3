@@ -13,12 +13,29 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   
-  scope :active, ->  { where("status <> 0")}
-  scope :sellers, -> { where(status: 1)}
-  scope :buyers, -> { where("status in (2,3,4)")}
-  scope :finding_match, -> { where(find_match: true) }
+  scope :inactive, ->  { where(status_code: 0)}
+  scope :active, ->  { where("status_code <> 0")}
   
-  attr_accessor :match_flag
+  scope :sellers, -> { where(status_code: 1)}
+  scope :buyers, -> { where(status_code: 2)}
+  
+  scope :searching, -> { where(current_deal_id: nil) }
+  
+  USER_STATUSES = ["Not Seeking Deal",
+                   "Seller - Seeking Buyer",
+                   "Buyer - Seeking Seller"]
+  
+  MEAL_PLANS = ["Meal Blocks only",
+                "Dinex/Flex only",
+                "Meal Blocks and/or Dinex/Flex"]
+  
+  def self.meal_plan_options
+    MEAL_PLANS.each_with_index.map{|o,i| [o,i]}
+  end
+  
+  def self.status_options
+    USER_STATUSES.each_with_index.map{|o,i| [o,i]}
+  end
   
   def photo_url
     if photo.blank?
@@ -27,6 +44,7 @@ class User < ActiveRecord::Base
       photo.url(:thumb)
     end 
   end
+  
   def small_photo_url
     if photo.blank?
       "http://placehold.it/50x50"
@@ -36,134 +54,111 @@ class User < ActiveRecord::Base
   end
   
   def is_unavailable
-    self.status.to_i == 0
+    status_code.to_i == 0
   end
   
   def is_seller
-    self.status.to_i == 1
+    status_code.to_i == 1
   end
   
   def is_buyer
-    [2,3,4].include?(self.status)
+    status_code.to_i == 2
   end
   
-  def status_class
-    if is_buyer
-      "buyer"
-    elsif is_seller
-      "seller"
+  def is_searching
+    (is_seller or is_buyer) and current_deal_id.nil?
+  end
+  
+  def searching_name
+    if is_searching
+      "Searching for Deal"
+    else
+      "Deal Found"
     end
   end
   
-  def status_and_location
-    status_name
-  end
-  
   def status_name
-    statuses = STATUSES.values.flatten(1)
-    statuses[self.status.to_i][0]
-  end
-  STATUSES = {'N/A' => [["I am not available",0]],
-              'Seller' => [["I want to sell my Meal Plan",1]],
-              'Buyer' =>  [["I want to buy any Blocks, Dinex, or Flex",2],
-                           ["I want to buy Blocks only",3],
-                           ["I want to buy Dinex/Flex only",4]]
-              }
-  
-  #def location_name
-  #  LOCATIONS[self.location.to_i]
-  #end
-  #LOCATIONS = ["Upper CUC",
-  #             "Lower CUC",
-  #             "Entropy",
-  #             "Wean Hall"]
-  
-  def owns(sym)
-    return false unless MEAL_PLAN_ELEMENTS.include?(sym)
-    self.public_send(sym) > 0
+    USER_STATUSES[self.status_code.to_i]
   end
   
-  def owns_meal_plan
-    MEAL_PLAN_ELEMENTS.inject(false) {|mem,sym| self.owns(sym) || mem}
+  def meal_plan_name
+    buying_or_selling = if is_buyer
+      "Buying"
+    else
+      "Selling"
+    end
+    "#{buying_or_selling} - #{MEAL_PLANS[self.meal_plan_code.to_i]}"
   end
-  MEAL_PLAN_ELEMENTS = [:blocks,:guest_blocks,:dinex]
   
-  def matched_user
-    if self.matched_user_id
-      User.find_by_id(self.matched_user_id)
+  # Real-time data
+  after_commit :relay_job
+  before_update :match_user
+  
+  def current_deal
+    if current_deal_id
+      Deal.find_by_id current_deal_id
     else
       nil
     end
   end
   
-  # Real-time data
-  after_commit :relay_job
-  before_save :match_user
+  def matched_user
+    deal = self.current_deal
+    match = nil
+    if is_buyer
+      match = deal.seller if deal
+    elsif is_seller
+      match = deal.buyer if deal
+    end
+    return match
+  end
   
-  def set_as_matched
-    # Note that these changes are not saved; a separate save call is required after
-    # calling this method.
-    self.find_match = false
-    self.find_match_in_progress = true
-    self.find_match_start_time = nil
+  def deal_status_attribute
+    if is_buyer
+      :buyer_status_code
+    else
+      :seller_status_code
+    end
+  end
+  
+  def finish_deal
+    self.current_deal_id = nil
+    self.status_code = 0
+    self.save!
   end
   
   private
   def match_user
-    # If we are currently looking for a user, and we're a buyer/seller,
-    # try to match with another user.
-    if find_match_in_progress
-      # If a match is still in progress, make it impossible to find another match.
-      self.find_match = false
-      
-    elsif find_match and !(self.is_unavailable)
-      # End the current match, if there is one
-      end_finished_match
+    if is_searching
       # Find a new matching user
-      find_new_match
-    end
-  end
-  
-  def end_finished_match
-    if match = self.matched_user
-      match.matched_user_id = nil
-      match.find_match = false # This line shouldn't be necessary, but just in case.
-      match.find_match_in_progress = false
-      match.save!
-      self.matched_user_id = nil
-    end
-  end
-  
-  def find_new_match
-    match = if self.is_buyer
-      User.finding_match.sellers.least_recent
+      if is_buyer
+        seller = User.searching.sellers.order(:search_start_time).first
+        buyer = self
+      else
+        buyer = User.searching.buyers.order(:search_start_time).first
+        seller = self
+      end
+      if buyer and seller # We found a matching buyer/seller. Create the deal.
+        deal = Deal.create!(seller: seller, buyer: buyer)
+        buyer.current_deal_id = deal.id
+        seller.current_deal_id = deal.id
+        # Save the matched user here, so there is no recursion with 'before_save'.
+        if is_buyer
+          seller.save!
+        else
+          buyer.save!
+        end
+      else
+        # No match found. Remember when this user started looking for a match.
+        self.search_start_time = Time.now
+      end
     else
-      User.finding_match.buyers.least_recent
+      self.search_start_time = nil
     end
-    if match # We found a matching buyer/seller.
-      match.set_as_matched
-      match.matched_user_id = self.id
-      # Save the matched user's changes separately.
-      match.save!
-      self.set_as_matched
-      self.matched_user_id = match.id
-      self.match_flag = true
-    else
-      # No match found. Remember when this user started looking for a match.
-      self.find_match_start_time = Time.now
-    end
-  end
-    
-  def self.least_recent
-    order(:find_match_start_time).first
   end
   
   def relay_job
     # Update the views.
     UserRelayJob.perform_later(self)
-    if self.match_flag
-      MatchRelayJob.perform_later(self)
-      self.match_flag = false
-    end
   end
 end

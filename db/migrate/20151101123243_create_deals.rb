@@ -7,7 +7,8 @@ class CreateDeals < ActiveRecord::Migration
       t.text :description
       
       # Time for when the deal is completed
-      t.integer :finished_at
+      t.datetime :seller_finished_at
+      t.datetime :buyer_finished_at
       
       # Cancelled, completed, or pending
       t.integer :seller_status_code, default: 0, null: false, index: true

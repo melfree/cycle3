@@ -1,23 +1,17 @@
 class DealRelayJob < ApplicationJob
   def perform(deal)
-    ActionCable.server.broadcast "deals",
-      {key_id: deal.id,
-       key: 'data-deal-id',
-       is_sale: deal.is_sale,
-       is_purchase: deal.is_purchase,
-       is_complete: deal.is_complete,
-       html: html(deal)
+    # A seller should get updates for their deal only if they are still associated with the deal.
+    # After that, the seller should not be updated about the deal.
+    if deal.seller.current_deal_id == deal.id
+      ActionCable.server.broadcast "deals_#{deal.seller.id}", {
+        html: HomeController.render(partial: 'deals/match', locals: { user: deal.seller })
       }
-  end
-  
-  private
-  def html(deal)
-    if !deal.is_complete
-      DealsController.render(partial: 'deals/deal', locals: { deal: deal })
-    else
-      # deal is complete, so we'll just be deleting the existing html,
-      # so we don't need to render any new html.
-      'Placeholder'
+    end
+    
+    if deal.buyer.current_deal_id == deal.id
+      ActionCable.server.broadcast "deals_#{deal.buyer.id}", {
+        html: HomeController.render(partial: 'deals/match', locals: { user: deal.buyer })
+      }
     end
   end
 end

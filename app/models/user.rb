@@ -17,6 +17,9 @@ class User < ActiveRecord::Base
   scope :active, ->  { where("status_code <> 0")}
   scope :not_including, -> (user) {where("id <> ?",user.id)}
   
+  # Meal plan code of 0 means that everyone is included.
+  # Meal plan code of 1 or 2 must be matched exactly, or to anyone with 0.
+  scope :meal_plan_code, ->(code) { where("meal_plan_code = 0 OR meal_plan_code = ? OR ? = 0", code,code) }
   scope :sellers, -> { where(status_code: 1)}
   scope :buyers, -> { where(status_code: 2)}
   
@@ -121,11 +124,12 @@ class User < ActiveRecord::Base
   def match_user
     if is_searching
       # Find a new matching user
+      scope = User.searching.with_meal_plan(self.meal_plan_code).not_including(self).order(:search_start_time)
       if is_buyer
-        seller = User.searching.sellers.not_including(self).order(:search_start_time).first
+        seller = scope.sellers.first
         buyer = self
       else
-        buyer = User.searching.buyers.not_including(self).order(:search_start_time).first
+        buyer = scope.buyers.first
         seller = self
       end
       if buyer and seller # We found a matching buyer/seller. Create the deal.

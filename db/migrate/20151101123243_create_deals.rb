@@ -6,13 +6,12 @@ class CreateDeals < ActiveRecord::Migration
       
       t.text :description
       
-      t.datetime :time
-      t.integer :location
+      # Time for when the deal is completed
+      t.integer :finished_at
       
-      t.integer :blocks,default: 0, null: false
-      t.integer :guest_blocks,default: 0, null: false
-      t.integer :dinex,default: 0, null: false
-      t.integer :status
+      # Cancelled, completed, or pending
+      t.integer :seller_status_code, default: 0, null: false, index: true
+      t.integer :buyer_status_code, default: 0, null: false, index: true
 
       t.timestamps
     end

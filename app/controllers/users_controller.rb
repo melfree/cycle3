@@ -10,8 +10,9 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
   end
+  
   private
   def current_user_params
-    params.required(:user).permit(:find_match,:find_match_in_progress,:location,:longitude,:latitude,:status,:dinex,:blocks,:guest_blocks,:description)
+    params.required(:user).permit(:status_code,:meal_plan_code,:longitude,:latitude,:description)
   end
 end

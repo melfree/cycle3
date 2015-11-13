@@ -1,18 +1,19 @@
 <div class="panel panel-info">
-  <div class="panel-heading">Create an Offer</div>
+  <div class="panel-heading">Information</div>
   <div class="panel-body">
-    <%= render 'deals_form'%>
+  <p class="help-block">
+    <i>
+      Changing your status to a <b>Seller</b> or <b>Buyer</b> status will
+      automatically place you on the map, and in the users listing. It will also
+      begin the automatic search for a match.
+    </i>
+  </p>
   </div>
 </div>
 
-<h2>Active Deals Feed</h2 %>
-<div class="row">
-  <% for sym in [:sales,:purchases] %>
-    <div class="col-xs-6">
-      <h3><%= sym.to_s.humanize %></h3>
-      <section>
-        <%= render 'deals/deals', deals: @deals.public_send(sym), data_channel: sym.to_s %>
-      </section>
-    </div>
-  <% end %>
+<div class="panel panel-primary">
+  <div class="panel-heading">Find a Deal</div>
+  <div class="panel-body">
+    <%= render 'match_form' %>
+  </div>
 </div>

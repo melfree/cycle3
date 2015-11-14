@@ -1,0 +1,58 @@
+<%= render 'deals/location' %>
+
+<br/>
+
+<%= render 'deals/match_alerts' %>
+
+<div id="step_one_container">  
+  <%= form_for current_user, url: edit_current_user_path, html: { method: :put }, remote: true, data: {'on-change-user' => 'true'} do |f| %>
+    <div class="row">
+      <div class="col-xs-6">
+        <p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p>
+        <div class="form-group">
+          <%= f.label :meal_plan_code, "Buying or Selling...", class: 'control-label'  %><br />
+          <%= f.select :meal_plan_code, User.meal_plan_options, class: "form-control" %>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <p class="help-block"><i>You can leave any notes in the Notes section to appear next to your public listing.</i></p>
+        <div class="form-group">
+          <%= f.label :description, "Notes", class: 'control-label'  %><br />
+          <%= f.text_area :description, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row"> 
+      <div class="col-xs-6">
+        <div class="form-group">
+          <%= f.label :status_code, "I am currently...", class: 'control-label'  %><br />
+          <%= f.select :status_code, User.status_options, class: "bootstrap-switch form-control" %>
+        </div>
+      </div>
+    </div>
+    <%= f.button 'Submit', class: "btn btn-success" %>
+  <% end %>
+</div>
+
+<div id="step_two_container">
+  <div class="row">
+    <div class="col-xs-6"> 
+      <%= form_for Deal.new, url: edit_current_deal_path, html: { method: :put }, remote: true, data: {'on-change-deal' => 'true'} do |f| %>
+        <div class="form-group">
+          <%= f.label current_user.deal_status_attribute, "Your Status", class: 'control-label'  %><br />
+          <%= f.select current_user.deal_status_attribute, Deal.status_options, class: "form-control" %>
+        </div>
+        <%= f.button 'Submit', class: "btn btn-success" %>
+      <% end %>
+      
+    </div>
+    <div class="col-xs-6">
+      <label>Their Status</label>
+      <%= render 'match_user_status', user: current_user %>
+    </div>
+  </div>
+        
+  <br/>
+  <%= render 'deals/match', user: current_user %>
+</div>

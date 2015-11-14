@@ -1,37 +1,23 @@
-<tr data-user-id='<%=user.id%>'>
+<tr data-user-id='<%=user.id %>'>
   <%# Photo %>
   <td><%= render 'users/photo', user: user %></td>
   
   <%# Name %>
   <td><%= user.name %></td>
   
-  <%# Status %>
+   <%# Details %>
   <td>
-    <span class="<%= user.status_class %>">
-      <p><%= user.status_and_location %></p>
-    </span>
-    <% unless user.description.blank? %>
-      <p>
-        <span class="description"><label>Notes:&nbsp;</label></span>
+    <p><strong><%= user.searching_name %></strong></p>
+    
+    <p><strong><%= user.meal_plan_name %></strong></p>
+
+    <label class="description">Notes</label>
+    <p>
+      <% if user.description.blank? %>
+        N/A
+      <% else %>
         <%= user.description %>
-      </p>
-    <% end %>
-  </td>
-  
-   <%# Meal Plan details %>
-  <td>
-    <% if user.owns_meal_plan %>
-      <% for sym in [:blocks,:guest_blocks,:dinex] %>  
-        <% if user.owns(sym) %>
-          <p>
-            <span class="<%= sym.to_s %>">
-            <label><%= sym.to_s.humanize %>:&nbsp;</label><%= user.public_send(sym) %>
-            </span>
-          </p>    
-        <% end %>
       <% end %>
-    <% else %>
-      No meal plan.
-    <% end %>
+    </p>
   </td>
 </tr>

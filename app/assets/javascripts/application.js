@@ -12,9 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require turbolinks
 //= require channels
 
+// Bootstrap
 //= require bootstrap-sprockets
+//= require bootstrap-switch
 
 // Carrierwave cropping
 //= require jquery

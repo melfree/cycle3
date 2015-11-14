@@ -1,2 +1,3 @@
-Date::DATE_FORMATS[:default]= "%a %D"
-Time::DATE_FORMATS[:default] ="%H:%M, %a %D"
+format = "%D, %H:%M %P"
+Date::DATE_FORMATS[:default]= format
+Time::DATE_FORMATS[:default] = format

@@ -1,13 +1,18 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => {:sessions => 'users/sessions',:registrations => 'users/registrations'}
+  
   resources :users, only: [:index,:show]
   
-  resources :home, only: [:index]
-  resources :deals, only: [:create,:destroy]
+  resources :deals, only: [:index]
+  
+  resources :messages, only: [:create]
+  
+  get 'dashboard', to: 'deals#index', as: :dashboard
   
   get 'guest', to: 'home#guest', as: :guest
-  put 'edit_status', to: 'home#edit_status', as: :edit_status
-  get 'dashboard', to: 'home#index', as: :dashboard
+  put 'edit_current_location', to: 'users#edit_current_location', as: :edit_current_location
+  put 'edit_current_user', to: 'users#edit_current_user', as: :edit_current_user
+  put 'edit_current_deal', to: 'deals#edit_current_deal', as: :edit_current_deal  
 
 
   root 'home#guest'

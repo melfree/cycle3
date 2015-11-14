@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+    <h2> Matched User Details </h2>
+    <%= render 'deals/match_user', user: user %> 
+  </div>
+      
+  <div class="col-sm-12 col-md-6">
+    <h2>Chatroom</h2>
+    <div id="chatroom-container">  
+      <%= render 'deals/chatroom', user: user %>
+      
+      <%= form_for Message.new, remote: true, data: {'on-change-message': true} do |f| %>
+        <div class="form-group">
+          <div class="input-group">
+            <%= f.text_field :content, class: 'form-control', autocomplete: "off" %>
+            <span class="input-group-addon">
+              <%= f.submit 'Post', class: 'fa' %>
+            </span>
+          </div>
+        </div>
+      <% end %> 
+      
+    </div>   
+  </div>  
+</div>

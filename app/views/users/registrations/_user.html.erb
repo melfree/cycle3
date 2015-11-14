@@ -1,10 +1,16 @@
-<p><label>Email:&nbsp;</label><%= user.email %></p>
+<p>
+  <label>Email:&nbsp;</label>
+  <%= user.email %>
+</p>
 
-<p><label>Name:&nbsp;</label><%= user.name %></p>
+<p>
+  <label>Name:&nbsp;</label>
+  <%= user.name %>
+</p>
 
 <p>
   <label>Current status:&nbsp;</label>
-  <span class="<%= user.status_class %>"><%= user.status_and_location %></span>
+  <%= user.status_name %>
 </p>
 
 <p><label>Current photo:</label></p>

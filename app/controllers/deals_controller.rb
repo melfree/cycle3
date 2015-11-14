@@ -1,22 +1,16 @@
 class DealsController < ApplicationController
-  before_action :set_deal, only: [:create]
-
-  def create
-    if @deal.is_sale
-      @deal.seller_id = current_user.id
-    else
-      @deal.buyer_id = current_user.id
-    end
-    @deal.save!
+  
+  def index
   end
   
-  def destroy
-    @deal = Deal.find_by_id(params[:id])
-    @deal.destroy
+  def edit_current_deal
+    current_user.current_deal.update_attributes!(current_deal_params)
   end
 
   private
-    def set_deal
-      @deal = Deal.new(params.require(:deal).permit(*deal_params))
-    end
+  def current_deal_params
+    # Either update :buyer_status_code or :seller_status code,
+    # Depending on who the current user is.
+    params.required(:deal).permit(current_user.deal_status_attribute)
+  end
 end

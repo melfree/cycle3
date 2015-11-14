@@ -1,24 +1,9 @@
 class DealRelayJob < ApplicationJob
-  def perform(deal)
-    ActionCable.server.broadcast "home",
-      {key_id: deal.id,
-       is_deal: true,
-       key: 'data-deal-id',
-       is_sale: deal.is_sale,
-       is_purchase: deal.is_purchase,
-       is_complete: deal.is_complete,
-       html: html(deal)
+  def perform(user)
+    ActionCable.server.broadcast "deals_#{user.id}", {
+        chatroom_html: HomeController.render(partial: 'deals/chatroom', locals: { user: user }),
+        match_user_html: HomeController.render(partial: 'deals/match_user', locals: { user: user }),
+        match_user_status_html: HomeController.render(partial: 'deals/match_user_status', locals: { user: user })
       }
-  end
-  
-  private
-  def html(deal)
-    if !deal.is_complete
-      DealsController.render(partial: 'deals/deal', locals: { deal: deal })
-    else
-      # deal is complete, so we'll just be deleting the existing html,
-      # so we don't need to render any new html.
-      'Placeholder'
-    end
   end
 end

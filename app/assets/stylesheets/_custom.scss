@@ -2,6 +2,7 @@
 // They will automatically be included in application.scss.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+// Red asterisk* after required fields.
 .form-group.required .control-label:after { 
   content:"*";
   color:red;
@@ -10,22 +11,50 @@
 .actions {
   margin-bottom: 15px;
 }
-// aggregate column group colors
+
+// Aggregate column group colors and buyer/seller coloring.
+// Currently unused. This is leftover from earlier development.
 @each $pair in (guest_blocks #668,
                 blocks #866,
                 description #646,
                 dinex #268) {
   $color: nth($pair, 2);
   $name:  nth($pair, 1);
-  span.#{$name} { color: $color; }
+  .#{$name} { color: $color; }
 }
 
-span.buyer {
+
+// Alert/status CSS.
+.buyer {
   @extend .alert-warning;
 }
-span.seller {
+.seller, .completed {
   @extend .alert-info;
 }
-span.buyer, span.seller {
+.buyer, span.seller {
   background: none !important;
+}
+.cancelled {
+  @extend .alert-danger;
+}
+.pending {
+  @extend .alert-success;
+}
+
+
+// Chatroom CSS.
+// Used for the chatroom div on the dashbaord.
+div#chatroom-container {
+  width: 100%;
+  border: 1px solid black;
+}
+
+div#chatroom {
+  height: 250px;
+  padding: 10px;
+  overflow-y: scroll;
+}
+
+div#chatroom p {
+  margin: 0px !important;
 }

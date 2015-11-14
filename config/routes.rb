@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'dashboard', to: 'deals#index', as: :dashboard
   
   get 'guest', to: 'home#guest', as: :guest
+  put 'edit_current_location', to: 'users#edit_current_location', as: :edit_current_location
   put 'edit_current_user', to: 'users#edit_current_user', as: :edit_current_user
   put 'edit_current_deal', to: 'deals#edit_current_deal', as: :edit_current_deal  
 

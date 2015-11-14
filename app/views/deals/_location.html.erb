@@ -1,0 +1,6 @@
+<%= render 'deals/location_alerts' %>
+
+<%= form_for current_user, as: :location, url: edit_current_location_path, html: { method: :put }, remote: true do |f| %>
+  <%= f.hidden_field :latitude, class: "form-control" %>
+  <%= f.hidden_field :longitude, class: "form-control" %>
+<% end %>

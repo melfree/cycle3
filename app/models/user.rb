@@ -124,7 +124,7 @@ class User < ActiveRecord::Base
   def match_user
     if is_searching
       # Find a new matching user
-      scope = User.searching.with_meal_plan(self.meal_plan_code).not_including(self).order(:search_start_time)
+      scope = User.searching.meal_plan_code(self.meal_plan_code).not_including(self).order(:search_start_time)
       if is_buyer
         seller = scope.sellers.first
         buyer = self

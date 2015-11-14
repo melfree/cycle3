@@ -9,18 +9,16 @@
     <div id="chatroom-container">  
       <%= render 'deals/chatroom', user: user %>
       
-      <% if user.current_deal %>
-        <%= form_for Message.new, remote: true do |f| %>
-          <div class="form-group">
-            <div class="input-group">
-              <%= f.text_field :content, class: 'form-control', autocomplete: "off" %>
-              <span class="input-group-addon">
-                <%= f.submit 'Post', class: 'fa', disabled: user.current_deal.allow_comments %>
-              </span>
-            </div>
+      <%= form_for Message.new, remote: true, data: {'on-change-message': true} do |f| %>
+        <div class="form-group">
+          <div class="input-group">
+            <%= f.text_field :content, class: 'form-control', autocomplete: "off" %>
+            <span class="input-group-addon">
+              <%= f.submit 'Post', class: 'fa' %>
+            </span>
           </div>
-        <% end %>        
-      <% end %>
+        </div>
+      <% end %> 
       
     </div>   
   </div>  

@@ -1,0 +1,16 @@
+<div id="match_user_status">
+  <% if deal = user.current_deal %>
+    
+    <% alert = deal.seller_status_name %>
+    <% css_code = deal.seller_css_class %>
+    
+    <% if user.is_seller %>
+      <% css_code = deal.buyer_css_class %>
+      <% alert = deal.buyer_status_name %>
+    <% end %>
+    
+      <div class="alert <%= css_code %>">
+        <%= alert %>
+      </div>
+  <% end %>
+</div>

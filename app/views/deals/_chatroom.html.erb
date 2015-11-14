@@ -14,7 +14,7 @@
         <%= message.content %>
       </p>
     <% end %>
-    <% if user.current_deal.allow_comments %>
+    <% unless user.current_deal.allow_comments %>
       <p><i>
         The other user has marked this deal as finished. This chatroom is now closed.
       </i></p>

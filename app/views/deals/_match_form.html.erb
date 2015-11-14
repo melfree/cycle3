@@ -1,12 +1,11 @@
+<%= render 'deals/location' %>
+
+<br/>
+
 <%= render 'deals/match_alerts' %>
 
-<div id="step_one_container">
+<div id="step_one_container">  
   <%= form_for current_user, url: edit_current_user_path, html: { method: :put }, remote: true, data: {'on-change-user' => 'true'} do |f| %>
-    <%= render 'deals/location_alerts' %>
-  
-    <%= f.hidden_field :latitude, class: "form-control" %>
-    <%= f.hidden_field :longitude, class: "form-control" %>
-    
     <div class="row">
       <div class="col-xs-6">
         <p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p>
@@ -37,17 +36,22 @@
 </div>
 
 <div id="step_two_container">
-  <%= form_for Deal.new, url: edit_current_deal_path, html: { method: :put }, remote: true, data: {'on-change-deal' => 'true'} do |f| %>
-    <div class="row">
-      <div class="col-xs-6"> 
+  <div class="row">
+    <div class="col-xs-6"> 
+      <%= form_for Deal.new, url: edit_current_deal_path, html: { method: :put }, remote: true, data: {'on-change-deal' => 'true'} do |f| %>
         <div class="form-group">
           <%= f.label current_user.deal_status_attribute, "Your Status", class: 'control-label'  %><br />
           <%= f.select current_user.deal_status_attribute, Deal.status_options, class: "form-control" %>
         </div>
-      </div>
+        <%= f.button 'Submit', class: "btn btn-success" %>
+      <% end %>
+      
     </div>
-    <%= f.button 'Submit', class: "btn btn-success" %>
-  <% end %>
+    <div class="col-xs-6">
+      <label>Their Status</label>
+      <%= render 'match_user_status', user: current_user %>
+    </div>
+  </div>
         
   <br/>
   <%= render 'deals/match', user: current_user %>

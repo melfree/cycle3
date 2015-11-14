@@ -23,14 +23,22 @@
   .#{$name} { color: $color; }
 }
 
-span.buyer {
+
+// Alert/status CSS.
+.buyer {
   @extend .alert-warning;
 }
-span.seller {
+.seller, .completed {
   @extend .alert-info;
 }
-span.buyer, span.seller {
+.buyer, span.seller {
   background: none !important;
+}
+.cancelled {
+  @extend .alert-danger;
+}
+.pending {
+  @extend .alert-success;
 }
 
 

@@ -1,5 +1,6 @@
 $.UpdateHelpBlocks = ->
-  # Define updateHelpBlocks method
+  # Define updateHelpBlocks method.
+  # Alternatively, this stuff could be done using ActionCable instead.
   $(".match_alert").addClass("hidden")
   step_one = $("#step_one_container")
   step_one.addClass("hidden")
@@ -39,11 +40,15 @@ $(document).on "page:change", ->
     
     ## Location
     # Define the callback, used to process a user's current coords once.
+    # Note: This currently only runs on page load...
+    # Realistically, a user might move around, which would change their location.
     GeoL = (position) ->
-      $('#user_latitude').val round(position.coords.latitude)
-      $('#user_longitude').val round(position.coords.longitude)
+      $('#location_latitude').val round(position.coords.latitude)
+      $('#location_longitude').val round(position.coords.longitude)
       $('#geo_help_block_succeeded').removeClass("hidden")
       $("#geo_help_block_init").addClass("hidden")
+      # Submit the hidden fields
+      $('#location_latitude').submit()
     
     # Detect current user's location.
     if (navigator.geolocation)
@@ -55,10 +60,13 @@ $(document).on "page:change", ->
     # Initialize dropdowns
     $('select').select2
       theme: 'bootstrap'
-          
+    
     # On form element change, update help blocks
     $("form[data-on-change-user]").on 'ajax:success', ->
       $.UpdateHelpBlocks()
+      
+    $("form[data-on-change-message]").on 'ajax:success', ->
+      $("#message_content").val("")
       
     $("form[data-on-change-deal]").on 'ajax:success', ->
       # Set deal status and user_status to 0 if a deal just ended

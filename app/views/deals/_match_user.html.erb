@@ -1,0 +1,21 @@
+<div id="match_user">
+  <% if user.current_deal %>
+    <table class="matched_user table table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if user.is_seller %>
+          <% matched_user = user.current_deal.buyer %>
+        <% else %>
+          <% matched_user = user.current_deal.seller %>
+        <% end %>
+        <%= render 'users/user', user: matched_user %>
+      </tbody>
+    </table>
+  <% end %>
+</div>

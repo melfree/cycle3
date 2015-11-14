@@ -6,5 +6,6 @@ $(document).on "page:change", ->
       received: (deal) ->
         # Update the 'matched user' stuff when a user gets a match,
         # or the match's info changes.
-        $("#deal_help_block").replaceWith deal.html
+        $("#chatroom").replaceWith deal.chatroom_html
+        $("#match_user").replaceWith deal.match_user_html
         $.UpdateHelpBlocks()

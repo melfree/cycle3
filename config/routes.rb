@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   resources :users, only: [:index,:show]
   
   resources :deals, only: [:index]
+  
+  resources :messages, only: [:create]
+  
   get 'dashboard', to: 'deals#index', as: :dashboard
   
   get 'guest', to: 'home#guest', as: :guest

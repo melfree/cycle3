@@ -1,7 +1,8 @@
 class DealRelayJob < ApplicationJob
   def perform(user)
     ActionCable.server.broadcast "deals_#{user.id}", {
-        html: HomeController.render(partial: 'deals/match', locals: { user: user })
+        chatroom_html: HomeController.render(partial: 'deals/chatroom', locals: { user: user }),
+        match_user_html: HomeController.render(partial: 'deals/match_user', locals: { user: user })
       }
   end
 end

@@ -1,0 +1,24 @@
+<div id="chatroom">
+  <% if user.current_deal %>
+    
+    <p><i>
+      Chatroom is now open. Deal began and chatroom opened at <%= user.current_deal.created_at %>.
+    </i></p>
+    
+    <% for message in user.current_deal.messages %>
+      <p>
+        <label>
+          <%= message.user.name %>
+          (<%= message.created_at %>) :
+        </label>
+        <%= message.content %>
+      </p>
+    <% end %>
+    <% if user.current_deal.allow_comments %>
+      <p><i>
+        The other user has marked this deal as finished. This chatroom is now closed.
+      </i></p>
+    <% end %>
+    
+  <% end %>
+</div>

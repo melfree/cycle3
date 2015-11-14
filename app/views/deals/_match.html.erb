@@ -1,21 +1,27 @@
-<div id="deal_help_block">
-  <% if user.current_deal %>
-    <table class="matched_user table table-bordered table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Photo</th>
-          <th>Name</th>
-          <th>Details</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% if user.is_seller %>
-          <% matched_user = user.current_deal.buyer %>
-        <% else %>
-          <% matched_user = user.current_deal.seller %>
-        <% end %>
-        <%= render 'users/user', user: matched_user %>
-      </tbody>
-    </table>
-  <% end %>
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+    <h2> Matched User Details </h2>
+    <%= render 'deals/match_user', user: user %> 
+  </div>
+      
+  <div class="col-sm-12 col-md-6">
+    <h2>Chatroom</h2>
+    <div id="chatroom-container">  
+      <%= render 'deals/chatroom', user: user %>
+      
+      <% if user.current_deal %>
+        <%= form_for Message.new, remote: true do |f| %>
+          <div class="form-group">
+            <div class="input-group">
+              <%= f.text_field :content, class: 'form-control', autocomplete: "off" %>
+              <span class="input-group-addon">
+                <%= f.submit 'Post', class: 'fa', disabled: user.current_deal.allow_comments %>
+              </span>
+            </div>
+          </div>
+        <% end %>        
+      <% end %>
+      
+    </div>   
+  </div>  
 </div>

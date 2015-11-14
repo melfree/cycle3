@@ -1,7 +1,13 @@
 class Deal < ActiveRecord::Base
+  has_many :messages
+  
   STATUSES = ["Pending - Deal in Progress",
               "Completed - Deal was Successfully Finished",
               "Cancelled - Deal was Cancelled"]
+  
+  def allow_comments
+    !buyer_finished and !seller_finished
+  end
   
   def buyer_finished
     buyer_status_code.to_i != 0
@@ -25,7 +31,20 @@ class Deal < ActiveRecord::Base
   
   before_update :set_finished_timestamps
   # Runs after create or update.
-  after_update :relay_job_update
+  after_update :relay_job
+  
+  def relay_job
+    # A seller should get updates for their deal only if they are still associated with the deal.
+    # After that, the seller should not be updated about the deal
+    if seller_attached_to_deal
+      seller.finish_deal if seller_finished
+      DealRelayJob.perform_later(seller)
+    end
+    if buyer_attached_to_deal
+      buyer.finish_deal if buyer_finished
+      DealRelayJob.perform_later(buyer)
+    end
+  end
   
   def seller
     @seller ||= User.find_by_id seller_id
@@ -37,24 +56,14 @@ class Deal < ActiveRecord::Base
     
   private
   def buyer_attached_to_deal
+    # A buyer and a seller are "attached" to this deal
+    # if this deal is their current deal, and they are still listening
+    # for changes in this deal on their homepage.
     self.buyer.current_deal_id == self.id
   end
   
   def seller_attached_to_deal
     self.seller.current_deal_id == self.id
-  end
-  
-  def relay_job_update
-    # A seller should get updates for their deal only if they are still associated with the deal.
-    # After that, the seller should not be updated about the deal
-    if seller_attached_to_deal
-      seller.finish_deal if seller_finished
-      DealRelayJob.perform_later(seller)
-    end
-    if buyer_attached_to_deal
-      buyer.finish_deal if buyer_finished
-      DealRelayJob.perform_later(buyer)
-    end
   end
   
   def set_finished_timestamps

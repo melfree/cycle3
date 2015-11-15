@@ -7,6 +7,8 @@ class Deal < ActiveRecord::Base
   
   CSS_CLASSES = ["pending","completed","cancelled"]
   
+  scope :last_day, -> { where(created_at: Time.now) }
+  
   def allow_comments
     !buyer_finished and !seller_finished
   end

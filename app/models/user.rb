@@ -157,5 +157,6 @@ class User < ActiveRecord::Base
     # Update the views.
     UserRelayJob.perform_later(self)
     DealRelayJob.perform_later(self)
+    StatisticsRelayJob.perform_later()
   end
 end

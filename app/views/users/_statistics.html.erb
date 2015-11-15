@@ -1,0 +1,22 @@
+<div id="statistics">
+  <p>
+    <label>Current buyers who are currently seeking a seller: </label>
+    <%= number_to_human users.buyers.searching.size %>
+  </p>
+  <p>
+    <label>Current sellers who are currently seeking a buyer: </label>
+    <%= number_to_human users.sellers.searching.size %>
+  </p>
+  <p>
+    <label>Number of deals made today: </label>
+    <%= number_to_human deals.last_day.size %>
+  </p>
+  <p>
+    <label>Number of deals made for all time: </label>
+    <%= number_to_human deals.size %>
+  </p>
+  <p>
+    <label>Total buyers and sellers using the site: </label>
+    <%= number_to_human users.active.size %>
+  </p>
+</div>

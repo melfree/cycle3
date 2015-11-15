@@ -4,15 +4,22 @@ $(document).on "page:change", ->
     # FOR LISTINGS AT BOTTOM OF PAGE
     App.users = App.cable.subscriptions.create "UserChannel",
       received: (user) ->
-        # Find and update the user listing
-        s = $("[data-channel='sellers']")
-        b = $("[data-channel='buyers']")
-        if user.is_unavailable
-          @removeItem(user, s.add(b))
-        else if user.is_buyer
-          @replaceOrAppend(user, b, s)     
-        else if user.is_seller
-          @replaceOrAppend(user, s, b)
+        if user.statistics_html
+          # Answer to StatisticsRelayJob:
+          # Update the statistics div
+          $("#statistics").replaceWith statistics_html
+          
+        else
+          # Answer to UserRelayJob:
+          # Find and update the particular user listing
+          s = $("[data-channel='sellers']")
+          b = $("[data-channel='buyers']")
+          if user.is_unavailable
+            @removeItem(user, s.add(b))
+          else if user.is_buyer
+            @replaceOrAppend(user, b, s)     
+          else if user.is_seller
+            @replaceOrAppend(user, s, b)
           
         # Update the google map
         $("#map").html user.html_google_map

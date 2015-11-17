@@ -58,3 +58,21 @@ div#chatroom {
 div#chatroom p {
   margin: 0px !important;
 }
+
+//MAP CSS
+div#map img {
+  margin-left: auto;
+  margin-right: auto;
+  height: 400px;
+  display: block;
+}
+
+p#map_help_block {
+  text-align: center;
+}
+
+// Users CSS
+.filter-buttons {
+  text-align: center;
+  padding-bottom: 10px;
+}

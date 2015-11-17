@@ -4,4 +4,9 @@ $(document).on "page:change", ->
     $('select').select2
       theme: 'bootstrap'
       width: '200px'
-    
+
+showBlocks = ->
+  alert 'showing '
+  console.log("hello");
+  return
+

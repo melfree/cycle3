@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   def index
     @users = User.all
+    @deals = Deal.all
   end
 
   def edit_current_user

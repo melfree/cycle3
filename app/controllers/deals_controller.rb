@@ -13,4 +13,5 @@ class DealsController < ApplicationController
     # Depending on who the current user is.
     params.required(:deal).permit(current_user.deal_status_attribute)
   end
+
 end

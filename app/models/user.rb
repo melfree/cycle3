@@ -121,6 +121,27 @@ class User < ActiveRecord::Base
   end
   
   private
+
+  # def manual_match_user
+  #   #code taken from match user
+  #   if is_buyer
+  #     #seller = [user from _users.html.erb]
+  #   else
+  #     #buyer = [user from _users.html.erb]
+  #   end
+  #     deal = Deal.create!(seller_id: seller.id, buyer_id: buyer.id)
+  #     buyer.current_deal_id = deal.id
+  #     seller.current_deal_id = deal.id
+  #     # Save the matched user here, so there is no recursion with 'before_save'.
+  #     if is_buyer
+  #       seller.save!
+  #       DealRelayJob.perform_later(seller)
+  #     else
+  #       buyer.save!
+  #       DealRelayJob.perform_later(buyer)
+  #     end
+  # end
+
   def match_user
     if is_searching
       # Find a new matching user

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :favorites
   devise_for :users, :controllers => {:sessions => 'users/sessions',:registrations => 'users/registrations'}
   
   resources :users, only: [:index,:show]

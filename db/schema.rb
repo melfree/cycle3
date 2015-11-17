@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151112194857) do
+ActiveRecord::Schema.define(version: 20151117065113) do
 
   create_table "deals", force: :cascade do |t|
     t.integer  "seller_id"
@@ -27,6 +27,14 @@ ActiveRecord::Schema.define(version: 20151112194857) do
     t.index ["buyer_status_code"], name: "index_deals_on_buyer_status_code"
     t.index ["seller_id"], name: "index_deals_on_seller_id"
     t.index ["seller_status_code"], name: "index_deals_on_seller_status_code"
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "user_name"
+    t.string   "user_email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "messages", force: :cascade do |t|

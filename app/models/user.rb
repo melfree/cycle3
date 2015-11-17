@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :purchases, class_name: "Deal", foreign_key: 'buyer_id'
   has_many :sales, class_name: "Deal", foreign_key: 'seller_id'
+  has_many :favorites
   
   validates_presence_of :email
   

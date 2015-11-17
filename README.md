@@ -29,4 +29,8 @@ You must have redis installed and running on the default port:6379 (or configure
 
 The buyers/sellers feed on the dashboard is real-time. Open two browsers with separate cookie spaces (like a regular session and an incognito session) to confirm this.
 
-For updates: rake db:drop', 'rake db:migrate', 'rake db:setup', and 'rake assets:precompile
+For updates: 
+rake db:drop
+rake db:migrate
+rake db:setup
+rake assets:precompile

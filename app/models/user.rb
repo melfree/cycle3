@@ -29,9 +29,9 @@ class User < ActiveRecord::Base
                    "Seller - Seeking Buyer",
                    "Buyer - Seeking Seller"]
   
-  MEAL_PLANS = ["Meal Blocks only",
-                "Dinex/Flex only",
-                "Meal Blocks and/or Dinex/Flex"]
+  MEAL_PLANS = ["Blocks",
+                "Dinex/Flex",
+                "Blocks and Dinex/Flex"]
   
   def self.meal_plan_options
     MEAL_PLANS.each_with_index.map{|o,i| [o,i]}
@@ -91,7 +91,7 @@ class User < ActiveRecord::Base
     else
       "Selling"
     end
-    "#{buying_or_selling} - #{MEAL_PLANS[self.meal_plan_code.to_i]}"
+    "#{MEAL_PLANS[self.meal_plan_code.to_i]}"
   end
   
   # Real-time data

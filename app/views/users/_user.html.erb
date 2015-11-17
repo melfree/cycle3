@@ -1,4 +1,4 @@
-<tr data-user-id='<%=user.id %>'>
+<tr class="<%= user.meal_plan_name.downcase %>" data-user-id='<%=user.id %>'>
   <%# Photo %>
   <td><%= render 'users/photo', user: user %></td>
   
@@ -7,17 +7,6 @@
   
    <%# Details %>
   <td>
-    <p><strong><%= user.searching_name %></strong></p>
-    
     <p><strong><%= user.meal_plan_name %></strong></p>
-
-    <label class="description">Notes</label>
-    <p>
-      <% if user.description.blank? %>
-        N/A
-      <% else %>
-        <%= user.description %>
-      <% end %>
-    </p>
   </td>
 </tr>

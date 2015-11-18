@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20151117204844) do
     t.string   "user_email"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "favoriter_id"
     t.integer  "favorited_id"
   end
 

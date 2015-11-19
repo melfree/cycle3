@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   put 'edit_current_deal', to: 'deals#edit_current_deal', as: :edit_current_deal  
 
   post 'addfavorite/:id', to: "favorites#create", as: :create_favorite
-  delete 'deletefavorite/:id', to: "favorites#delete", as: :delete_favorite
+  delete 'deletefavorite/:id', to: "favorites#destroy", as: :delete_favorite
 
   post 'make_deal/:id', to: 'deals#make_deal', as: :make_deal
 

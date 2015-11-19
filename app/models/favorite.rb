@@ -2,9 +2,23 @@ class Favorite < ActiveRecord::Base
   #relationships
   #belongs_to :user
 
-  belongs_to :favoriter, class_name: "User", foreign_key: "favoriter_id", dependent: :destroy
-  belongs_to :favorited, class_name: "User", foreign_key: "favorited_id", dependent: :destroy
+  belongs_to :favoriter, class_name: "User", foreign_key: "favoriter_id"
+  belongs_to :favorited, class_name: "User", foreign_key: "favorited_id"
   
   validates_presence_of :favorited, :favoriter
-  validates_uniqueness_of :favoriter_id, scope: [:favorited_id]
+  
+  validate :unique_check
+  
+  after_commit :relay_job
+  
+  private
+  def unique_check
+    if Favorite.where(favoriter_id: favoriter_id, favorited_id: favorited_id).count > 0
+      errors.add(:base,"You already favorited this user")
+    end
+  end
+  
+  def relay_job
+    UserRelayJob.perform_later()
+  end
 end

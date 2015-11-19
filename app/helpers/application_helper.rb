@@ -5,7 +5,7 @@ module ApplicationHelper
     
   def static_map_for(users, options = {})
     params = {
-      :center => 'Carnegie+Mellon',
+      :center => 'Carnegie+Mellon+University',
       :zoom => 16,
       :size => "700x400",
       :visual_refresh => true,

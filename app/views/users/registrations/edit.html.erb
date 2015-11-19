@@ -2,15 +2,13 @@
 
 <%= render 'users/registrations/user', user: @user %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+<%= form_for(resource, url: user_registration_path, html: { method: :put }) do |f| %>
   <div class="panel panel-info">
     <div class="panel-heading">
       <h3>Edit Account</h3>
     </div>
     
     <div class="panel-body">
-      <%= devise_error_messages! %>
-      
       <%= render 'email_fields',  f: f %>
       
       </br>

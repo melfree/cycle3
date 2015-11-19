@@ -1,6 +1,6 @@
 <h2>Log in</h2>
 
-<%= form_for(resource, as: resource_name, url: user_session_path(resource_name)) do |f| %>
+<%= form_for(resource, url: user_session_path) do |f| %>
    <div class="form-group required">
     <%= f.label :email, class: 'control-label'  %><br />
     <%= f.email_field :email, required: true, autofocus: true, class: "form-control" %>

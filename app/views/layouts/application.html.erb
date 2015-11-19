@@ -32,6 +32,8 @@
           <%= alert %>
         </div>
       <% end %>
+
+      <%= render 'deals/match_alerts', user: current_user %>
       
       <%= yield %>
     </div>

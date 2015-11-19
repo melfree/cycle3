@@ -23,23 +23,28 @@
 
 <%# current_user is not known in the actioncable javascript channels, so current_user info is stored as meta attributes. %>
 <script>
-  var current_user_id = $('meta[name=current-user]').attr('id');
-  var current_user_in_deal = $('meta[name=current-deal]').attr('id');
+  var current_user_id = $('meta[name=current-user]').attr('data-val');
+  var current_user_deal_id = $('meta[name=current-deal]').attr('data-val');
+  var is_current_user = <%= user.id %> == current_user_id;
   var favorites = <%= raw user.favoriter_ids %>;
-  var in_deal = <%= user.current_deal_id.nil? %>;
+  var in_deal = <%= !user.current_deal_id.nil? %>;
   var deal_link = $('#<%= deal_link %>');
-  
-    if ($.inArray(current_user_id, favorites) == -1) {
+    
+    if (!is_current_user && $.inArray(current_user_id, favorites) == -1) {
        $('#<%= fav_link %>').removeClass("hidden");
-    } else {
+    } else if (!is_current_user) {
       $('#<%= unfav_link %>').removeClass("hidden");
     };
-    if (in_deal || current_user_in_deal) {
+    
+    if (is_current_user) {
+      deal_link.addClass("hidden")
+    } else if (in_deal || current_user_deal_id != "") {
       deal_link.removeClass('btn-success');
       deal_link.addClass('btn-warning disabled');
       if (in_deal) {
         deal_link.text('In deal');
-      } else {
+      } 
+      else {
         deal_link.text('Unavailable');
       };
     };

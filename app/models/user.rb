@@ -35,6 +35,30 @@ class User < ActiveRecord::Base
                 "Dinex/Flex",
                 "Blocks"]
   
+  def status_text
+    if is_unavailable
+      "Not currently searching for a new match."
+    elsif is_searching
+      "Currently searching for a new match. There are currently no available users. Waiting for an available user."
+    elsif current_deal_id and current_deal.at_least_one_user_finished
+      "The other user has left your current match."
+    else
+      "Matching user found. Details are shown on your dashboard."
+    end
+  end
+  
+  def status_css
+    if is_unavailable
+      "warning"
+    elsif is_searching
+      "info"
+    elsif current_deal_id and current_deal.at_least_one_user_finished
+      "warning"
+    else
+      "success"
+    end
+  end
+  
   def favoriter_ids
     # the stringified ids of the users that favorited this user
     self.favorited.pluck(:favoriter_id).map{|o|o.to_s}

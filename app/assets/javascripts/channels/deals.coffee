@@ -9,7 +9,6 @@ $(document).on "page:change", ->
         $("#chatroom").replaceWith data.chatroom_html
         $("#match_user").replaceWith data.match_user_html
         $("#match_user_status").replaceWith data.match_user_status_html
-        $("#current_user_status").replaceWith data.current_user_status_html
         
         if data.in_progress
           $("#step_one_container").addClass "hidden"
@@ -20,6 +19,3 @@ $(document).on "page:change", ->
         
         # Scroll chatroom to bottom
         $("#chatroom").scrollTop($("#chatroom")[0].scrollHeight);
-        
-        # Update meta information
-        $("#meta_container").replaceWith data.meta_html

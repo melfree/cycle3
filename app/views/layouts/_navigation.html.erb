@@ -9,7 +9,7 @@
         <%= link_to "Home", guest_path %>
       </li>
       <% if current_user %>
-        <li class="<%='active' if ccn == 'home' and can == 'index'%>">
+        <li class="<%='active' if ccn == 'deals' and can == 'index'%>">
           <%= link_to "Find Deals Now", dashboard_path %>
         </li>
         <li class="<%='active' if ccn == 'users' and can == 'index'%>">
@@ -21,14 +21,6 @@
       <% if current_user %>
         <li class="<%='active' if ccn == 'registrations' and can == 'edit' %>">
          <%= link_to "Welcome #{current_user.email}", edit_user_registration_path %>
-         <%# Status; TODO: refactor and add paths %>
-         <%= "You are currently a(n):" %>
-         <%= link_to dashboard_path do %>
-           <%= "Unavailable" if current_user.is_unavailable %>
-           <%= "Searching" if current_user.is_searching %> 
-           <%= "Buyer" if current_user.is_buyer %>
-           <%= "Seller" if current_user.is_seller %>  
-          <% end %>        
         </li>
         <li>
           <%= link_to "Logout", destroy_user_session_path, method: :delete %>

@@ -1,27 +1,26 @@
 <div id="current_user_status">
-  <% if user.is_unavailable %> 
-    <div class="match_alert alert alert-warning">
+  <% if user %>
+    <div class="match_alert alert alert-<%= user.status_css %>">
       <p>
-        Not currently searching for a new match.
+        <strong>
+          Your status:
+        </strong>
+        <i>
+          <%= user.status_text %>
+        </i>
       </p>
-    </div>
-  <% elsif user.is_searching %>
-    <div class="match_alert alert alert-info">
-      <p><strong>
-        <i class="fa fa-spin fa-spinner"></i>
-        There are currently no available users. Waiting for an available user...
-      </strong></p>
-    </div>
-  <% elsif user.current_deal_id and user.current_deal.at_least_one_user_finished %>
-    <div class="match_alert alert alert-warning">
+      
       <p>
-        The other user has left your current match.
-      </p>
-    </div>
-  <% else %>
-    <div class="match_alert alert alert-success">
-      <p>
-        Matching user found. Details are shown below.
+        <strong>
+          You are: 
+        </strong>
+        <i>
+          <%= link_to dashboard_path do %>
+            <%= "Active Buyer" if user.is_buyer %>
+            <%= "Active Seller" if user.is_seller %> 
+            <%= "Not Active" if user.is_unavailable %>  
+          <% end %>
+        </i>
       </p>
     </div>
   <% end %>

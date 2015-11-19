@@ -9,7 +9,8 @@ $(document).on "page:change", ->
           # Update the statistics div
           $("#statistics").replaceWith data.statistics_html
         else
-          $("#users_container").replaceWith data.users_html
+          $("#buyers_container").replaceWith data.buyers_html
+          $("#sellers_container").replaceWith data.sellers_html
             
           # Update the google map
           $("#map").html data.html_google_map

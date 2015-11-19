@@ -2,8 +2,6 @@
 
 <br/>
 
-<%= render 'deals/match_alerts', user: current_user %>
-
 <div id="step_one_container" class="<%="hidden" unless current_user.current_deal_id.nil? %>">  
   
   <%= form_for current_user, url: edit_current_user_path, html: { method: :put }, remote: true, data: {'on-change-user' => 'true'} do |f| %>
@@ -41,8 +39,8 @@
     <div class="col-xs-6"> 
       <%= form_for Deal.new, url: edit_current_deal_path, html: { method: :put }, remote: true, data: {'on-change-deal' => 'true'} do |f| %>
         <div class="form-group">
-          <%= f.label current_user.deal_status_attribute, "Your Status", class: 'control-label'  %><br />
-          <%= f.select current_user.deal_status_attribute, Deal.status_options, class: "form-control" %>
+          <%= f.label :seller_status_code, "Your Status", class: 'control-label'  %><br />
+          <%= f.select :seller_status_code, Deal.status_options, class: "form-control" %>
         </div>
         <%= f.button 'Submit', class: "btn btn-success" %>
       <% end %>

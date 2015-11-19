@@ -1,7 +1,4 @@
 class Favorite < ActiveRecord::Base
-  #relationships
-  #belongs_to :user
-
   belongs_to :favoriter, class_name: "User", foreign_key: "favoriter_id"
   belongs_to :favorited, class_name: "User", foreign_key: "favorited_id"
   
@@ -20,5 +17,7 @@ class Favorite < ActiveRecord::Base
   
   def relay_job
     UserRelayJob.perform_later()
+    DealRelayJob.perform_later(favoriter)
+    DealRelayJob.perform_later(favorited)
   end
 end

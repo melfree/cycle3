@@ -2,9 +2,10 @@
 
 <br/>
 
-<%= render 'deals/match_alerts' %>
+<%= render 'deals/match_alerts', user: current_user %>
 
-<div id="step_one_container">  
+<div id="step_one_container" class="<%="hidden" unless current_user.current_deal_id.nil? %>">  
+  
   <%= form_for current_user, url: edit_current_user_path, html: { method: :put }, remote: true, data: {'on-change-user' => 'true'} do |f| %>
     <div class="row">
       <div class="col-xs-6">
@@ -35,7 +36,7 @@
   <% end %>
 </div>
 
-<div id="step_two_container">
+<div id="step_two_container" class="<%="hidden" if current_user.current_deal_id.nil? %>">
   <div class="row">
     <div class="col-xs-6"> 
       <%= form_for Deal.new, url: edit_current_deal_path, html: { method: :put }, remote: true, data: {'on-change-deal' => 'true'} do |f| %>

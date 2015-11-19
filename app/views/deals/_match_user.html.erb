@@ -16,15 +16,14 @@
       
       <%# Details %>
       <p><strong><%= user.meal_plan_name %></strong>
-        <%= link_to "In deal", make_deal_path(matched_user.id), method: :post, class: "btn btn-warning disabled", remote: true %>
-      </p>
       
-      <% if user.favorites.pluck(:favorited_id).include?(matched_user.id) %>
-        <p><%= link_to "Unfavorite", delete_favorite_path(matched_user.id), method: :delete, class: 'btn btn-danger', remote: true %><p>
-      <% else%>
-        <p><%= link_to "Favorite", create_favorite_path(matched_user.id), method: :post, class: "btn btn-success", remote: true %></p>
-          </td>
+      <p>
+      <% if matched_user.favoriter_ids.include?(user.id.to_s) %>
+        <%= link_to "Unfavorite", delete_favorite_path(matched_user.id), method: :delete, class: 'btn btn-danger', remote: true %>
+      <% else %>
+        <%= link_to "Favorite", create_favorite_path(matched_user.id), method: :post, class: "btn btn-success", remote: true %>
       <% end %>
+      </p>
       
     </div>
 

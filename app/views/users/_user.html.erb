@@ -37,8 +37,10 @@
     if (in_deal || current_user_in_deal) {
       deal_link.removeClass('btn-success');
       deal_link.addClass('btn-warning disabled');
-    };
-    if (in_deal) {
-      deal_link.text('In deal');
+      if (in_deal) {
+        deal_link.text('In deal');
+      } else {
+        deal_link.text('Unavailable');
+      };
     };
 </script>

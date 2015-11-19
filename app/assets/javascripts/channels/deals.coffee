@@ -3,16 +3,23 @@ $(document).on "page:change", ->
     
     # FOR MATCH USER (CENTER OF PAGE)
     App.deal = App.cable.subscriptions.create "DealChannel",
-      received: (deal) ->
+      received: (data) ->
         # Update the 'matched user' stuff when a user gets a match,
         # or the match's info changes.
-        $("#chatroom").replaceWith deal.chatroom_html
-        $("#match_user").replaceWith deal.match_user_html
-        $("#match_user_status").replaceWith deal.match_user_status_html
-        $("#meta_container").replaceWith meta_html
+        $("#chatroom").replaceWith data.chatroom_html
+        $("#match_user").replaceWith data.match_user_html
+        $("#match_user_status").replaceWith data.match_user_status_html
+        $("#current_user_status").replaceWith data.current_user_status_html
         
-        # Update the alerts (may or may not be necessary)
-        $.UpdateHelpBlocks()
+        if data.in_progress
+          $("#step_one_container").addClass "hidden"
+          $("#step_two_container").removeClass "hidden"
+        else
+          $("#step_one_container").removeClass "hidden"
+          $("#step_two_container").addClass "hidden" 
         
         # Scroll chatroom to bottom
         $("#chatroom").scrollTop($("#chatroom")[0].scrollHeight);
+        
+        # Update meta information
+        $("#meta_container").replaceWith data.meta_html

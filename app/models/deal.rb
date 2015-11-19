@@ -21,6 +21,10 @@ class Deal < ActiveRecord::Base
     CSS_CLASSES[self.seller_status_code.to_i]
   end
   
+  def at_least_one_user_finished
+    buyer_finished or seller_finished
+  end
+  
   def buyer_finished
     buyer_status_code.to_i != 0
   end

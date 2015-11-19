@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :purchases, class_name: "Deal", foreign_key: 'buyer_id'
   has_many :sales, class_name: "Deal", foreign_key: 'seller_id'
+  has_many :favorites
   
   validates_presence_of :email
   
@@ -120,7 +121,34 @@ class User < ActiveRecord::Base
     self.save!
   end
   
+  # MANUAL MATCH METHOD, guaranteed to match any available user with available buyer/seller
+  def manual_match_user(match_user)
+  #   # IF match_user is a seller, self will become a buyer
+      # ELSE match_user is a buyer, so self must become a seller
+    raise "Error: can't match because match_user is not a buyer or seller, or is in a deal already" unless match_user.is_searching
+    raise "Error: can't match because current_user is in a deal already" unless self.current_deal_id.nil?
+
+    if match_user.is_buyer
+      seller = self
+      buyer = match_user
+      seller.meal_plan_code = buyer.meal_plan_code
+      seller.status_code = 1
+    
+    elsif match_user.is_seller
+      seller = match_user
+      buyer = self
+      buyer.meal_plan_code = seller.meal_plan_code
+      buyer.status_code = 2
+    end
+    
+    match(buyer,seller)
+
+    # Save changes made to 'self' only; match(buyer,seller) saves other changes made.
+    self.save!
+  end
+
   private
+  
   def match_user
     if is_searching
       # Find a new matching user
@@ -133,6 +161,18 @@ class User < ActiveRecord::Base
         seller = self
       end
       if buyer and seller # We found a matching buyer/seller. Create the deal.
+        match(buyer,seller)
+      else
+        # No match found. Remember when this user started looking for a match.
+        self.search_start_time = Time.now
+      end
+    else
+      self.search_start_time = nil
+    end
+  end
+
+  def match(buyer, seller)
+        # Requires that self is the buyer or seller
         deal = Deal.create!(seller_id: seller.id, buyer_id: buyer.id)
         buyer.current_deal_id = deal.id
         seller.current_deal_id = deal.id
@@ -144,13 +184,6 @@ class User < ActiveRecord::Base
           buyer.save!
           DealRelayJob.perform_later(buyer)
         end
-      else
-        # No match found. Remember when this user started looking for a match.
-        self.search_start_time = Time.now
-      end
-    else
-      self.search_start_time = nil
-    end
   end
   
   def relay_job

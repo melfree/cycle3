@@ -1,4 +1,4 @@
-<tr class="<%= user.meal_plan_name.downcase %>" data-user-id='<%=user.id %>'>
+<tr class="<%= user.meal_plan_name.downcase %> <%= 'in-deal' if user.current_deal_id.nil? %>" data-user-id='<%=user.id %>'>
   <%# Photo %>
   <td><%= render 'users/photo', user: user %></td>
   
@@ -6,8 +6,26 @@
   <td><%= user.name %></td>
   
    <%# Details %>
-  <td>
-    <p><strong><%= user.meal_plan_name %></strong></p>
-    <a class="btn btn-success" href="#" role="button">Make deal!</a>
-  </td>
+ 
+    
+    <td>
+      <p><strong><%= user.meal_plan_name %></strong></p>
+      <% if user.current_deal_id.nil? %>
+        <%= link_to "Make deal!", make_deal_path(user.id), method: :post, class: "btn btn-success", remote: true %>
+      <% else %>
+        <%= link_to "In deal", make_deal_path(user.id), method: :post, class: "btn btn-warning disabled", remote: true %>
+      <% end %>
+    </td>
+    <%# if particular user id is found in current_users list of favorites %>
+    <%# if current_user.favorites.map{ |f| f.favorited_id  }.include?(user.id) %>
+    <td>
+      <p><strong><%= "Unfavorite" %></strong></p>
+    <%= link_to "Unfavorite", delete_favorite_path(user.id), method: :delete, class: 'btn btn-danger', remote: true %>
+    </td>
+    <%#else%>
+      <td>
+        <p><strong><%= "Favorite" %></strong></p>
+      <%= link_to "Favorite", create_favorite_path(user.id), method: :post, class: "btn btn-success", remote: true %>
+      </td>
+    <%#end%>
 </tr>

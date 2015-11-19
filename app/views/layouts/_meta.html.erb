@@ -1,0 +1,5 @@
+<div id="meta_container">
+  <meta name="current-user" id="<%= user.try(:id) %>">
+  <meta name="current-status" id="<%= user.try(:status_code) %>">
+  <meta name="current-deal" id="<%= !((user.try(:current_deal_id)).nil?) %>">
+</div>

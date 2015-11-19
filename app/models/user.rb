@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
   has_many :purchases, class_name: "Deal", foreign_key: 'buyer_id'
   has_many :sales, class_name: "Deal", foreign_key: 'seller_id'
-  has_many :favorites
+  has_many :favorites, foreign_key: 'favoriter_id'
+  has_many :favorited, class_name: "Favorite", foreign_key: 'favorited_id'
   
   validates_presence_of :email
   
@@ -30,9 +31,14 @@ class User < ActiveRecord::Base
                    "Seller - Seeking Buyer",
                    "Buyer - Seeking Seller"]
   
-  MEAL_PLANS = ["Blocks",
+  MEAL_PLANS = ["Blocks and Dinex/Flex",
                 "Dinex/Flex",
-                "Blocks and Dinex/Flex"]
+                "Blocks"]
+  
+  def favoriter_ids
+    # the stringified ids of the users that favorited this user
+    self.favorited.pluck(:favoriter_id).map{|o|o.to_s}
+  end
   
   def self.meal_plan_options
     MEAL_PLANS.each_with_index.map{|o,i| [o,i]}
@@ -188,7 +194,7 @@ class User < ActiveRecord::Base
   
   def relay_job
     # Update the views.
-    UserRelayJob.perform_later(self)
+    UserRelayJob.perform_later()
     DealRelayJob.perform_later(self)
     StatisticsRelayJob.perform_later()
   end

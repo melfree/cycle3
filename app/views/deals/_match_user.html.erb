@@ -1,21 +1,32 @@
 <div id="match_user">
   <% if user.current_deal %>
-    <table class="matched_user table table-bordered table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Photo</th>
-          <th>Name</th>
-          <th>Details</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% if user.is_seller %>
-          <% matched_user = user.current_deal.buyer %>
-        <% else %>
-          <% matched_user = user.current_deal.seller %>
-        <% end %>
-        <%= render 'users/user', user: matched_user %>
-      </tbody>
-    </table>
+
+    <% if user.is_seller %>
+      <% matched_user = user.current_deal.buyer %>
+    <% else %>
+      <% matched_user = user.current_deal.seller %>
+    <% end %>
+    
+    <div class="<%= user.meal_plan_name.downcase %> in-deal" data-user-id='<%=user.id %>'>
+      <%# Photo %>
+      <p><%= render 'users/photo', user: matched_user %></p>
+      
+      <%# Name %>
+      <p><%= matched_user.name %></p>
+      
+      <%# Details %>
+      <p><strong><%= user.meal_plan_name %></strong>
+        <%= link_to "In deal", make_deal_path(matched_user.id), method: :post, class: "btn btn-warning disabled", remote: true %>
+      </p>
+      
+      <% if user.favorites.pluck(:favorited_id).include?(matched_user.id) %>
+        <p><%= link_to "Unfavorite", delete_favorite_path(matched_user.id), method: :delete, class: 'btn btn-danger', remote: true %><p>
+      <% else%>
+        <p><%= link_to "Favorite", create_favorite_path(matched_user.id), method: :post, class: "btn btn-success", remote: true %></p>
+          </td>
+      <% end %>
+      
+    </div>
+
   <% end %>
 </div>

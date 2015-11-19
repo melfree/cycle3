@@ -1,31 +1,44 @@
-<tr class="<%= user.meal_plan_name.downcase %> <%= 'in-deal' if user.current_deal_id.nil? %>" data-user-id='<%=user.id %>'>
+<tr class="<%= user.meal_plan_name.downcase %> <%= 'in-deal' if user.current_deal_id.nil? %>">
   <%# Photo %>
   <td><%= render 'users/photo', user: user %></td>
   
-  <%# Name %>
-  <td><%= user.name %></td>
-  
-   <%# Details %>
- 
+  <%# User %>
+  <td>
+    <p><strong><%= user.name %></strong></p>
+    <% unfav_link = "#{user.id}-unfav-link" %>
+    <% fav_link = "#{user.id}-fav-link" %>
     
-    <td>
-      <p><strong><%= user.meal_plan_name %></strong></p>
-      <% if user.current_deal_id.nil? %>
-        <%= link_to "Make deal!", make_deal_path(user.id), method: :post, class: "btn btn-success", remote: true %>
-      <% else %>
-        <%= link_to "In deal", make_deal_path(user.id), method: :post, class: "btn btn-warning disabled", remote: true %>
-      <% end %>
-    </td>
-    <%# if particular user id is found in current_users list of favorites %>
-    <%# if current_user.favorites.map{ |f| f.favorited_id  }.include?(user.id) %>
-    <td>
-      <p><strong><%= "Unfavorite" %></strong></p>
-    <%= link_to "Unfavorite", delete_favorite_path(user.id), method: :delete, class: 'btn btn-danger', remote: true %>
-    </td>
-    <%#else%>
-      <td>
-        <p><strong><%= "Favorite" %></strong></p>
-      <%= link_to "Favorite", create_favorite_path(user.id), method: :post, class: "btn btn-success", remote: true %>
-      </td>
-    <%#end%>
+    <%= link_to "Unfavorite", delete_favorite_path(user.id), id: unfav_link, method: :delete, class: 'btn btn-danger hidden', remote: true %>
+    <%= link_to "Favorite", create_favorite_path(user.id), id: fav_link, method: :post, class: "btn btn-success hidden", remote: true %>
+  </td>
+  
+  <%# Details %> 
+  <td>
+    <p><strong><%= user.meal_plan_name %></strong></p>
+    <% deal_link = "#{user.id}-deal-link" %>
+    
+    <%= link_to "Make deal!", make_deal_path(user.id), id: deal_link, method: :post, class: "btn btn-success", remote: true %>
+  </td>
 </tr>
+
+<%# current_user is not known in the actioncable javascript channels, so current_user info is stored as meta attributes. %>
+<script>
+  var current_user_id = $('meta[name=current-user]').attr('id');
+  var current_user_in_deal = $('meta[name=current-deal]').attr('id');
+  var favorites = <%= raw user.favoriter_ids %>;
+  var in_deal = <%= user.current_deal_id.nil? %>;
+  var deal_link = $('#<%= deal_link %>');
+  
+    if ($.inArray(current_user_id, favorites) == -1) {
+       $('#<%= fav_link %>').removeClass("hidden");
+    } else {
+      $('#<%= unfav_link %>').removeClass("hidden");
+    };
+    if (in_deal || current_user_in_deal) {
+      deal_link.removeClass('btn-success');
+      deal_link.addClass('btn-warning disabled');
+    };
+    if (in_deal) {
+      deal_link.text('In deal');
+    };
+</script>

@@ -9,6 +9,7 @@ $(document).on "page:change", ->
         $("#chatroom").replaceWith deal.chatroom_html
         $("#match_user").replaceWith deal.match_user_html
         $("#match_user_status").replaceWith deal.match_user_status_html
+        $("#meta_container").replaceWith meta_html
         
         # Update the alerts (may or may not be necessary)
         $.UpdateHelpBlocks()

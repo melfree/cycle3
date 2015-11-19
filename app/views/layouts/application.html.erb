@@ -5,7 +5,9 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
   <%= csrf_meta_tags %>
-  <meta name="current-user" id="<%= current_user.try(:id) %>">
+  
+  <%= render 'layouts/meta', user: current_user %>
+  
 </head>
 <body class="<%= controller_name %> <%= action_name %>">
   <header role="banner">

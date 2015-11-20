@@ -8,9 +8,14 @@ $(document).on "page:change", ->
           # Answer to StatisticsRelayJob:
           # Update the statistics div
           $("#statistics").replaceWith data.statistics_html
-        else
+          
+        else        
           $("#buyers_container").replaceWith data.buyers_html
           $("#sellers_container").replaceWith data.sellers_html
+          
+          # Reapply selected javascript filters to new html in List Users
+          # by clicking the active filter buttons.
+          $("label.active").click()
             
           # Update the google map
           $("#map").html data.html_google_map

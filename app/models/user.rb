@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   has_many :favorited, class_name: "Favorite", foreign_key: 'favorited_id'
   
   validates_presence_of :email
+  # require edu email
+  validates_format_of :email, :with => /\A[^@\s]+@([^@\s]+\.)+\.edu\z/, message: "must end with.edu"
   
   # Photo uploader dependencies
   mount_uploader :photo, PhotoUploader
@@ -13,7 +15,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
   
   scope :inactive, ->  { where(status_code: 0)}
   scope :active, ->  { where("status_code <> 0")}

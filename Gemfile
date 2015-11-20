@@ -41,4 +41,6 @@ end
 group :development do
   gem 'web-console', github: 'rails/web-console'
   gem 'spring'
+  # Email previewer for development
+  gem 'letter_opener'
 end

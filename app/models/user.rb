@@ -5,8 +5,9 @@ class User < ActiveRecord::Base
   has_many :favorited, class_name: "Favorite", foreign_key: 'favorited_id'
   
   validates_presence_of :email
-  # require edu email
-  validates_format_of :email, :with => /\A[^@\s]+@([^@\s]+\.)+\.edu\z/, message: "must end with.edu"
+  
+  # require .edu email
+  validates_format_of :email, :with => /\A[^@\s]+@([^@\s]+\.)+edu\z/, message: "must end with .edu"
   
   # Photo uploader dependencies
   mount_uploader :photo, PhotoUploader
@@ -204,18 +205,18 @@ class User < ActiveRecord::Base
   end
 
   def match(buyer, seller)
-        # Requires that self is the buyer or seller
-        deal = Deal.create!(seller_id: seller.id, buyer_id: buyer.id)
-        buyer.current_deal_id = deal.id
-        seller.current_deal_id = deal.id
-        # Save the matched user here, so there is no recursion with 'before_save'.
-        if is_buyer
-          seller.save!
-          DealRelayJob.perform_later(seller)
-        else
-          buyer.save!
-          DealRelayJob.perform_later(buyer)
-        end
+    # Requires that self is the buyer or seller
+    deal = Deal.create!(seller_id: seller.id, buyer_id: buyer.id)
+    buyer.current_deal_id = deal.id
+    seller.current_deal_id = deal.id
+    # Save the matched user here, so there is no recursion with 'before_save'.
+    if is_buyer
+      seller.save!
+      DealRelayJob.perform_later(seller)
+    else
+      buyer.save!
+      DealRelayJob.perform_later(buyer)
+    end
   end
   
   def relay_job

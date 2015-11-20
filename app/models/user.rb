@@ -20,6 +20,10 @@ class User < ActiveRecord::Base
   
   scope :inactive, ->  { where(status_code: 0)}
   scope :active, ->  { where("status_code <> 0")}
+  
+  # Only get users who have been favorited by the given user
+  scope :friends_of, -> (user) {joins(:favorites).where("favoriter_id = ?", user.id)}
+  
   scope :not_including, -> (user) {where("id <> ?",user.id)}
   
   # Meal plan code of 0 means that everyone is included.
@@ -186,6 +190,7 @@ class User < ActiveRecord::Base
     if is_searching
       # Find a new matching user
       scope = User.searching.meal_plan_code(self.meal_plan_code).not_including(self).order(:search_start_time)
+      scope = scope.friends_of(self) if self.friends_only?
       if is_buyer
         seller = scope.sellers.first
         buyer = self
@@ -210,13 +215,14 @@ class User < ActiveRecord::Base
     buyer.current_deal_id = deal.id
     seller.current_deal_id = deal.id
     # Save the matched user here, so there is no recursion with 'before_save'.
-    if is_buyer
-      seller.save!
-      DealRelayJob.perform_later(seller)
+    match_user = if is_buyer
+      seller
     else
-      buyer.save!
-      DealRelayJob.perform_later(buyer)
+      buyer
     end
+    match_user.save!
+    UserMailer.match_email(match_user).deliver_later if match_user.notify_by_email
+    DealRelayJob.perform_later(match_user)
   end
   
   def relay_job

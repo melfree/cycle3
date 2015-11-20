@@ -11,12 +11,10 @@
     <%= f.password_field :password, required: true, class: 'form-control', autocomplete: "off" %>
   </div>
 
-  <% if devise_mapping.rememberable? -%>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
-    </div>
-  <% end -%>
+  <div class="form-group">
+    <%= f.check_box :remember_me, class: 'control-label' %>
+    <%= f.label :remember_me %>
+  </div>
 
   <div class="actions">
     <%= f.submit "Log in", class: 'btn btn-lg btn-primary' %>

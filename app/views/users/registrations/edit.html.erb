@@ -21,15 +21,35 @@
       <% end %>
           
       <div class="form-group">
+        <p class="help-block"><i>Your photo should be clear so that others can recognize you in person.</i></p>
         <%= f.label :photo, "Change Photo", class: 'control-label'  %><br />
         <%= f.file_field :photo, class: "form-control" %>
-         <p class="help-block"><i>Your photo should be clear so that others can recognize you in person.</i></p>
       </div>
+      
+      <br/>
+      
+      <div class="form-group">
+        <p class="help-block">Check this box if you'd like to be notified by email when you are matched with another user.</p>
+        <p class="help-block">(Notifications are not sent for immediate matches.)</p>
+        <%= f.check_box :notify_by_email, class: 'control-label' %>
+        <%= f.label :notify_by_email %>
+      </div>
+      
+      <br/>
+      
+      <div class="form-group">
+        <p class="help-block">Check this box if you'd like to only be automatically matched with your favorite users.</p>
+        <p class="help-block">(You can still manually match yourself with any user.)</p>
+        <%= f.check_box :friends_only, class: 'control-label' %>
+        <%= f.label :friends_only %>
+      </div>
+      
+      <br/>
       
       <%= render 'password_fields', f: f, required: false %>
     
       <div class="actions">
-        <%= f.button "Update", class: 'btn',data: {disable_with: load_icon("Updating") } %>
+        <%= f.button "Update", class: 'btn btn-primary btn-lg',data: {disable_with: load_icon("Updating") } %>
       </div>
     </div>
   </div>    

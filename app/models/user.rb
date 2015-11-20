@@ -133,8 +133,9 @@ class User < ActiveRecord::Base
   end
   
   # Real-time data
-  after_commit :relay_job
+  after_save :relay_job
   before_update :match_user
+  before_destroy :delete_favorites
   
   def current_deal
     @current_deal ||= if current_deal_id
@@ -185,6 +186,11 @@ class User < ActiveRecord::Base
   end
 
   private
+  def delete_favorites
+    favorites.destroy_all
+    favorited.destroy_all
+    current_deal.force_cancel if current_deal_id
+  end
   
   def match_user
     if is_searching

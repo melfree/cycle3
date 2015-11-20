@@ -8,7 +8,13 @@ class Deal < ActiveRecord::Base
   CSS_CLASSES = ["pending","completed","cancelled"]
   
   scope :last_day, -> { where(created_at: Time.now) }
-  
+
+  def force_cancel
+    self.seller_status_code = 2
+    self.buyer_status_code = 2
+    self.save!
+  end
+
   def allow_comments
     !buyer_finished and !seller_finished
   end
@@ -63,10 +69,12 @@ class Deal < ActiveRecord::Base
   end
   
   def seller
+    # Warning: seller may be nil if the seller deleted their account
     @seller ||= User.find_by_id seller_id
   end
   
   def buyer
+    # Warning: buyer may be nil if the buyer deleted their account
     @buyer ||= User.find_by_id buyer_id
   end
     
@@ -75,11 +83,20 @@ class Deal < ActiveRecord::Base
     # A buyer and a seller are "attached" to this deal
     # if this deal is their current deal, and they are still listening
     # for changes in this deal on their homepage.
-    self.buyer.current_deal_id == self.id
+    if buyer
+      self.buyer.current_deal_id == self.id
+    else
+      # buyer was deleted
+      false
+    end
   end
   
   def seller_attached_to_deal
-    self.seller.current_deal_id == self.id
+    if seller
+      self.seller.current_deal_id == self.id
+    else
+      false
+    end
   end
   
   def set_finished_timestamps

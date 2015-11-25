@@ -39,16 +39,18 @@
     <div class="col-xs-6"> 
       <%= form_for Deal.new, url: edit_current_deal_path, html: { method: :put }, remote: true, data: {'on-change-deal' => 'true'} do |f| %>
         <div class="form-group">
+          <label>Their Status</label>
+          <%= render 'match_user_status', user: current_user %>
           <%= f.label :seller_status_code, "Your Status", class: 'control-label'  %><br />
-          <%= f.select :seller_status_code, Deal.status_options, class: "form-control" %>
+          <%= f.select :seller_status_code, Deal.status_options, class: "form-control" %><br>
         </div>
         <%= f.button 'Submit', class: "btn btn-success" %>
       <% end %>
       
-    </div>
-    <div class="col-xs-6">
-      <label>Their Status</label>
-      <%= render 'match_user_status', user: current_user %>
+    <!--</div>-->
+    <%# this is originally where "Their Status" rendering was until I changed it -Theo %>
+    <!--<div class="col-xs-6">-->
+      
     </div>
   </div>
         

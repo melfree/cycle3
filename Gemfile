@@ -7,6 +7,11 @@ gem 'arel', github: "rails/arel"
 gem 'actioncable', github: "rails/actioncable"
 
 gem 'sqlite3'
+
+# Postgres and rails_12factor for heroku
+gem 'pg'
+gem 'rails_12factor', group: :production
+
 gem 'puma'
 
 gem 'bootstrap-sass', '~> 3.3.5'

@@ -80,8 +80,8 @@
       <%= render 'match_user_status', user: current_user %>
     </div--> <!-- End TODO -->
 
-      <div class="col-xs-6 col-xs-offset-3" style="text-align: center">
-        <button name="button" type="submit" class="btn btn-success form-success">Complete</button> <br />
+  <div class="col-xs-6 col-xs-offset-3" style="text-align: center">
+    <%= link_to "Complete", complete_deal_path, class: "btn btn-success form-success", remote: true, method: :post %>
   </div>
 </div>
 

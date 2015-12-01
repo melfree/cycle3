@@ -43,7 +43,7 @@
     <div class="row"> 
       <div class="col-xs-6 col-xs-offset-3">
         <div class="form-group">
-          <%= f.label :status_code, "I am currently...", class: 'control-label'  %><br />
+          <%= f.label :status_code, "Are you buying, selling, or neither?", class: 'control-label'  %><br />
           <%= f.select :status_code, User.status_options, class: "bootstrap-switch form-control" %>
         </div>
       </div>
@@ -63,9 +63,13 @@
     <!-- TODO: Remove old styling -->
     <!-- div class="col-xs-6"> 
       <%= form_for Deal.new, url: edit_current_deal_path, html: { method: :put }, remote: true, data: {'on-change-deal' => 'true'} do |f| %>
-        <div class="form-group">
+        <div class="form-group"> -->
+          <!--this is where I, Theo, think it makes sense to have these lines-->
+          <!--<label>Their Status</label>-->
+          <!--<%# render 'match_user_status', user: current_user %>-->
+          <!--
           <%= f.label :seller_status_code, "Your Status", class: 'control-label'  %><br />
-          <%= f.select :seller_status_code, Deal.status_options, class: "form-control" %>
+          <%= f.select :seller_status_code, Deal.status_options, class: "form-control" %><br>
         </div>
         <%= f.button 'Submit', class: "btn btn-success" %>
       <% end %>
@@ -92,7 +96,3 @@
   </span>
 </div>
 </div>
-<!-- Button HTML (to Trigger Modal) -->
-<!-- Large modal -->
-
-<!-- Modal HTML -->

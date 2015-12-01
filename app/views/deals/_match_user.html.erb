@@ -17,13 +17,11 @@
       <%# Details %>
       <p><strong><%= user.meal_plan_name %></strong></p>
       
-      <p>
       <% if matched_user.favoriter_ids.include?(user.id.to_s) %>
-        <%= link_to "Unfavorite", delete_favorite_path(matched_user.id), method: :delete, class: 'btn btn-danger', remote: true %>
+        <%= link_to "Click to Unfavorite", delete_favorite_path(matched_user.id), method: :delete, class: 'btn btn-danger', remote: true %>
       <% else %>
-        <%= link_to "Favorite", create_favorite_path(matched_user.id), method: :post, class: "btn btn-success", remote: true %>
+        <%= link_to "Click to Favorite", create_favorite_path(matched_user.id), method: :post, class: "btn btn-success", remote: true %>
       <% end %>
-      </p>
       
     </div>
 

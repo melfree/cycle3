@@ -1,8 +1,8 @@
-# production: &production
-#   :url: redis://localhost:6379
-#   :host: localhost
-#   :port: 6379
-#   :timeout: 1
+production: &production
+  :url: redis://mdf:4c0059db8a4badf4dfb1023d69361330@50.30.35.9:3697/
+  :host: 50.30.35.9
+  :port: 3697
+  :timeout: 1
 
 local: &local
   :url: redis://localhost:6379

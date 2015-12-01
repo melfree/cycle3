@@ -3,7 +3,7 @@
 #= require_tree .
 
 @App = {}
-ws_url = 'ws://evening-island-1671.herokuapp.com:28080'
+ws_url = "ws://" + window.document.location.host + '/websocket'
 App.cable = Cable.createConsumer ws_url
 
 $(document).on "page:change", ->

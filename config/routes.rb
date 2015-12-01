@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  match "/websocket", :to => ActionCable.server, via: [:get, :post]
+
   resources :favorites
   devise_for :users, :controllers => {:sessions => 'users/sessions',:registrations => 'users/registrations'}
   

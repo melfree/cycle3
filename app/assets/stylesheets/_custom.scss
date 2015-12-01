@@ -12,18 +12,6 @@
   margin-bottom: 15px;
 }
 
-// Aggregate column group colors and buyer/seller coloring.
-// Currently unused. This is leftover from earlier development.
-@each $pair in (guest_blocks #668,
-                blocks #866,
-                description #646,
-                dinex #268) {
-  $color: nth($pair, 2);
-  $name:  nth($pair, 1);
-  .#{$name} { color: $color; }
-}
-
-
 // Alert/status CSS.
 .buyer {
   @extend .alert-warning;
@@ -40,7 +28,6 @@
 .pending {
   @extend .alert-success;
 }
-
 
 // Chatroom CSS.
 // Used for the chatroom div on the dashbaord.
@@ -75,4 +62,23 @@ p#map_help_block {
 .filter-buttons {
   text-align: center;
   padding-bottom: 10px;
+}
+
+// Match Form
+.form-success {
+  width: 100%;
+  font-size: 150%;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+// Modal popup
+.modal-footer button {
+  width: 200px;
+  margin-bottom: 5px;
+}
+
+// Footer 
+footer {
+  text-align: right;
 }

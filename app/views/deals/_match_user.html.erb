@@ -6,16 +6,16 @@
     <% else %>
       <% matched_user = user.current_deal.seller %>
     <% end %>
+
+    <%# Name %>
+    <h2> <%= matched_user.name %></h2>
     
     <div class="<%= user.meal_plan_name.downcase %> in-deal" data-user-id='<%=user.id %>'>
       <%# Photo %>
       <p><%= render 'users/photo', user: matched_user %></p>
       
-      <%# Name %>
-      <p><%= matched_user.name %></p>
-      
       <%# Details %>
-      <p><strong><%= user.meal_plan_name %></strong>
+      <p><strong><%= user.meal_plan_name %></strong></p>
       
       <p>
       <% if matched_user.favoriter_ids.include?(user.id.to_s) %>

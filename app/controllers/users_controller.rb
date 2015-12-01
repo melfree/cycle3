@@ -5,6 +5,9 @@ class UsersController < ApplicationController
   end
 
   def edit_current_user
+    p current_user_params
+    puts :status_code
+    puts :meal_plan_code
     current_user.update_attributes!(current_user_params)
   end
   

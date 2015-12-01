@@ -13,9 +13,11 @@ $(document).on "page:change", ->
         if data.in_progress
           $("#step_one_container").addClass "hidden"
           $("#step_two_container").removeClass "hidden"
+          $("#panel-name").html("Deal in Progress")
         else
           $("#step_one_container").removeClass "hidden"
           $("#step_two_container").addClass "hidden" 
+          $("#panel-name").html("Find a Deal")
         
         # Scroll chatroom to bottom
         $("#chatroom").scrollTop($("#chatroom")[0].scrollHeight);

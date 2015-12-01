@@ -3,7 +3,7 @@
 #= require_tree .
 
 @App = {}
-ws_url = "<%= Rails.env.production? ? 'ws://evening-island-1671.herokuapp.com:28080' : 'ws://localhost:28080' %>"
+ws_url = 'ws://evening-island-1671.herokuapp.com:28080'
 App.cable = Cable.createConsumer ws_url
 
 $(document).on "page:change", ->

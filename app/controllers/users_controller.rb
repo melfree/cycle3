@@ -4,6 +4,13 @@ class UsersController < ApplicationController
     @deals = Deal.all
   end
 
+  def cancel_search
+    if current_user.is_searching
+      current_user.status_code = 0
+      current_user.save!
+    end
+  end
+
   def edit_current_user
     current_user.update_attributes!(current_user_params)
   end

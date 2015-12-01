@@ -1,0 +1,20 @@
+<div id="cancelModal" class="modal fade">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Cancel Deal</h4>
+      </div>
+      <div class="modal-body">
+        <p>Please tell us why you want to cancel the deal.</p>
+      </div>
+      <div class="modal-footer" style="text-align: center">
+        <% options = ["Late","Couldn't reach a price", "I no longer want the deal", "Ran out of time", "Other"]%>
+        <% for option in options %>
+          <%= link_to option, cancel_deal_path, :'data-dismiss' => "modal", class: "btn btn-default", remote: true, method: :post %>
+          <br/><br/>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

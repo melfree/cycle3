@@ -1,38 +1,57 @@
 <% ccn = controller.controller_name %>
 <% can = controller.action_name %>
 
-<nav class="navbar navbar-default">
-  <div class="container">
-    <%= link_to "ShoppingBlocks", guest_path, class: "navbar-brand" %>
-    <ul class="nav navbar-nav">
-      <li class="<%='active' if can == 'guest'%>">
-        <%= link_to "Home", guest_path %>
-      </li>
-      <% if current_user %>
-        <li class="<%='active' if ccn == 'deals' and can == 'index'%>">
-          <%= link_to "Find Deals Now", dashboard_path %>
-        </li>
-        <li class="<%='active' if ccn == 'users' and can == 'index'%>">
-          <%= link_to "List Users", users_path %>
-        </li>
-      <% end %>
-    </ul>
-    <div class="nav navbar-nav navbar-right" id="ul">
-      <% if current_user %>
-        <li class="<%='active' if ccn == 'registrations' and can == 'edit' %>">
-         <%= link_to "Welcome #{current_user.email}", edit_user_registration_path %>
-        </li>
-        <li>
-          <%= link_to "Logout", destroy_user_session_path, method: :delete %>
-        </li>
-      <% else %>
-        <li class="<%='active' if ccn == 'sessions'%>">
-          <%= link_to "Log in", new_session_path('user') %>
-        </li>
-        <li class="<%='active' if ccn == 'registrations'%>">
-          <%= link_to "Sign up", new_registration_path('user') %>
-        </li>
-      <% end %>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <!-- Navbar collapsed menu options -->
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <!-- Left Brand -->
+      <%= link_to "ShoppingBlocks", guest_path, class: "navbar-brand" %>
+
+      <div class="navbar-collapse collapse">
+        <!-- Left menu options -->
+        <ul class="nav navbar-nav pull-left">
+          <% if current_user %>
+            <li class="<%='active' if ccn == 'deals' and can == 'index'%>">
+              <%= link_to "Deals", dashboard_path %>
+            </li>
+            <li class="<%='active' if ccn == 'users' and can == 'index'%>">
+              <%= link_to "Users", users_path %>
+            </li>
+          <% end %>
+        </ul>
+
+        <!-- Right menu options -->
+        <ul class="nav navbar-nav pull-right">
+        <% if current_user %>
+          <li class="<%='active' if ccn == 'registrations' and can == 'edit' %>">
+           <%= link_to "Welcome #{current_user.email}", edit_user_registration_path %>
+          </li>
+          <li>
+            <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+          </li>
+        <% else %>
+          <li class="<%='active' if ccn == 'sessions'%>">
+            <%= link_to "Log in", new_session_path('user') %>
+          </li>
+          <li class="<%='active' if ccn == 'registrations'%>">
+            <%= link_to "Sign up", new_registration_path('user') %>
+          </li>
+        <% end %>
+        </ul>
+      </div>
     </div>
   </div>
+  
+  <%= render 'deals/match_alerts', user: current_user %>
 </nav>
+
+<br/><br/><br/>
+<br/><br/><br/>
+<br/><br/><br/>

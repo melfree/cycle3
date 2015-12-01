@@ -1,8 +1,28 @@
 class DealsController < ApplicationController
-  
   def index
   end
   
+  def complete_deal
+    deal = current_user.current_deal
+    if current_user.is_buyer
+      deal.cancel_buyer
+    else
+      deal.cancel_seller
+    end
+    deal.save!
+  end
+  
+  def cancel_deal
+    deal = current_user.current_deal
+    if current_user.is_buyer
+      deal.complete_buyer
+    else
+      deal.complete_seller
+    end
+    deal.save!
+  end
+  
+  # Old route, no longer used
   def edit_current_deal
     deal = current_user.current_deal
     # seller_status_code is used as a placeholder;

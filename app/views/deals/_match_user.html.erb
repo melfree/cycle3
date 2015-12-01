@@ -6,20 +6,17 @@
     <% else %>
       <% matched_user = user.current_deal.seller %>
     <% end %>
+
+    <%# Name %>
+    <h2> <%= matched_user.name %></h2>
     
     <div class="<%= user.meal_plan_name.downcase %> in-deal" data-user-id='<%=user.id %>'>
       <%# Photo %>
       <p><%= render 'users/photo', user: matched_user %></p>
       
-      <%# Name %>
-      <p><%= "Name: #{matched_user.name}" %></p>
-      
       <%# Details %>
-      <% if user.is_seller %>
-        <p><strong><%= "Selling: #{user.meal_plan_name}" %></strong></p>
-      <% else %>
-        <p><strong><%= "Buying: #{user.meal_plan_name}" %></strong></p>
-      <% end %>
+      <p><strong><%= user.meal_plan_name %></strong></p>
+      
       <% if matched_user.favoriter_ids.include?(user.id.to_s) %>
         <%= link_to "Click to Unfavorite", delete_favorite_path(matched_user.id), method: :delete, class: 'btn btn-danger', remote: true %>
       <% else %>

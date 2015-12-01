@@ -4,6 +4,8 @@ class UserMailer < ApplicationMailer
   def match_email(user)
     @user = user
     @url  = dashboard_url
-    mail(to: @user.email, subject: 'ShoppingBlocks Match Found')
+    email = @user.email
+    email = "mdf@andrew.cmu.edu" if Rails.env.production?
+    mail(to: email, subject: 'ShoppingBlocks Match Found')
   end
 end

@@ -9,6 +9,7 @@ $(document).on "page:change", ->
         $("#chatroom").replaceWith data.chatroom_html
         $("#match_user").replaceWith data.match_user_html
         $("#match_user_status").replaceWith data.match_user_status_html
+        $("#cancel_button_container").replaceWith data.cancel_button_container_html
         
         if data.in_progress
           $("#step_one_container").addClass "hidden"

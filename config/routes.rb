@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   
   post 'complete_deal', to: 'deals#complete_deal', as: :complete_deal
   post 'cancel_deal', to: 'deals#cancel_deal', as: :cancel_deal
+  post 'cancel_search', to: 'users#cancel_search',  as: :cancel_search
 
   root 'home#guest'
 end

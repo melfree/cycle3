@@ -42,5 +42,5 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   
   # Actioncable requirement?
-  config.allowed_request_origins = ["http://localhost:3000"]
+  ActionCable.server.config.allowed_request_origins = ["http://localhost:3000"]
 end

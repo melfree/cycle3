@@ -87,7 +87,4 @@ Rails.application.configure do
       :authentication       => :plain,
       :enable_starttls_auto => true
   }
-  
-  # Actioncable requirement?
-  config.allowed_request_origins = ["http://evening-island-1671.herokuapp.com"]
 end

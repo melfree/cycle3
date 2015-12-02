@@ -6,10 +6,10 @@
           <div class='filter-buttons'>
             <div class="btn-group" data-toggle="buttons">
               <label class="btn btn-lg btn-default <%= "active" if current_user.status_code.to_i != 1%>">
-                <%= f.radio_button "status_code", "2", checked: current_user.is_unavailable %> I'm Buying
+                <%= f.radio_button "status_code", "2", checked: current_user.is_unavailable %> Buy
               </label> 
               <label class="btn btn-lg btn-default  <%= "active" if current_user.status_code.to_i == 1%>">
-                <%= f.radio_button "status_code", "1" %> I'm Selling
+                <%= f.radio_button "status_code", "1" %> Sell
               </label> 
             </div>
           </div>

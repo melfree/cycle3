@@ -9,6 +9,19 @@ class Deal < ActiveRecord::Base
   
   scope :last_day, -> { where(created_at: Time.now) }
 
+  def cancel_buyer
+    self.buyer_status_code = 2
+  end
+  def cancel_seller
+    self.seller_status_code = 2
+  end
+  def complete_buyer
+    self.buyer_status_code = 1
+  end
+  def complete_seller
+    self.seller_status_code = 1
+  end
+
   def force_cancel
     self.seller_status_code = 2
     self.buyer_status_code = 2

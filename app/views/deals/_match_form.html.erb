@@ -1,60 +1,77 @@
-<%= render 'deals/location' %>
-
-<br/>
-
 <div id="step_one_container" class="<%="hidden" unless current_user.current_deal_id.nil? %>">  
   
   <%= form_for current_user, url: edit_current_user_path, html: { method: :put }, remote: true, data: {'on-change-user' => 'true'} do |f| %>
     <div class="row">
-      <div class="col-xs-6">
-        <p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p>
-        <div class="form-group">
-          <%= f.label :meal_plan_code, "Item(s):", class: 'control-label'  %><br />
-          <%= f.select :meal_plan_code, User.meal_plan_options, class: "form-control" %>
-        </div>
+      <div class="col-xs-6 col-xs-offset-3">
+          <div class='filter-buttons'>
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-lg btn-default <%= "active" if current_user.status_code.to_i != 1%>">
+                <%= f.radio_button "status_code", "2", checked: current_user.is_unavailable %> Buy
+              </label> 
+              <label class="btn btn-lg btn-default  <%= "active" if current_user.status_code.to_i == 1%>">
+                <%= f.radio_button "status_code", "1" %> Sell
+              </label> 
+            </div>
+          </div>
       </div>
-      <div class="col-xs-6">
-        <p class="help-block"><i>You can leave any notes in the Notes section to appear next to your public listing.</i></p>
-        <div class="form-group">
-          <%= f.label :description, "Notes", class: 'control-label'  %><br />
-          <%= f.text_area :description, class: "form-control" %>
-        </div>
+    </div>
+            
+    <br/>
+    
+    <div class="row">
+      <div class="col-xs-8 col-xs-offset-2">
+        <!--p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p-->
+        <div class='filter-buttons'>
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default <%= "active" if current_user.meal_plan_code.to_i == 2%>">
+                <%= f.radio_button "meal_plan_code", "2" %> Blocks
+              </label> 
+              <label class="btn btn-default <%= "active" if current_user.meal_plan_code.to_i == 1%>">
+                <%= f.radio_button "meal_plan_code", "1" %> Dinex/Flex
+              </label>
+              <label class="btn btn-default <%= "active" if current_user.meal_plan_code.to_i == 0%>">
+                <%= f.radio_button "meal_plan_code", "0" %> Both
+              </label> 
+            </div>
+          </div>  
       </div>
     </div>
     
-    <div class="row"> 
-      <div class="col-xs-6">
+    <br/>
+    
+    <div class="row">
+      <div class="col-xs-6 col-xs-offset-3">
+        <!--p class="help-block"><i>You can leave any notes in the Notes section to appear next to your public listing.</i></p-->
         <div class="form-group">
-          <%= f.label :status_code, "Are you buying, selling, or neither?", class: 'control-label'  %><br />
-          <%= f.select :status_code, User.status_options, class: "bootstrap-switch form-control" %>
+          <%= f.label :description, "Notes", class: 'control-label'  %><br />
+          <%= f.text_area :description, placeholder: "Additional information for your public listing", class: "form-control" %>
         </div>
       </div>
     </div>
-    <%= f.button 'Submit', class: "btn btn-success" %>
+
+    <div class="row"> 
+      <div class="col-xs-6 col-xs-offset-3" style="text-align: center">
+        <%= f.button 'Submit', class: "btn btn-success form-success" %>
+      </div>
+    </div>
   <% end %>
 </div>
 
 <div id="step_two_container" class="<%="hidden" if current_user.current_deal_id.nil? %>">
-  <div class="row">
-    <div class="col-xs-6"> 
-      <%= form_for Deal.new, url: edit_current_deal_path, html: { method: :put }, remote: true, data: {'on-change-deal' => 'true'} do |f| %>
-        <div class="form-group">
-          <!--this is where I, Theo, think it makes sense to have these lines-->
-          <!--<label>Their Status</label>-->
-          <!--<%# render 'match_user_status', user: current_user %>-->
-          <%= f.label :seller_status_code, "Your Status", class: 'control-label'  %><br />
-          <%= f.select :seller_status_code, Deal.status_options, class: "form-control" %><br>
-        </div>
-        <%= f.button 'Submit', class: "btn btn-success" %>
-      <% end %>
-      
-    </div>
-    <div class="col-xs-6">
-      <label>Their Status</label>
-      <%= render 'match_user_status', user: current_user %>
-    </div>
-  </div>
-        
-  <br/>
   <%= render 'deals/match', user: current_user %>
+  <br/>
+
+  <div class="col-xs-6 col-xs-offset-3" style="text-align: center">
+    <%= link_to "Complete", complete_deal_path, class: "btn btn-success form-success", remote: true, method: :post %>
+  </div>
+</div>
+
+<div class="row">
+  <div class= "col-xs-12">
+    <%= render 'deals/cancel', user: current_user %>    
+
+    <span class="pull-right">
+      <%= render 'deals/location' %>
+    </span>
+  </div>
 </div>

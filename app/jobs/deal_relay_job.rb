@@ -4,7 +4,8 @@ class DealRelayJob < ApplicationJob
         in_progress: !user.current_deal_id.nil?,
         chatroom_html: HomeController.render(partial: 'deals/chatroom', locals: { user: user }),
         match_user_html: HomeController.render(partial: 'deals/match_user', locals: { user: user }),
-        match_user_status_html: HomeController.render(partial: 'deals/match_user_status', locals: { user: user })
+        match_user_status_html: HomeController.render(partial: 'deals/match_user_status', locals: { user: user }),
+        cancel_button_container_html: HomeController.render(partial:'deals/cancel',locals: {user: user})
       }
     
     # meta_html and current_user_status_html are used on every page,

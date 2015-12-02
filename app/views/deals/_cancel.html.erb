@@ -1,10 +1,10 @@
-    <div id="cancel_button_container">
-      <% if user.is_unavailable %>
-        <a href="#" disabled class= "btn btn-danger">Cancel</a>
-      <% elsif user.current_deal_id %> 
-        <a href="#cancelModal" class="btn btn-danger" data-toggle="modal">Cancel</a>
-      <% else %>
-        <%= link_to "Cancel", cancel_search_path, class: "btn btn-danger", method: :post %>
-        <%= render 'deals/cancel_popup' %>
-      <% end %>
-    </div>
+<div id="cancel_button_container">
+  <% if user.is_unavailable %>
+    <a href="#" disabled class= "btn btn-danger">Cancel</a>
+  <% elsif user.current_deal_id %> 
+    <a href="#cancelModal" class="btn btn-danger" data-toggle="modal">Cancel</a>
+    <%= render 'deals/cancel_popup' %>
+  <% else %>
+    <%= link_to "Cancel", cancel_search_path, class: "btn btn-danger", method: :post %>
+  <% end %>
+</div>

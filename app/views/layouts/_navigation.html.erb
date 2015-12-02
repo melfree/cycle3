@@ -13,14 +13,14 @@
           <%= link_to "Find Deals Now", dashboard_path %>
         </li>
         <li class="<%='active' if ccn == 'users' and can == 'index'%>">
-          <%= link_to "List Users", users_path %>
+          <%= link_to "Find a Friend Online", users_path %>
         </li>
       <% end %>
     </ul>
     <div class="nav navbar-nav navbar-right" id="ul">
       <% if current_user %>
         <li class="<%='active' if ccn == 'registrations' and can == 'edit' %>">
-         <%= link_to "Welcome #{current_user.email}", edit_user_registration_path %>
+         <%= link_to "#{current_user.email} (Click for My Account)", edit_user_registration_path %>
         </li>
         <li>
           <%= link_to "Logout", destroy_user_session_path, method: :delete %>

@@ -8,7 +8,7 @@ class Users::SessionsController < Devise::SessionsController
     # Action cable requirement
     cookies.signed[:user_id] = resource.id
 
-    redirect_to dashboard_url
+    redirect_to guest_url
   end
   
   def destroy

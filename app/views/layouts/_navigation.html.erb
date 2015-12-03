@@ -31,7 +31,7 @@
         <ul class="nav navbar-nav pull-right">
         <% if current_user %>
           <li class="<%='active' if ccn == 'registrations' and can == 'edit' %>">
-          <%= link_to "Welcome, #{current_user.email} (Click for My Account)", edit_user_registration_path %>
+          <%= link_to "Welcome, #{current_user.name}", edit_user_registration_path %>
           </li>
           <li>
             <%= link_to "Logout", destroy_user_session_path, method: :delete %>
@@ -54,4 +54,4 @@
 
 <br/><br/><br/>
 <br/><br/><br/>
-<br/><br/><br/>
+<br/><br/>

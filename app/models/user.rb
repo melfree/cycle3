@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
   
   def photo_url
     if photo.blank?
-      "http://placehold.it/100x100"
+      "http://placehold.it/150x150"
     else
       photo.url(:thumb)
     end 
@@ -89,7 +89,7 @@ class User < ActiveRecord::Base
   
   def small_photo_url
     if photo.blank?
-      "http://placehold.it/50x50"
+      "http://placehold.it/100x100"
     else
       photo.url(:small_thumb)
     end 

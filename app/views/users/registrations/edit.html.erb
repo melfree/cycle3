@@ -13,10 +13,10 @@
       
       </br>
       <% if !@user.photo.blank? %>
-        <label class:'control-label'>Original Upload</label> 
+        <label class='control-label'>Original Upload</label> 
         <%= f.cropbox :photo %>
         </br>
-        <label class:'control-label'>Cropped</label> 
+        <label class='control-label'>Cropped</label> 
         <%= f.previewbox :photo %>
       <% end %>
           

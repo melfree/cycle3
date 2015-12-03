@@ -1,6 +1,6 @@
 <tr class="<%= user.meal_plan_name.downcase %> <%= 'in-deal' if user.current_deal_id.nil? %>">
   <%# Photo %>
-  <td><%= render 'users/photo', user: user %></td>
+  <td><img src="<%=user.small_photo_url%>"/></td>
   
   <%# User %>
   <td>

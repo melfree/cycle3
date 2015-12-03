@@ -10,12 +10,12 @@
     <%# Name %>
     <h2> <%= matched_user.name %></h2>
     
-    <div class="<%= user.meal_plan_name.downcase %> in-deal" data-user-id='<%=user.id %>'>
+    <div class="<%= matched_user.meal_plan_name.downcase %> in-deal">
       <%# Photo %>
-      <p><%= render 'users/photo', user: matched_user %></p>
+      <p><img src="<%=matched_user.photo_url%>"/></p>
       
       <%# Details %>
-      <p><strong><%= user.meal_plan_name %></strong></p>
+      <p><strong><%= matched_user.meal_plan_name %></strong></p>
       
       <% if matched_user.favoriter_ids.include?(user.id.to_s) %>
         <%= link_to "Click to Unfavorite", delete_favorite_path(matched_user.id), method: :delete, class: 'btn btn-danger', remote: true %>

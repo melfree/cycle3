@@ -9,7 +9,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       # Action cable requirement
       cookies.signed[:user_id] = resource.id
       
-      redirect_to dashboard_url
+      redirect_to guest_url
     else
       clean_up_passwords resource
       set_minimum_password_length

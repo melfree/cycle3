@@ -8,8 +8,9 @@ gem 'rack', github: "rack/rack"
 gem 'actioncable', github: "rails/actioncable"
 
 # Postgres and rails_12factor for heroku
-gem 'pg'
-gem 'rails_12factor', group: :production
+#gem 'pg'
+#gem 'rails_12factor', group: :production
+gem 'sqlite3'
 
 gem 'puma'
 

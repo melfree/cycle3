@@ -42,6 +42,13 @@ class User < ActiveRecord::Base
                 "Dinex/Flex",
                 "Blocks"]
   
+  #### Location functionality
+  
+  HALF_CAMPUS = 0.005 # within half campus
+  SAME_BUILDING = 0.001 # around the same building
+
+  ####
+  
   #### Ratings functionality
   def ratings_as_buyer
     # Deals of status code = 1 are complete

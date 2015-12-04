@@ -1,1 +1,13 @@
-<%= static_map_for(users) %>
+<% unless users.pluck(:latitude).compact.empty? %>
+    
+  <div class="iframe-rwd">
+    <div width="700" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+      <%= static_map_for(users) %>
+    </div>
+  </div>
+
+<% else %>
+  <p class="text-center">
+    <i>No current locations are available to map.</i>
+  </p>
+<% end %>

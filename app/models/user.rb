@@ -42,6 +42,40 @@ class User < ActiveRecord::Base
                 "Dinex/Flex",
                 "Blocks"]
   
+  #### Ratings functionality
+  def ratings_as_buyer
+    # Deals of status code = 1 are complete
+    # Deals of status code = 2,3,4,5 are cancelled
+    # Return the number of deals for each of these code, for sales and purchases
+    @ratings_as_buyer ||= ratings_helper(self.purchases.where("seller_status_code <> 0").pluck(:seller_status_code))
+  end
+  
+  def has_purchased
+    ratings_as_buyer.values.reduce(:+) != 0
+  end
+  
+  def ratings_as_seller
+    @ratings_as_seller ||= ratings_helper(self.sales.where("buyer_status_code <> 0").pluck(:buyer_status_code))
+  end
+  
+  def has_sold
+    ratings_as_seller.values.reduce(:+) != 0
+  end
+  
+  def ratings_helper(num_array)
+    # for example: num_array = [1,1,3,2,4,1]
+    ratings = {}
+    for elem in 1..4
+      ratings[elem.to_s] = 0
+    end
+    for elem in num_array
+      ratings[elem.to_s] += 1 if (1..4).include?(elem.to_i)
+    end
+    ratings
+  end
+  ####
+  
+  #### Notifcation CSS and text
   def status_text
     if is_unavailable
       "Not currently searching for a new match."
@@ -65,6 +99,7 @@ class User < ActiveRecord::Base
       "success"
     end
   end
+  ####
   
   def favoriter_ids
     # the stringified ids of the users that favorited this user

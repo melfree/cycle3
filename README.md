@@ -22,12 +22,11 @@ You must have redis installed and running on the default port:6379 (or configure
 ## Starting the servers
 
 1. Run `./bin/setup`
-2. Run `./bin/cable`
-3. Open up a separate terminal and run: `./bin/rails server`
-4. One more terminal to run redis server: `redis-server`
+2. Open up a separate terminal and run: `./bin/rails server`
+3. One more terminal to run redis server: `redis-server`
 4. Visit `http://localhost:3000`
 
-The buyers/sellers feed on the dashboard is real-time. Open two browsers with separate cookie spaces (like a regular session and an incognito session) to confirm this.
+The buyers/sellers feeds are real-time. Open two browsers with separate cookie spaces (like a regular session and an incognito session) to confirm this.
 
 For updates run:
 

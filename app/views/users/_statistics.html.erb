@@ -1,22 +1,22 @@
-<div id="statistics">
+<div id="statistics" class="ratings_div">
   <p>
-    <label>Current buyers who are currently seeking a seller: </label>
-    <%= number_to_human users.buyers.searching.size %>
+    <i>Current buyers who are currently seeking a seller: </i>
+    <strong><%= number_to_human users.buyers.searching.size %></strong
   </p>
   <p>
-    <label>Current sellers who are currently seeking a buyer: </label>
-    <%= number_to_human users.sellers.searching.size %>
+    <i>Current sellers who are currently seeking a buyer: </i>
+    <strong><%= number_to_human users.sellers.searching.size %></strong
   </p>
   <p>
-    <label>Number of deals made today: </label>
-    <%= number_to_human deals.last_day.size %>
+    <i>Number of deals made today: </i>
+    <strong><%= number_to_human deals.last_day.size %></strong>
   </p>
   <p>
-    <label>Number of deals made for all time: </label>
-    <%= number_to_human deals.size %>
+    <i>Number of deals made for all time: </i>
+    <strong><%= number_to_human deals.size %></strong>
   </p>
   <p>
-    <label>Total buyers and sellers using the site: </label>
-    <%= number_to_human users.active.size %>
+    <i>Total buyers and sellers using the site: </i>
+    <strong><%= number_to_human users.active.size %></strong>
   </p>
 </div>

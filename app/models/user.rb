@@ -58,7 +58,7 @@ class User < ActiveRecord::Base
   # Campus centers
   # CMU is assymetrical, so there is a different latitude center point for each area (east, west, center)
   C_CENTER_LONG = -79.943018
-  C_CENTER = 40.442837,
+  C_CENTER = 40.442837
   C_W_CENTER = 40.442951
   C_E_CENTER = 40.442257
   

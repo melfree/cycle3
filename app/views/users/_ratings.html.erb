@@ -2,7 +2,7 @@
 <div class="ratings_div">
   <% for title, has_ratings, ratings_hash in [["Seller Ratings",user.has_sold, user.ratings_as_seller],
                                               ["Buyer Ratings", user.has_purchased, user.ratings_as_buyer]] %>
-    <h4><%= title %></h4>
+    <h5><%= title %></h5>
     <% if has_ratings %>
       <label>Number of others who said their deal with this user was:</label>
       <% for code, value in ratings_hash %>

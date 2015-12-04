@@ -8,6 +8,7 @@
     <% end %>
 
     <%# Name %>
+    <h4>You are currently matched with:</h4>
     <h2> <%= matched_user.name %></h2>
     
     <div class="<%= matched_user.meal_plan_name.downcase %> in-deal">
@@ -23,6 +24,8 @@
         <%= link_to "Click to Favorite", create_favorite_path(matched_user.id), method: :post, class: "btn btn-success", remote: true %>
       <% end %>
       
+      <%= render 'users/ratings', user: matched_user %>
+      <br/>
     </div>
 
   <% end %>

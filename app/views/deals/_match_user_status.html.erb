@@ -6,11 +6,11 @@
     
     <% if user.is_seller %>
       <% css_code = deal.buyer_css_class %>
-      <% alert = deal.buyer_status_name %>
+      <% alert = "Other user's status: #{deal.buyer_status_name}" %>
     <% end %>
     
       <div class="alert <%= css_code %>">
-        <%= alert %>
+        <i><%= alert %></i>
       </div>
   <% end %>
 </div>

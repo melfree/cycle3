@@ -1,11 +1,16 @@
 <div class="row">
-  <div class="col-sm-12 col-md-6">
+  <div class="col-xs-12 col-sm-4">
+    
     <%= render 'deals/match_user', user: user %> 
+
   </div>
       
-  <div class="col-sm-12 col-md-6">
+  <div class="col-xs-12 col-sm-8">
+    <%= render 'deals/match_user_status', user: user %>
+    
     <h2>Chat with your match!</h2>
-    <div id="chatroom-container">  
+    
+    <div id="chatroom-container">
       <%= render 'deals/chatroom', user: user %>
       
       <%= form_for Message.new, remote: true, data: {'on-change-message': true} do |f| %>

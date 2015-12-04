@@ -4,7 +4,7 @@
                                               ["Buyer Ratings", user.has_purchased, user.ratings_as_buyer]] %>
     <h4><%= title %></h4>
     <% if has_ratings %>
-      <h5>Number of others who said their deal with this user was:</h5>
+      <label>Number of others who said their deal with this user was:</label>
       <% for code, value in ratings_hash %>
         <p>
           <i>"<%= Deal.reason_string(code.to_i) %>":</i>

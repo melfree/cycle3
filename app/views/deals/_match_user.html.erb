@@ -16,7 +16,9 @@
       <p><img src="<%=matched_user.photo_url%>"/></p>
       
       <%# Details %>
-      <p>Meal plan type: <strong><%= matched_user.meal_plan_name %></strong></p>
+      <p><strong><%= user.location_name %></strong></p>
+      
+      <p><strong><%= matched_user.meal_plan_name %></strong></p>
       
       <% if matched_user.favoriter_ids.include?(user.id.to_s) %>
         <%= link_to "Click to Unfavorite", delete_favorite_path(matched_user.id), method: :delete, class: 'btn btn-danger', remote: true %>

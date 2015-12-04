@@ -35,18 +35,69 @@ class User < ActiveRecord::Base
   scope :searching, -> { where(current_deal_id: nil) }
   
   USER_STATUSES = ["Not Seeking Deal",
-                   "Seller - Seeking Buyer",
-                   "Buyer - Seeking Seller"]
+                   "Selling",
+                   "Buying"]
   
   MEAL_PLANS = ["Blocks and Dinex/Flex",
                 "Dinex/Flex",
                 "Blocks"]
   
   #### Location functionality
-  
   HALF_CAMPUS = 0.005 # within half campus
   SAME_BUILDING = 0.001 # around the same building
-
+  
+  N_BOUND = 40.44455
+  S_BOUND = 40.44015
+  W_BOUND = -79.94755
+  E_BOUND = -79.93691
+  # north/south delta
+  NS_DELTA = 0.001
+  # east/west delta
+  EW_DELTA = 0.002
+  
+  # Campus centers
+  # CMU is assymetrical, so there is a different latitude center point for each area (east, west, center)
+  C_CENTER_LONG = -79.943018
+  C_CENTER = 40.442837,
+  C_W_CENTER = 40.442951
+  C_E_CENTER = 40.442257
+  
+  def location_name
+    if longitude and latitude
+      direction = if latitude.between?(S_BOUND,N_BOUND) and longitude.between?(W_BOUND,E_BOUND)
+        if longitude.between?(C_CENTER_LONG - EW_DELTA, C_CENTER_LONG + EW_DELTA)
+          if latitude.between?(C_CENTER - NS_DELTA, C_CENTER + NS_DELTA)
+            "Central"
+          elsif latitude < C_CENTER
+            "South"
+          else
+            "North"
+          end
+        elsif longitude < C_CENTER_LONG #west
+          if latitude.between?(C_E_CENTER - NS_DELTA, C_E_CENTER + NS_DELTA)
+            "West"
+          elsif latitude < C_E_CENTER #south
+            "Southwest"
+          else #north
+            "Northwest"
+          end
+        else # east
+          if latitude.between?(C_W_CENTER - NS_DELTA, C_W_CENTER + NS_DELTA)
+            "East"
+          elsif latitude < C_W_CENTER #south
+            "Southeast"
+          else #north
+            "Northeast"
+          end
+        end
+      else
+        "Off"
+      end
+      "#{direction} CMU Campus"
+    else
+      "No current location"
+    end
+  end
   ####
   
   #### Ratings functionality
@@ -117,10 +168,6 @@ class User < ActiveRecord::Base
     MEAL_PLANS.each_with_index.map{|o,i| [o,i]}
   end
   
-  def self.status_options
-    USER_STATUSES.each_with_index.map{|o,i| [o,i]}
-  end
-  
   def photo_url
     if photo.blank?
       "http://placehold.it/150x150"
@@ -171,7 +218,7 @@ class User < ActiveRecord::Base
     else
       "Selling"
     end
-    "#{MEAL_PLANS[self.meal_plan_code.to_i]}"
+    "#{buying_or_selling} #{MEAL_PLANS[self.meal_plan_code.to_i]}"
   end
   
   # Real-time data

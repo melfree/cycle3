@@ -5,15 +5,24 @@ class Deal < ActiveRecord::Base
               "Completed - Deal was Successfully Finished",
               "Cancelled - Deal was Cancelled"]
   
+  REASONS = ["Could not meet in time",
+             "Could not reach a price",
+             "Deal no longer wanted",
+             "Other"]
+  
+  def self.reason_options
+    REASONS.each_with_index.map{|o,i| [i+2,o]}
+  end
+  
   CSS_CLASSES = ["pending","completed","cancelled"]
   
   scope :last_day, -> { where(created_at: Time.now) }
 
-  def cancel_buyer
-    self.buyer_status_code = 2
+  def cancel_buyer(reason_id=2)
+    self.buyer_status_code = reason_id
   end
-  def cancel_seller
-    self.seller_status_code = 2
+  def cancel_seller(reason_id=2)
+    self.seller_status_code = reason_id
   end
   def complete_buyer
     self.buyer_status_code = 1
@@ -23,8 +32,8 @@ class Deal < ActiveRecord::Base
   end
 
   def force_cancel
-    self.seller_status_code = 2
-    self.buyer_status_code = 2
+    self.seller_status_code = 5
+    self.buyer_status_code = 5
     self.save!
   end
 
@@ -50,10 +59,6 @@ class Deal < ActiveRecord::Base
   
   def seller_finished
     seller_status_code.to_i != 0
-  end
-  
-  def self.status_options
-    STATUSES.each_with_index.map{|o,i| [o,i]}
   end
   
   def buyer_status_name

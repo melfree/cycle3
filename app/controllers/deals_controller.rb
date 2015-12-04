@@ -2,17 +2,18 @@ class DealsController < ApplicationController
   def index
   end
   
-  def complete_deal
+  def cancel_deal
+    reason_id = params[:reason_id].to_i
     deal = current_user.current_deal
     if current_user.is_buyer
-      deal.cancel_buyer
+      deal.cancel_buyer(reason_id)
     else
-      deal.cancel_seller
+      deal.cancel_seller(reason_id)
     end
     deal.save!
   end
   
-  def cancel_deal
+  def complete_deal
     deal = current_user.current_deal
     if current_user.is_buyer
       deal.complete_buyer

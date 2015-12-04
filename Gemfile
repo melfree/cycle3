@@ -7,10 +7,6 @@ gem 'arel', github: "rails/arel"
 gem 'rack', github: "rack/rack"
 gem 'actioncable', github: "rails/actioncable"
 
-# Postgres and rails_12factor for heroku
-gem 'pg'
-gem 'rails_12factor', group: :production
-
 gem 'puma'
 
 gem 'bootstrap-sass', '~> 3.3.5'
@@ -40,6 +36,13 @@ gem 'jbuilder', '~> 2.0'
 
 group :development, :test do
   gem 'byebug'
+  # Postgres and rails_12factor for heroku
+  gem "sqlite3"
+end
+
+group :production do
+  gem 'pg'
+  gem 'rails_12factor'
 end
 
 group :development do

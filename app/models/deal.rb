@@ -5,11 +5,19 @@ class Deal < ActiveRecord::Base
               "Completed - Deal was Successfully Finished",
               "Cancelled - Deal was Cancelled"]
   
+  # status_code = 0, pending
+  # status_code = 1, completed
+  # status_code = 2, canceled because they couldnt meet in time
+  # status_code = 3, canceled because they couldnt reach a price
+  # status_code = 4, canceled because deal was no longer wanted
+  # status_code = 5, canceled for other reason
+  
   REASONS = ["Could not meet in time",
              "Could not reach a price",
-             "Deal no longer wanted",
-             "Other"]
-  
+             "Deal no longer wanted"]
+  def self.reason_string(code)
+    ([STATUSES[0],STATUSES[1]] + REASONS.map{|o| "Cancelled - #{o}"})[code]
+  end
   def self.reason_options
     REASONS.each_with_index.map{|o,i| [i+2,o]}
   end
@@ -32,8 +40,8 @@ class Deal < ActiveRecord::Base
   end
 
   def force_cancel
-    self.seller_status_code = 5
-    self.buyer_status_code = 5
+    self.seller_status_code = 4
+    self.buyer_status_code = 4
     self.save!
   end
 

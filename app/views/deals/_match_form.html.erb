@@ -23,15 +23,15 @@
         <!--p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p-->
         <div class='filter-buttons'>
             <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default <%= "active" if current_user.meal_plan_code.to_i == 0%>">
+                <%= f.radio_button "meal_plan_code", "0" %> Both
+              </label> 
               <label class="btn btn-default <%= "active" if current_user.meal_plan_code.to_i == 2%>">
                 <%= f.radio_button "meal_plan_code", "2" %> Blocks
               </label> 
               <label class="btn btn-default <%= "active" if current_user.meal_plan_code.to_i == 1%>">
                 <%= f.radio_button "meal_plan_code", "1" %> Dinex/Flex
               </label>
-              <label class="btn btn-default <%= "active" if current_user.meal_plan_code.to_i == 0%>">
-                <%= f.radio_button "meal_plan_code", "0" %> Both
-              </label> 
             </div>
           </div>  
       </div>
@@ -47,6 +47,40 @@
               <% User::DISTANCES.each_with_index do |name, index| %>
                 <label class="btn btn-default <%= "active" if current_user.location_code.to_i == index %>">
                   <%= f.radio_button "location_code", index.to_s %> <%= name %>
+                </label>
+              <% end %>
+            </div>
+          </div>  
+      </div>
+    </div>
+    
+    <br/>
+    
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <!--p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p-->
+        <div class='filter-buttons'>
+            <div class="btn-group" data-toggle="buttons">
+              <% [["Anyone", 0],["Friends Only",1]].each do |name, index| %>
+                <label class="btn btn-default <%= "active" if index == 0 %>">
+                  <%= f.radio_button "friends_only", index.to_s %> <%= name %>
+                </label>
+              <% end %>
+            </div>
+          </div>  
+      </div>
+    </div>
+    
+    <br/>
+    
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <!--p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p-->
+        <div class='filter-buttons'>
+            <div class="btn-group" data-toggle="buttons">
+              <% [["Don't Notify Me",0],["Notify Me by Email", 1]].each do |name, index| %>
+                <label class="btn btn-default <%= "active" if index == 0 %>">
+                  <%= f.radio_button "notify_by_email", index.to_s %> <%= name %>
                 </label>
               <% end %>
             </div>

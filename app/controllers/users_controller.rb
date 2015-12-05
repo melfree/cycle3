@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   
   private
   def current_user_params
-    params.required(:user).permit(:status_code,:meal_plan_code,:description,:location_code)
+    params.required(:user).permit(:status_code,:meal_plan_code,:description,:location_code,:friends_only,:notify_by_email)
   end
   
   def current_location_params

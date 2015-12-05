@@ -28,24 +28,6 @@
       
       <br/>
       
-      <div class="form-group">
-        <p class="help-block">Check this box if you'd like to be notified by email when you are matched with another user.</p>
-        <p class="help-block">(Notifications are not sent for immediate matches.)</p>
-        <%= f.check_box :notify_by_email, class: 'control-label' %>
-        <%= f.label :notify_by_email %>
-      </div>
-      
-      <br/>
-      
-      <div class="form-group">
-        <p class="help-block">Check this box if you'd like to only be automatically matched with your favorite users.</p>
-        <p class="help-block">(You can still manually match yourself with any user.)</p>
-        <%= f.check_box :friends_only, class: 'control-label' %>
-        <%= f.label :friends_only %>
-      </div>
-      
-      <br/>
-      
       <%= render 'password_fields', f: f, required: false %>
     
       <div class="actions">

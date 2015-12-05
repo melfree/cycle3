@@ -273,6 +273,7 @@ class User < ActiveRecord::Base
   def finish_deal
     self.current_deal_id = nil
     self.status_code = 0
+    self.description = "" 
     self.save!
   end
   

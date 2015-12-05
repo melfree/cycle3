@@ -45,11 +45,15 @@ class User < ActiveRecord::Base
                 "Dinex/Flex",
                 "Blocks"]
   
-  DISTANCES = ["Anywhere",
+  DISTANCES = ["Within Any Distance",
                "Nearby (1/3 Mile)",
-               "This Building (1/10 Mile)"]
+               "Very Nearby (1/10 Mile)"]
   
   #### Location functionality
+  def location_preferences
+    "Seeking Deal #{DISTANCES[location_code]}"
+  end
+  
   def max_distance
     case location_code
     when 0

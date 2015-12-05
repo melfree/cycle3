@@ -40,6 +40,23 @@
     <br/>
     
     <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <!--p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p-->
+        <div class='filter-buttons'>
+            <div class="btn-group" data-toggle="buttons">
+              <% User::DISTANCES.each_with_index do |name, index| %>
+                <label class="btn btn-default <%= "active" if current_user.location_code.to_i == index %>">
+                  <%= f.radio_button "location_code", index.to_s %> <%= name %>
+                </label>
+              <% end %>
+            </div>
+          </div>  
+      </div>
+    </div>
+    
+    <br/>
+    
+    <div class="row">
       <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3">
         <!--p class="help-block"><i>You can leave any notes in the Notes section to appear next to your public listing.</i></p-->
         <div class="form-group">

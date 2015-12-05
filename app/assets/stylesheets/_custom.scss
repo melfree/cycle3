@@ -91,3 +91,25 @@ div.ratings_div {
 .img-responsive {
   margin: 0 auto;
 }
+
+// Colors for location code (max distance wanted) and location name (current location)
+// northwest is yellow
+// south is red
+// northeast is blue
+// west is 
+@each $pair in (location-code-0 #693
+                location-code-1 #369,
+                location-code-2 #936,
+                central #555,
+                north #282,
+                northeast #268,
+                northwest #882,
+                south #822,
+                southeast #646,
+                southwest #842,
+                east #446,
+                west #862) {
+  $color: nth($pair, 2);
+  $name:  nth($pair, 1);
+  .#{$name} { color: $color; }
+}

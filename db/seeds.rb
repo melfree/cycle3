@@ -17,6 +17,7 @@ for hash in user_data
   
   user.latitude = rand * (User::N_BOUND-User::S_BOUND) + User::S_BOUND
   user.longitude = rand * (User::E_BOUND-User::W_BOUND) + User::W_BOUND
+  user.location_code = rand(0..2)
   
   # Skip registration confirmation email step
   user.skip_confirmation!

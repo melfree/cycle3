@@ -22,10 +22,10 @@ class User < ActiveRecord::Base
   scope :active, ->  { where("status_code <> 0")}
   
   # Only get users who have been favorited by the given user
-  scope :friends_of, -> (user) { joins(:favorites).where("? or favoriter_id = ?", !user.friends_only, user.id) }
+  scope :friends_of, -> (user) { joins(:favorites).where("favoriter_id = ?", user.id) }
   
   # Match location
-  scope :near, -> (user) { where("abs(latitude - ?) < ? AND abs(longitude - ?) < ?", user.latitude, user.max_distance, user.longitude, user.max_distance) }
+  scope :near, -> (user) { where("? IS NULL or (abs(latitude - ?) < ? AND abs(longitude - ?) < ?)", user.max_distance, user.latitude, user.max_distance, user.longitude, user.max_distance) }
   
   scope :not_including, -> (user) {where("users.id <> ?",user.id)}
   
@@ -289,6 +289,18 @@ class User < ActiveRecord::Base
     self.save!
   end
 
+  def matches_our_settings
+    scope = User.searching.meal_plan_code(self.meal_plan_code).not_including(self).order(:search_start_time).near(self)
+    scope = scope.friends_of(self) if self.friends_only
+    scope
+  end
+  
+  def matches_their_settings(user)
+    scope = User.near(user).pluck(:id).include?(self.id)
+    scope = scope.friends_of(user) if user.friends_only
+    scope
+  end
+
   private
   def delete_favorites
     favorites.destroy_all
@@ -296,19 +308,14 @@ class User < ActiveRecord::Base
     current_deal.force_cancel if current_deal_id
   end
   
-  def matches_their_settings(user)
-     User.friends_of(user).near(user).pluck(:id).include?(self.id)
-  end
-  
   def match_user
     if is_searching
       # Find a new matching user
-      scope = User.searching.meal_plan_code(self.meal_plan_code).not_including(self).order(:search_start_time).friends_of(self).near(self)
       if is_buyer
-        seller = scope.sellers.all.to_a.select{|o| self.matches_their_settings(o) }.first
+        seller = self.matches_our_settings.sellers.all.to_a.select{|o| self.matches_their_settings(o) }.first
         buyer = self
       else
-        buyer = scope.buyers.all.to_a.select{|o| self.matches_their_settings(o)}.first
+        buyer = self.matches_our_settings.buyers.all.to_a.select{|o| self.matches_their_settings(o) }.first
         seller = self
       end    
       if buyer and seller # We found a matching buyer/seller. Create the deal.

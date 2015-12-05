@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151120160402) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20151205153404) do
 
   create_table "deals", force: :cascade do |t|
     t.integer  "seller_id"
@@ -26,10 +23,10 @@ ActiveRecord::Schema.define(version: 20151120160402) do
     t.integer  "buyer_status_code",  default: 0, null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.index ["buyer_id"], name: "index_deals_on_buyer_id", using: :btree
-    t.index ["buyer_status_code"], name: "index_deals_on_buyer_status_code", using: :btree
-    t.index ["seller_id"], name: "index_deals_on_seller_id", using: :btree
-    t.index ["seller_status_code"], name: "index_deals_on_seller_status_code", using: :btree
+    t.index ["buyer_id"], name: "index_deals_on_buyer_id"
+    t.index ["buyer_status_code"], name: "index_deals_on_buyer_status_code"
+    t.index ["seller_id"], name: "index_deals_on_seller_id"
+    t.index ["seller_status_code"], name: "index_deals_on_seller_status_code"
   end
 
   create_table "favorites", force: :cascade do |t|
@@ -47,7 +44,7 @@ ActiveRecord::Schema.define(version: 20151120160402) do
     t.text     "content",    default: "", null: false
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
-    t.index ["deal_id"], name: "index_messages_on_deal_id", using: :btree
+    t.index ["deal_id"], name: "index_messages_on_deal_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -78,9 +75,10 @@ ActiveRecord::Schema.define(version: 20151120160402) do
     t.string   "unconfirmed_email"
     t.boolean  "notify_by_email",        default: true
     t.boolean  "friends_only",           default: false
-    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-    t.index ["status_code"], name: "index_users_on_status_code", using: :btree
+    t.integer  "location_code",          default: 0
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["status_code"], name: "index_users_on_status_code"
   end
 
 end

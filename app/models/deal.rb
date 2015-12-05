@@ -40,6 +40,8 @@ class Deal < ActiveRecord::Base
   end
 
   def force_cancel
+    seller.finish_deal
+    buyer.finish_deal
     self.seller_status_code = 4
     self.buyer_status_code = 4
     self.save!

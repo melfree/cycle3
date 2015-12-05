@@ -15,6 +15,9 @@ user_data = [
 for hash in user_data
   user = User.new(hash.merge({password: "password", password_confirmation: "password"}))
   
+  user.latitude = rand * (User::N_BOUND-User::S_BOUND) + User::S_BOUND
+  user.longitude = rand * (User::E_BOUND-User::W_BOUND) + User::W_BOUND
+  
   # Skip registration confirmation email step
   user.skip_confirmation!
   

@@ -22,9 +22,12 @@ class User < ActiveRecord::Base
   scope :active, ->  { where("status_code <> 0")}
   
   # Only get users who have been favorited by the given user
-  scope :friends_of, -> (user) {joins(:favorites).where("favoriter_id = ?", user.id)}
+  scope :friends_of, -> (user) { joins(:favorites).where("? or favoriter_id = ?", !user.friends_only, user.id) }
   
-  scope :not_including, -> (user) {where("id <> ?",user.id)}
+  # Match location
+  scope :near, -> (user) { where("abs(latitude - ?) < ? AND abs(longitude - ?) < ?", user.latitude, user.max_distance, user.longitude, user.max_distance) }
+  
+  scope :not_including, -> (user) {where("users.id <> ?",user.id)}
   
   # Meal plan code of 0 means that everyone is included.
   # Meal plan code of 1 or 2 must be matched exactly, or to anyone with 0.
@@ -42,9 +45,21 @@ class User < ActiveRecord::Base
                 "Dinex/Flex",
                 "Blocks"]
   
+  DISTANCES = ["Anywhere",
+               "Nearby (1/3 Mile)",
+               "This Building (1/10 Mile)"]
+  
   #### Location functionality
-  HALF_CAMPUS = 0.005 # within half campus
-  SAME_BUILDING = 0.001 # around the same building
+  def max_distance
+    case location_code
+    when 0
+      nil
+    when 1
+      0.005  # within half campus, or 1/3 mile 
+    when 2
+      0.0015 # around the same building, or 1/10 mile
+    end
+  end
   
   N_BOUND = 40.44455
   S_BOUND = 40.44015
@@ -227,8 +242,8 @@ class User < ActiveRecord::Base
   before_destroy :delete_favorites
   
   def current_deal
-    @current_deal ||= if current_deal_id
-      Deal.find_by_id current_deal_id
+    if current_deal_id
+      @current_deal ||= Deal.find_by_id current_deal_id
     else
       nil
     end
@@ -281,18 +296,21 @@ class User < ActiveRecord::Base
     current_deal.force_cancel if current_deal_id
   end
   
+  def matches_their_settings(user)
+     User.friends_of(user).near(user).pluck(:id).include?(self.id)
+  end
+  
   def match_user
     if is_searching
       # Find a new matching user
-      scope = User.searching.meal_plan_code(self.meal_plan_code).not_including(self).order(:search_start_time)
-      scope = scope.friends_of(self) if self.friends_only?
+      scope = User.searching.meal_plan_code(self.meal_plan_code).not_including(self).order(:search_start_time).friends_of(self).near(self)
       if is_buyer
-        seller = scope.sellers.first
+        seller = scope.sellers.all.to_a.select{|o| self.matches_their_settings(o) }.first
         buyer = self
       else
-        buyer = scope.buyers.first
+        buyer = scope.buyers.all.to_a.select{|o| self.matches_their_settings(o)}.first
         seller = self
-      end
+      end    
       if buyer and seller # We found a matching buyer/seller. Create the deal.
         match(buyer,seller)
       else

@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
     end
   end
   
-  N_BOUND = 40.44455
+  N_BOUND = 40.44600
   S_BOUND = 40.44015
   W_BOUND = -79.94755
   E_BOUND = -79.93691

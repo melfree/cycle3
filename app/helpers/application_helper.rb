@@ -4,16 +4,19 @@ module ApplicationHelper
   end
     
   def static_map_for(users, options = {})
+    width = options[:width] || 700
+    height = options[:height] || 400
+    zoom = options[:zoom] || 16
     params = {
       :center => 'Carnegie+Mellon+University',
-      :zoom => 16,
-      :size => "700x400",
+      :zoom => zoom,
+      :size => "#{width}x#{height}",
       :visual_refresh => true,
       }.merge(options)
 
     query_string =  params.map{|k,v| "#{k}=#{v}"}.join("&")
     query_string << markers_from(users).join('')
-    image_tag "http://maps.googleapis.com/maps/api/staticmap?#{query_string}", :alt => "CMU"
+    "http://maps.googleapis.com/maps/api/staticmap?#{query_string}"
   end
   
   private

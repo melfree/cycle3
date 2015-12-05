@@ -83,11 +83,11 @@ class User < ActiveRecord::Base
   
   def location_name_css_code
     name = location_name.split
-    name[2].downcase
+    name[1].downcase
   end
   
   def location_name
-    if longitude and latitude
+    @location_name ||= if longitude and latitude
       direction = if latitude.between?(S_BOUND,N_BOUND) and longitude.between?(W_BOUND,E_BOUND)
         if longitude.between?(C_CENTER_LONG - EW_DELTA, C_CENTER_LONG + EW_DELTA)
           if latitude.between?(C_CENTER - NS_DELTA, C_CENTER + NS_DELTA)
@@ -117,10 +117,14 @@ class User < ActiveRecord::Base
       else
         "Off"
       end
-      "Currently at #{direction} CMU Campus"
+      "Located #{direction} CMU Campus"
     else
       "No current location"
     end
+  end
+  
+  def off_campus
+    @location_name == "Located Off CMU Campus"
   end
   ####
   

@@ -27,7 +27,11 @@ module ApplicationHelper
       else
         "color:red|label:B"
       end
-      "&markers=#{label}|#{o.latitude},#{o.longitude}"
+      if o.off_campus
+        ""
+      else
+        "&markers=#{label}|#{o.latitude},#{o.longitude}"
+      end
     end
   end
 end

@@ -40,5 +40,6 @@ class DealsController < ApplicationController
   def make_deal
     # Manually matches the current user to the user who owns the :id that was passed in.
     current_user.manual_match_user(User.find(params[:id]))
+    redirect_to dashboard_url
   end
 end

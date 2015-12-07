@@ -18,6 +18,8 @@
       <%# Details %>
       <p><i><%= "#{matched_user.location_name}, #{matched_user.meal_plan_name}" %></i></p>
       
+      <%= render 'users/notes', user: matched_user %>
+      
       <% if matched_user.favoriter_ids.include?(user.id.to_s) %>
         <%= link_to "Click to Unfriend", delete_favorite_path(matched_user.id), method: :delete, class: 'btn btn-danger', remote: true %>
       <% else %>

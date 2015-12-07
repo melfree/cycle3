@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ShoppingBlocks</title>
+  <title><%= current_user and current_user.current_deal_id ? "SB - Deal Found!" : "ShoppingBlocks" %></title>
      <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': true %>

@@ -14,10 +14,12 @@ $(document).on "page:change", ->
         if data.in_progress
           $("#step_one_container").addClass "hidden"
           $("#step_two_container").removeClass "hidden"
+          document.title = "SB - Deal Found!"
           $("#panel-name").html("Deal in Progress")
         else
           $("#step_one_container").removeClass "hidden"
-          $("#step_two_container").addClass "hidden" 
+          $("#step_two_container").addClass "hidden"
+          document.title = "ShoppingBlocks"
           $("#panel-name").html("Find a Deal")
         
         # Scroll chatroom to bottom

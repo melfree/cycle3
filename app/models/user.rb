@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   scope :friends_of, -> (user) { joins(:favorites).where("favoriter_id = ?", user.id) }
   
   # Match location
-  scope :near, -> (user) { where("? IS NULL or (abs(latitude - ?) < ? AND abs(longitude - ?) < ?)", user.max_distance, user.latitude, user.max_distance, user.longitude, user.max_distance) }
+  scope :near, -> (user) { where("? IS NULL OR ? IS NULL OR ? IS NULL or latitude IS NULL OR longitude IS NULL OR (abs(latitude - ?) < ? AND abs(longitude - ?) < ?)", user.max_distance, user.latitude, user.longitude, user.latitude, user.max_distance, user.longitude, user.max_distance) }
   
   scope :not_including, -> (user) {where("users.id <> ?",user.id)}
   

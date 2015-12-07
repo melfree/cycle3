@@ -3,8 +3,10 @@
 
     <% if user.is_seller %>
       <% matched_user = user.current_deal.buyer %>
+      <% pay_or_charge = "Charge" %>
     <% else %>
       <% matched_user = user.current_deal.seller %>
+      <% pay_or_charge = "Pay" %>
     <% end %>
 
     <%# Name %>
@@ -19,9 +21,21 @@
       <p><i><%= "#{matched_user.location_name}, #{matched_user.meal_plan_name}" %></i></p>
       
       <% if matched_user.favoriter_ids.include?(user.id.to_s) %>
-        <%= link_to "Click to Unfriend", delete_favorite_path(matched_user.id), method: :delete, class: 'btn btn-danger', remote: true %>
+        <%= link_to "Remove Friend", delete_favorite_path(matched_user.id), method: :delete, class: 'btn btn-danger', remote: true %>
       <% else %>
-        <%= link_to "Click to Friend", create_favorite_path(matched_user.id), method: :post, class: "btn btn-success", remote: true %>
+        <%= link_to "Add Friend", create_favorite_path(matched_user.id), method: :post, class: "btn btn-success", remote: true %>
+      <% end %>
+
+      <br />
+      <br />
+
+      <%# Check if iOS device %>
+      <% if request.env['HTTP_USER_AGENT'].downcase.match(/ipad|ipod|iphone/) %>
+        <%# iOS %>
+        <%= link_to "#{pay_or_charge} with Venmo", "http://appstore.com/venmo", class: "btn btn-primary" %>
+      <% else %>
+        <%# Not iOS %>
+        <%= link_to "#{pay_or_charge} with Venmo", "https://venmo.com", class: "btn btn-primary", target: '_blank' %>
       <% end %>
       
       <br/><br/>

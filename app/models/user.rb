@@ -46,8 +46,8 @@ class User < ActiveRecord::Base
                 "Blocks"]
   
   DISTANCES = ["Within Any Distance",
-               "Nearby (1/3 Mile)",
-               "Very Nearby (1/10 Mile)"]
+               "Halfway Across Campus",
+               "Within My Vicinity"]
   
   #### Location functionality
   def location_preferences

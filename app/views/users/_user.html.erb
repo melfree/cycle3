@@ -25,7 +25,7 @@
     <p><strong><%= user.meal_plan_name %></strong></p>
     <% deal_link = "#{user.id}-deal-link" %>
     
-    <%= link_to "Make deal!", make_deal_path(user.id), id: deal_link, method: :post, class: "btn btn-success", remote: true %>
+    <%= link_to "Make deal!", make_deal_path(user.id), id: deal_link, method: :post, class: "btn btn-success" %>
   
     <%= render 'user/notes', user: user %>
   </td>

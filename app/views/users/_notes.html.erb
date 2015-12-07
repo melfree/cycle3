@@ -1,7 +1,8 @@
-<p><label>Notes:&nbsp;</label>
+<br/>
+<p>Notes:&nbsp;
   <% if user.description.blank? %>
     N/A
   <% else %>
-    <%= user.description %>
+    <strong><i><%= user.description %></i></strong>
   <% end %>
 </p>

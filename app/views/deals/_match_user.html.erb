@@ -32,11 +32,13 @@
       <br />
 
       <%# Check if iOS device %>
-      <% if request.env['HTTP_USER_AGENT'].downcase.match(/ipad|ipod|iphone/) %>
-        <%# iOS %>
+      <%#= $device_type %>
+      <%#= $device_type.nil? %>
+      <% if $device_type == "iOS" %>
         <%= link_to "#{pay_or_charge} with Venmo", "http://appstore.com/venmo", class: "btn btn-primary" %>
+      <% elsif $device_type == "android" %>
+        <%= link_to "#{pay_or_charge} with Venmo", "https://play.google.com/store/apps/details?id=com.venmo", class: "btn btn-primary" %>
       <% else %>
-        <%# Not iOS %>
         <%= link_to "#{pay_or_charge} with Venmo", "https://venmo.com", class: "btn btn-primary", target: '_blank' %>
       <% end %>
       

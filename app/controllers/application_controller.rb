@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  before_filter :check_device
+
   protected
   
   # Devise strong parameters
@@ -22,4 +24,16 @@ class ApplicationController < ActionController::Base
       u.permit(*permittable_params)
     end
   end
+
+  def check_device
+    $device_type = "non-mobile"
+    if !request.env['HTTP_USER_AGENT'].nil? 
+      if request.env['HTTP_USER_AGENT'].downcase.match(/ipad|ipod|iphone/) 
+        $device_type = "iOS"
+      elsif request.env['HTTP_USER_AGENT'].downcase.match(/android/) 
+        $device_type = "android"
+      end
+    end
+  end
+
 end

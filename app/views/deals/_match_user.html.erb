@@ -30,7 +30,7 @@
 
       <br />
       <br />
-
+      <%# Venmo button %>
       <%# Check if iOS device %>
       <%#= $device_type %>
       <%#= $device_type.nil? %>
@@ -40,7 +40,10 @@
         <%= link_to "#{pay_or_charge} with Venmo", "https://play.google.com/store/apps/details?id=com.venmo", class: "btn btn-primary" %>
       <% else %>
         <%= link_to "#{pay_or_charge} with Venmo", "https://venmo.com", class: "btn btn-primary", target: '_blank' %>
-      <% end %>
+        <% end %>
+
+      <%# Suggested Retail %>
+      <p id="suggested-price">$5/block<br />$5/10 Dinex/Flex<br />(suggested price)</p>
       
       <br/><br/>
     

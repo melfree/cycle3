@@ -1,4 +1,4 @@
-<div id="match_user" class="text-center" >
+<div id="match_user" class="text-left" >
   <% if user.current_deal %>
 
     <% if user.is_seller %>
@@ -21,29 +21,28 @@
       <p><i><%= "#{matched_user.location_name}, #{matched_user.meal_plan_name}" %></i></p>
       
       <%= render 'users/notes', user: matched_user %>
-      
-      <% if matched_user.favoriter_ids.include?(user.id.to_s) %>
-        <%= link_to "Remove Friend", delete_favorite_path(matched_user.id), method: :delete, class: 'btn btn-danger', remote: true %>
-      <% else %>
-        <%= link_to "Add Friend", create_favorite_path(matched_user.id), method: :post, class: "btn btn-success", remote: true %>
-      <% end %>
-
-      <br />
-      <br />
-      <%# Venmo button %>
-      <%# Check if iOS device %>
-      <%#= $device_type %>
-      <%#= $device_type.nil? %>
-      <% if $device_type == "iOS" %>
-        <%= link_to "#{pay_or_charge} with Venmo", "http://appstore.com/venmo", class: "btn btn-primary" %>
-      <% elsif $device_type == "android" %>
-        <%= link_to "#{pay_or_charge} with Venmo", "https://play.google.com/store/apps/details?id=com.venmo", class: "btn btn-primary" %>
-      <% else %>
-        <%= link_to "#{pay_or_charge} with Venmo", "https://venmo.com", class: "btn btn-primary", target: '_blank' %>
+      <div class="match-user-buttons">
+        <%# Favorite Button %>
+          <% if matched_user.favoriter_ids.include?(user.id.to_s) %>
+          <%= link_to "Remove Friend", delete_favorite_path(matched_user.id), method: :delete, class: 'btn btn-danger btn-block', remote: true %>
+          <% else %>
+            <%= link_to "Add Friend", create_favorite_path(matched_user.id), method: :post, class: "btn btn-success btn-block", remote: true %>
+          <% end %>
+        <%# Venmo button %>
+        <%# Check if iOS device %>
+        <%#= $device_type %>
+        <%#= $device_type.nil? %>
+        <% if $device_type == "iOS" %>
+          <%= link_to "#{pay_or_charge} with Venmo", "http://appstore.com/venmo", class: "btn btn-primary btn-block" %>
+        <% elsif $device_type == "android" %>
+          <%= link_to "#{pay_or_charge} with Venmo", "https://play.google.com/store/apps/details?id=com.venmo", class: "btn btn-primary btn-block" %>
+        <% else %>
+          <%= link_to "#{pay_or_charge} with Venmo", "https://venmo.com", class: "btn btn-primary btn-block", target: '_blank' %>
         <% end %>
+      </div>
 
       <%# Suggested Retail %>
-      <p id="suggested-price">$5/block<br />$5/10 Dinex/Flex<br />(suggested price)</p>
+      <p id="suggested-price">$5 / block<br />$5 / 10 Dinex/Flex<br />(suggested price)</p>
       
       <br/><br/>
     

@@ -19,6 +19,11 @@
   
   <%# Details %> 
   <td>
+    <% if user.friends_only? %>
+      <strong>This user is only seeking deals with their friends (people they know).</strong>
+      <br/><br/>
+    <% end %>
+    
     <p class="<%= user.location_name_css_code %>"><i><%= user.location_name %></i><p>
     <p class="location-code-<%= user.location_code%>"><i><%= user.location_preferences %></i></p>
     

@@ -26,6 +26,8 @@ gem 'select2-rails'
 # Font awesome icons
 gem "font-awesome-rails"
 
+gem "brakeman"
+
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', github: "rails/coffee-rails"

@@ -1,7 +1,7 @@
 <div id="match_user_status">
   <% if deal = user.current_deal %>
     
-    <% alert = deal.seller_status_name %>
+    <% alert = "Other user's status: #{deal.seller_status_name}" %>
     <% css_code = deal.seller_css_class %>
     
     <% if user.is_seller %>

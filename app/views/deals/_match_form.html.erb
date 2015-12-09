@@ -61,9 +61,9 @@
         <!--p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p-->
         <div class='filter-buttons'>
             <div class="btn-group" data-toggle="buttons">
-              <% [["Anyone", 0],["Friends Only",1]].each do |name, index| %>
-                <label class="btn btn-default <%= "active" if index == 0 %>">
-                  <%= f.radio_button "friends_only", index.to_s %> <%= name %>
+              <% [["Anyone", false],["Friends Only", true]].each do |name, value| %>
+                <label class="btn btn-default <%= "active" if value == current_user.friends_only %>">
+                  <%= f.radio_button "friends_only", value %> <%= name %>
                 </label>
               <% end %>
             </div>
@@ -78,9 +78,9 @@
         <!--p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p-->
         <div class='filter-buttons'>
             <div class="btn-group" data-toggle="buttons">
-              <% [["Don't Notify Me",0],["Notify Me by Email", 1]].each do |name, index| %>
-                <label class="btn btn-default <%= "active" if index == 0 %>">
-                  <%= f.radio_button "notify_by_email", index.to_s %> <%= name %>
+              <% [["Don't Notify Me",false],["Notify Me by Email",true]].each do |name, value| %>
+                <label class="btn btn-default <%= "active" if value == current_user.notify_by_email %>">
+                  <%= f.radio_button "notify_by_email", value %> <%= name %>
                 </label>
               <% end %>
             </div>

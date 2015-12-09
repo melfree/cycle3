@@ -8,8 +8,8 @@
     <% unfav_link = "#{user.id}-unfav-link" %>
     <% fav_link = "#{user.id}-fav-link" %>
     
-    <%= link_to "Click to Unfriend", delete_favorite_path(user.id), id: unfav_link, method: :delete, class: 'btn btn-danger hidden', remote: true %>
-    <%= link_to "Click to Friend", create_favorite_path(user.id), id: fav_link, method: :post, class: "btn btn-success hidden", remote: true %>
+    <%= link_to " Friend", delete_favorite_path(user.id), id: unfav_link, method: :delete, class: 'fa fa-star btn btn-warning hidden', remote: true %>
+    <%= link_to "Click to Friend", create_favorite_path(user.id), id: fav_link, method: :post, class: "fa btn btn-success hidden", remote: true %>
   
     <% ratings_div = "#{user.id}-ratings-div" %>
       <div id="<%= ratings_div %>">
@@ -30,7 +30,7 @@
     <p><strong><%= user.meal_plan_name %></strong></p>
     <% deal_link = "#{user.id}-deal-link" %>
     
-    <%= link_to "Make deal!", make_deal_path(user.id), id: deal_link, method: :post, class: "btn btn-success" %>
+    <%= link_to "Make deal!", make_deal_path(user.id), id: deal_link, method: :post, class: "fa btn btn-success" %>
   
     <br/><br/>
   

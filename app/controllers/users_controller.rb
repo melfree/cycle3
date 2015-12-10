@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def index
-    @users = User.all
+    @users = User.unmatched_first
     @deals = Deal.all
   end
 

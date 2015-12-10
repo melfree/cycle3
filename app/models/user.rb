@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
   
   scope :inactive, ->  { where(status_code: 0)}
   scope :active, ->  { where("status_code <> 0")}
+  scope :unmatched_first, -> { order(:current_deal_id) } 
   
   # Only get users who have been favorited by the given user
   scope :friends_of, -> (user) { joins(:favorites).where("favoriter_id = ?", user.id) }

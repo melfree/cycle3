@@ -23,7 +23,7 @@
 //= require jquery
 //= require jquery.jcrop
 
-// Select2 dropdowns
-//= require select2
+// 5 Stars
+//= require jquery.raty
 
 //= require_tree .

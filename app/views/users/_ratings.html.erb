@@ -1,17 +1,27 @@
 <hr/>
 <div class="ratings_div">
-  <% for title, has_ratings, ratings_hash in [["Seller Ratings",user.has_sold, user.ratings_as_seller],
-                                              ["Buyer Ratings", user.has_purchased, user.ratings_as_buyer]] %>
-    <h6><%= title %></h6>
-    <% if has_ratings %>
-      <% for code, value in ratings_hash %>
+    <h6>History</h6>
+    <% if user.has_completed_deal %>
+
+      <% for code, value in user.ratings %>
         <p>
           <i>"<%= Deal.reason_string(code.to_i) %>":</i>
           <strong><%= value %></strong>
         </p>
       <% end %>
+      
+      <p>Overall: <span id="<%= user.id %>_star"></span></p>
+      
     <% else %>
       <i>None yet.</i>
     <% end %>
-  <% end %>
 </div>
+
+<script>
+  $('#<%= user.id %>_star').raty({
+    readOnly: true,
+    half: true,
+    score: <%= user.rating_number %>,
+    path: '/assets'
+  });
+</script>

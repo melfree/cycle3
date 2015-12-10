@@ -134,19 +134,27 @@ class User < ActiveRecord::Base
     # Deals of status code = 1 are complete
     # Deals of status code = 2,3,4,5 are cancelled
     # Return the number of deals for each of these code, for sales and purchases
-    @ratings_as_buyer ||= ratings_helper(self.purchases.where("seller_status_code <> 0").pluck(:seller_status_code))
+    self.purchases.where("seller_status_code <> 0").pluck(:seller_status_code)
   end
-  
-  def has_purchased
-    ratings_as_buyer.values.reduce(:+) != 0
-  end
-  
+
   def ratings_as_seller
-    @ratings_as_seller ||= ratings_helper(self.sales.where("buyer_status_code <> 0").pluck(:buyer_status_code))
+    self.sales.where("buyer_status_code <> 0").pluck(:buyer_status_code)
   end
   
-  def has_sold
-    ratings_as_seller.values.reduce(:+) != 0
+  def ratings
+    @ratings ||= ratings_helper(ratings_as_seller + ratings_as_buyer)
+  end
+  
+  def has_completed_deal
+    ratings.values.reduce(:+) != 0
+  end
+  
+  def rating_number
+    total = 0
+    for elem in 1..4
+      total += ratings[elem.to_s]
+    end
+    total.zero? ? 0 : ratings['1'] / total * 4 + 1
   end
   
   def ratings_helper(num_array)

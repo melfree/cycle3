@@ -37,6 +37,7 @@ class PhotoUploader < CarrierWave::Uploader::Base
   end
   
   version :small_thumb, from_version: :thumb do
+    process crop: :photo
     process resize_to_fill: [100, 100]
   end
 

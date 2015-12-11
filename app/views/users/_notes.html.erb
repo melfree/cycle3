@@ -1,7 +1,7 @@
-<p>Notes:&nbsp;
+<p>
   <% if user.description.blank? %>
-    N/A
+  <!--display nothing-->
   <% else %>
-    <strong><i><%= user.description %></i></strong>
+    Notes:&nbsp;<strong><i><%= user.description %></i></strong>
   <% end %>
 </p>

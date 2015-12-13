@@ -1,9 +1,6 @@
-$(document).on "page.change", ->
+$(document).on "page:change", ->
   if $("body.registrations.edit").length > 0
-  
-    jQuery ->
-      new CarrierWaveCropper()
-    
+
     class CarrierWaveCropper
       constructor: ->
         $('#user_photo_cropbox').Jcrop
@@ -25,3 +22,7 @@ $(document).on "page.change", ->
           height: Math.round(100/coords.h * $('#user_photo_cropbox').height()) + 'px'
           marginLeft: '-' + Math.round(100/coords.w * coords.x) + 'px'
           marginTop: '-' + Math.round(100/coords.h * coords.y) + 'px'
+      
+    jQuery ->
+      new CarrierWaveCropper()
+    

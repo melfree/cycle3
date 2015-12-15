@@ -12,7 +12,7 @@
         <strong>
           <%= link_to dashboard_path do %>
             <% if user.current_deal_id %>
-              <%= "Go to your deal" if user.is_buyer or user.is_seller %>
+              <%= "Go to the deal" if user.is_buyer or user.is_seller %>
             <% end %>
               <%= "Make a deal now!" if user.is_unavailable %>  
           <% end %>

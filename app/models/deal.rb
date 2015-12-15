@@ -72,11 +72,11 @@ class Deal < ActiveRecord::Base
   end
   
   def buyer_status_name
-    STATUSES[self.buyer_status_code.to_i]
+    STATUSES[[self.buyer_status_code.to_i,2].min]
   end
   
   def seller_status_name
-    STATUSES[self.seller_status_code.to_i]
+    STATUSES[[self.seller_status_code.to_i,2].min]
   end
   
   before_update :set_finished_timestamps

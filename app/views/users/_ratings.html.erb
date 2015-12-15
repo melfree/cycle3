@@ -3,7 +3,7 @@
     <h6>Rating</h6>
     <% if user.has_completed_deal %>
       
-    <p><span id="<%= user.id %>_star"></span> (<%= user.total_deals %> deals)</p>
+    <p><span id="<%= user.id %>_star"></span> (<%= pluralize(user.total_deals, 'deal') %>)</p>
       
     <% else %>
       <i>None yet.</i>

@@ -52,11 +52,11 @@ class Deal < ActiveRecord::Base
   end
   
   def buyer_css_class
-    CSS_CLASSES[self.buyer_status_code.to_i]
+    CSS_CLASSES[[self.buyer_status_code.to_i,2].min]
   end
   
   def seller_css_class
-    CSS_CLASSES[self.seller_status_code.to_i]
+    CSS_CLASSES[[self.seller_status_code.to_i,2].min]
   end
   
   def at_least_one_user_finished

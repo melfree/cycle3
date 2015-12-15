@@ -19,7 +19,7 @@
         <ul class="nav navbar-nav pull-left">
           <% if current_user %>
             <li class="<%='active' if ccn == 'deals' and can == 'index'%>">
-              <%= link_to "Deals", dashboard_path %>
+              <%= link_to "Deal", dashboard_path %>
             </li>
             <li class="<%='active' if ccn == 'users' and can == 'index'%>">
               <%= link_to "Online Users", users_path %>

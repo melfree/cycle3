@@ -154,7 +154,7 @@ class User < ActiveRecord::Base
     for elem in 1..4
       total += ratings[elem.to_s]
     end
-    total.zero? ? 0 : ratings['1'] / total * 4 + 1
+    total.zero? ? 0 : (ratings['1'].to_f / total) * 4 + 1
   end
   
   def ratings_helper(num_array)

@@ -23,15 +23,15 @@
         <!--p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p-->
         <div class='filter-buttons'>
             <div class="btn-group" data-toggle="buttons">
-              <label class="btn btn-default button-group <%= "active" if current_user.meal_plan_code.to_i == 0%>">
-                <%= f.radio_button "meal_plan_code", "0" %> Both
-              </label> 
               <label class="btn btn-default button-group <%= "active" if current_user.meal_plan_code.to_i == 2%>">
                 <%= f.radio_button "meal_plan_code", "2" %> Blocks
               </label> 
               <label class="btn btn-default button-group <%= "active" if current_user.meal_plan_code.to_i == 1%>">
                 <%= f.radio_button "meal_plan_code", "1" %> Dinex/Flex
               </label>
+              <label class="btn btn-default button-group <%= "active" if current_user.meal_plan_code.to_i == 0%>">
+                <%= f.radio_button "meal_plan_code", "0" %> Both
+              </label>               
             </div>
           </div>  
       </div>

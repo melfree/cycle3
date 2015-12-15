@@ -150,10 +150,7 @@ class User < ActiveRecord::Base
   end
   
   def rating_number
-    total = 0
-    for elem in 1..4
-      total += ratings[elem.to_s]
-    end
+    total = total_deals
     total.zero? ? 0 : (ratings['1'].to_f / total) * 4 + 1
   end
   
@@ -167,6 +164,14 @@ class User < ActiveRecord::Base
       ratings[elem.to_s] += 1 if (1..4).include?(elem.to_i)
     end
     ratings
+  end
+
+  def total_deals
+    total = 0
+    for elem in 1..4
+      total += ratings[elem.to_s]
+    end
+    total
   end
   ####
   

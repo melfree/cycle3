@@ -1,16 +1,9 @@
 <hr/>
 <div class="ratings_div">
-    <h6>History</h6>
+    <h6>Rating</h6>
     <% if user.has_completed_deal %>
-
-      <% for code, value in user.ratings %>
-        <p>
-          <i>"<%= Deal.reason_string(code.to_i) %>":</i>
-          <strong><%= value %></strong>
-        </p>
-      <% end %>
       
-      <p>Overall: <span id="<%= user.id %>_star"></span></p>
+    <p><span id="<%= user.id %>_star"></span> (<%= user.total_deals %> deals)</p>
       
     <% else %>
       <i>None yet.</i>

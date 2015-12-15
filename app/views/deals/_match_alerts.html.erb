@@ -1,24 +1,22 @@
 <div id="current_user_status">
-  <% if user %>
-    <div class="match_alert alert alert-<%= user.status_css %>">
+  <% if user and !user.is_unavailable %>
+    <div class="match_alert alert alert-<%= user.status_css %> text-center">
       <p>
         <strong>
-          Your status:
+          <%= "Buying:" if user.is_buyer %>
+          <%= "Selling:" if user.is_seller %>
         </strong>
         <i>
           <%= user.status_text %>
         </i>
-
         <strong>
-          You are: 
-        </strong>
-        <i>
           <%= link_to dashboard_path do %>
-            <%= "Active Buyer" if user.is_buyer %>
-            <%= "Active Seller" if user.is_seller %> 
-            <%= "Not Active" if user.is_unavailable %>  
+            <% if user.current_deal_id %>
+              <%= "Go to your deal" if user.is_buyer or user.is_seller %>
+            <% end %>
+              <%= "Make a deal now!" if user.is_unavailable %>  
           <% end %>
-        </i>
+        </strong>
       </p>
     </div>
   <% end %>

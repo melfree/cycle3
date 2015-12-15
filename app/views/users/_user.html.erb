@@ -8,7 +8,7 @@
     <% unfav_link = "#{user.id}-unfav-link" %>
     <% fav_link = "#{user.id}-fav-link" %>
     
-    <%= link_to " Friends", delete_favorite_path(user.id), id: unfav_link, method: :delete, class: 'fa fa-star btn btn-warning hidden', remote: true %>
+    <%= link_to " Friend", delete_favorite_path(user.id), id: unfav_link, method: :delete, class: 'fa fa-star btn btn-warning hidden', remote: true %>
     <%= link_to "Add Friend", create_favorite_path(user.id), id: fav_link, method: :post, class: "fa btn btn-success hidden", remote: true %>
   
     <% ratings_div = "#{user.id}-ratings-div" %>

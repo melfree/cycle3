@@ -24,7 +24,7 @@
       <div class="match-user-buttons">
         <%# Favorite Button %>
           <% if matched_user.favoriter_ids.include?(user.id.to_s) %>
-          <%= link_to " Friends", delete_favorite_path(matched_user.id), method: :delete, class: 'fa fa-star btn btn-warning btn-block', remote: true %>
+          <%= link_to " Friend", delete_favorite_path(matched_user.id), method: :delete, class: 'fa fa-star btn btn-warning btn-block', remote: true %>
           <% else %>
             <%= link_to "Add Friend", create_favorite_path(matched_user.id), method: :post, class: "fa btn btn-success btn-block", remote: true %>
           <% end %>
@@ -40,9 +40,9 @@
           <%= link_to "#{pay_or_charge} with Venmo", "https://venmo.com", class: "btn btn-primary btn-block", target: '_blank' %>
         <% end %>
       </div>
-
+      <br/>
       <%# Suggested Retail %>
-      <p id="suggested-price">$5 / block<br />$5 / 10 Dinex/Flex<br />(suggested price)</p>
+      <p id="suggested-price">$5 / block<br />$5 / 10 Dinex/Flex<br />(ShoppingBlocks suggested price)</p>
       
       <br/><br/>
     

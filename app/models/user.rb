@@ -46,9 +46,9 @@ class User < ActiveRecord::Base
                 "Dinex/Flex",
                 "Blocks"]
   
-  DISTANCES = ["Within Any Distance",
-               "Halfway Across Campus",
-               "Within My Vicinity"]
+  DISTANCES = ["Any Distance",
+               "Half Campus",
+               "Close by"]
   
   #### Location functionality
   def location_preferences

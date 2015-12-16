@@ -2,7 +2,7 @@
   
   <%= form_for current_user, url: edit_current_user_path, html: { method: :put }, remote: true, data: {'on-change-user' => 'true'} do |f| %>
     <div class="row">
-      <div class="col-xs-6 col-xs-offset-3">
+      <div class="col-xs-6 col-xs-offset-3 text-center">
           <div class='filter-buttons'>
             <div class="btn-group" data-toggle="buttons">
               <label class="btn btn-lg btn-default <%= "active" if current_user.status_code.to_i != 1%>">
@@ -23,15 +23,15 @@
         <!--p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p-->
         <div class='filter-buttons'>
             <div class="btn-group" data-toggle="buttons">
-              <label class="btn btn-default <%= "active" if current_user.meal_plan_code.to_i == 2%>">
+              <label class="btn btn-default button-group <%= "active" if current_user.meal_plan_code.to_i == 2%>">
                 <%= f.radio_button "meal_plan_code", "2" %> Blocks
               </label> 
-              <label class="btn btn-default <%= "active" if current_user.meal_plan_code.to_i == 1%>">
+              <label class="btn btn-default button-group <%= "active" if current_user.meal_plan_code.to_i == 1%>">
                 <%= f.radio_button "meal_plan_code", "1" %> Dinex/Flex
               </label>
-              <label class="btn btn-default <%= "active" if current_user.meal_plan_code.to_i == 0%>">
+              <label class="btn btn-default button-group <%= "active" if current_user.meal_plan_code.to_i == 0%>">
                 <%= f.radio_button "meal_plan_code", "0" %> Both
-              </label> 
+              </label>               
             </div>
           </div>  
       </div>
@@ -45,7 +45,7 @@
         <div class='filter-buttons'>
             <div class="btn-group" data-toggle="buttons">
               <% User::DISTANCES.each_with_index do |name, index| %>
-                <label class="btn btn-default <%= "active" if current_user.location_code.to_i == index %>">
+                <label class="btn btn-default button-group <%= "active" if current_user.location_code.to_i == index %>">
                   <%= f.radio_button "location_code", index.to_s %> <%= name %>
                 </label>
               <% end %>
@@ -62,7 +62,7 @@
         <div class='filter-buttons'>
             <div class="btn-group" data-toggle="buttons">
               <% [["Anyone", false],["Friends Only", true]].each do |name, value| %>
-                <label class="btn btn-default <%= "active" if value == current_user.friends_only %>">
+                <label class="btn btn-default button-group <%= "active" if value == current_user.friends_only %>">
                   <%= f.radio_button "friends_only", value %> <%= name %>
                 </label>
               <% end %>
@@ -73,13 +73,13 @@
     
     <br/>
     
-    <div class="row">
+    <div class="row text-center">
       <div class="col-xs-10 col-xs-offset-1">
         <!--p class="help-block"><i>If you're a seller, your Meal Plan information will be used to match you to potential buyers.</i></p-->
         <div class='filter-buttons'>
             <div class="btn-group" data-toggle="buttons">
               <% [["Don't Notify Me",false],["Notify Me by Email",true]].each do |name, value| %>
-                <label class="btn btn-default <%= "active" if value == current_user.notify_by_email %>">
+                <label class="btn btn-default button-group <%= "active" if value == current_user.notify_by_email %>">
                   <%= f.radio_button "notify_by_email", value %> <%= name %>
                 </label>
               <% end %>
@@ -90,8 +90,8 @@
     
     <br/>
     
-    <div class="row">
-      <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3">
+    <div class="row text-center">
+      <div class="col-sm-6 col-sm-offset-3 col-xs-offset-1">
         <!--p class="help-block"><i>You can leave any notes in the Notes section to appear next to your public listing.</i></p-->
         <div class="form-group">
           <%= f.label :description, "Notes", class: 'control-label'  %><br />
@@ -102,7 +102,7 @@
 
     <div class="row"> 
       <div class="col-xs-6 col-xs-offset-3" style="text-align: center">
-        <%= f.button 'Submit', class: "btn btn-success form-success" %>
+        <%= f.button 'Search', class: "btn btn-success form-success" %>
       </div>
     </div>
   <% end %>

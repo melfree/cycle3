@@ -46,9 +46,9 @@ class User < ActiveRecord::Base
                 "Dinex/Flex",
                 "Blocks"]
   
-  DISTANCES = ["Within Any Distance",
-               "Halfway Across Campus",
-               "Within My Vicinity"]
+  DISTANCES = ["Any Distance",
+               "Half Campus",
+               "Close by"]
   
   #### Location functionality
   def location_preferences
@@ -150,11 +150,8 @@ class User < ActiveRecord::Base
   end
   
   def rating_number
-    total = 0
-    for elem in 1..4
-      total += ratings[elem.to_s]
-    end
-    total.zero? ? 0 : ratings['1'] / total * 4 + 1
+    total = total_deals
+    total.zero? ? 0 : (ratings['1'].to_f / total) * 4 + 1
   end
   
   def ratings_helper(num_array)
@@ -168,18 +165,26 @@ class User < ActiveRecord::Base
     end
     ratings
   end
+
+  def total_deals
+    total = 0
+    for elem in 1..4
+      total += ratings[elem.to_s]
+    end
+    total
+  end
   ####
   
   #### Notifcation CSS and text
   def status_text
     if is_unavailable
-      "Not currently searching for a new match."
+      ""
     elsif is_searching
-      "Currently searching for a new match. There are currently no available users. Waiting for an available user."
+      "Searching... Waiting for an available user."
     elsif current_deal_id and current_deal.at_least_one_user_finished
-      "The other user has left your current match."
+      "The other user has left the deal."
     else
-      "Matching user found. Details are shown on your dashboard."
+      "You're in a deal!"
     end
   end
   

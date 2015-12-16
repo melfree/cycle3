@@ -125,7 +125,7 @@ class User < ActiveRecord::Base
   end
   
   def off_campus
-    @location_name == "Located Off CMU Campus"
+    location_name == "Located Off CMU Campus"
   end
   ####
   

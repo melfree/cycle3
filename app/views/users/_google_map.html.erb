@@ -1,7 +1,8 @@
 <% unless users.pluck(:latitude).compact.empty? %>
   <% width ||= 700 %>
   <% height ||= 400 %>
-  <%= image_tag (static_map_for users, width: width, height: height), alt: "CMU", class: "img-responsive img-thumbnail" %>
+  <% zoom ||= 16 %>
+  <%= image_tag (static_map_for users, width: width, height: height, zoom: zoom), alt: "CMU", class: "img-responsive img-thumbnail" %>
 <% else %>
   <p>
     <i>No locations are available to map.</i>

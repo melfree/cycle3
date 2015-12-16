@@ -324,9 +324,9 @@ class User < ActiveRecord::Base
   end
   
   def matches_their_settings(user)
-    scope = User.near(user).pluck(:id).include?(self.id)
+    scope = User.near(user).pluck(:id)
     scope = scope.friends_of(user) if user.friends_only
-    scope
+    scope.include?(self.id)
   end
 
   private
